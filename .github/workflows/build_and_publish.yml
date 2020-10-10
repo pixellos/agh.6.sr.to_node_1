@@ -1,0 +1,38 @@
+name: build
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 13.7
+      uses: actions/setup-node@v1
+      with:
+        node-version: '13.7'
+    - name: Install yarn and run unittest
+      run: |
+        npm install
+        npm run build
+      env:
+        CI: true
+    - name: Publish Docker
+      uses: elgohr/Publish-Docker-Github-Action@2.22
+      with:
+        name: pixellos/agh.6.sr.to_node_1/ms_node_1
+        registry: docker.pkg.github.com
+        username: ${{ secrets.USERNAMEGH }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: Dockerfile-prod
+        tags: latest
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'sr-front'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f43ef86f325d457ea0eaaec8cbd161d6 }}
+        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/ms_node_1:latest'
