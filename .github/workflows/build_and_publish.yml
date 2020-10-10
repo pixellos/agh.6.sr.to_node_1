@@ -29,10 +29,16 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: Dockerfile-prod
         tags: latest
+    - uses: azure/docker-login@v1
+      with:
+        login-server: https://index.docker.io/v1/
+        username: ${{ secrets.AzureAppService_ContainerUsername_d353435137204ca18a8009012a5f8d6f }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_e3d28eb4cbdb4d9fa78b09b006abb1d7 }}
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'sr-front'
+        app-name: 'agh-sr-exp1'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f43ef86f325d457ea0eaaec8cbd161d6 }}
-        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/ms_node_1:latest'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6476af7d27284f1fa321189f7f54d3e6 }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_d353435137204ca18a8009012a5f8d6f }}/nginx:${{ github.sha }}'
