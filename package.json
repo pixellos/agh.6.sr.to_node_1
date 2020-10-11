@@ -14,6 +14,7 @@
   },
   "scripts": { 
     "start": "ts-node index.ts",
+    "serve": "node index.js",
     "build": "tsc --project ./"
   }
 }
