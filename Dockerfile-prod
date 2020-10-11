@@ -10,4 +10,4 @@ RUN npm install && npm run build
 FROM nginx:1.17-alpine
 
 EXPOSE 8080
-RUN npm start
+CMD [ "npm", "run", "start" ]
