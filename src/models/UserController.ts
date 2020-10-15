@@ -8,7 +8,14 @@ import {
   Route,
   SuccessResponse,
 } from "tsoa";
-import { User } from "src/models/user";
+
+export interface User {
+  id: number;
+  email: string;
+  name: string;
+  phoneNumbers: string[];
+}
+
 
 @Route("users")
 export class UsersController extends Controller {
