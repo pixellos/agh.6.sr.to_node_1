@@ -1,4 +1,4 @@
-FROM node:14.13
+FROM node:14.13-apline
 WORKDIR /usr/src/app
 COPY *.json ./
 COPY . .
