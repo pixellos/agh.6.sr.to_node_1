@@ -1,7 +1,7 @@
 // src/app.ts
 import express from "express";
 import bodyParser from "body-parser";
-import { RegisterRoutes } from "./../dist/routes";
+import { RegisterRoutes } from "../dist/routes";
 
 export const app = express();
 
