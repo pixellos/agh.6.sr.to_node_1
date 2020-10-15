@@ -4,3 +4,5 @@ export interface User {
   name: string;
   phoneNumbers: string[];
 }
+
+export { }

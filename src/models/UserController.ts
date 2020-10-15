@@ -8,7 +8,7 @@ import {
   Route,
   SuccessResponse,
 } from "tsoa";
-import { User } from "./user";
+import { User } from "src/models/user";
 
 @Route("users")
 export class UsersController extends Controller {
