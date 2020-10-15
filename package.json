@@ -19,7 +19,7 @@
   },
   "scripts": {
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "build": "tsoa spec-and-routes && tsc",
+    "build": "tsc",
     "start": "nodemon index.ts",
     "serve": "node dist/index.js"
   }
