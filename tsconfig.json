@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "es6",
     "module": "commonjs",
     "rootDir": "./",
     "outDir": "./dist",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+      "resolveJsonModule": true
   }
 }
