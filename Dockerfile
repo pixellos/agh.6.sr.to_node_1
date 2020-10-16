@@ -1,4 +1,4 @@
-FROM current-alpine3.10
+FROM 14.13.1-alpine3.10
 WORKDIR /usr/src/app
 COPY *.json ./
 COPY . .
