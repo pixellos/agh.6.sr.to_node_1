@@ -1,6 +1,7 @@
-# Mikroserwis R/W
+# AGH 6 TO/SR 
+## Mikroserwis R/W
 
-## Jak odpalic
+## Jak odpalic (dev)
 ### Mongo
 
 
