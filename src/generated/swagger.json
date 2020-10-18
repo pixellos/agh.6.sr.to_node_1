@@ -6,6 +6,34 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Product": {
+				"properties": {
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"creationDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"name": {
+						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"tags",
+					"creationDate",
+					"name",
+					"quantity"
+				],
+				"type": "object"
+			},
 			"User": {
 				"properties": {
 					"id": {
@@ -44,6 +72,64 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/product/hi": {
+			"get": {
+				"operationId": "HelloWorld",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Product"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/product/himany/{number}": {
+			"get": {
+				"operationId": "HelloWorldMany",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Product"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "number",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/users/{userId}": {
 			"get": {
 				"operationId": "GetUser",
