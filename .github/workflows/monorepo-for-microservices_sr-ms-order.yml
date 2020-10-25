@@ -1,0 +1,34 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - sr-ms-order
+
+on:
+  push:
+    branches:
+      - monorepo-for-microservices
+
+jobs:
+  build-and-deploy:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@master
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: https://docker.pkg.github.com/
+        username: ${{ secrets.AzureAppService_ContainerUsername_a4ad32eafd8141fd96a1e3cca74a5a07 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_12d831ffb39041e6bd7dfe05a08829dd }}
+
+    - run: |
+        docker build . -t docker.pkg.github.com/${{ secrets.AzureAppService_ContainerUsername_a4ad32eafd8141fd96a1e3cca74a5a07 }}/pixellos/agh.6.sr.to_node_1/order-microservice:${{ github.sha }}
+        docker push docker.pkg.github.com/${{ secrets.AzureAppService_ContainerUsername_a4ad32eafd8141fd96a1e3cca74a5a07 }}/pixellos/agh.6.sr.to_node_1/order-microservice:${{ github.sha }}
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'sr-ms-order'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_df7c4adfadcb417cb4c061a3f102c53c }}
+        images: 'docker.pkg.github.com/${{ secrets.AzureAppService_ContainerUsername_a4ad32eafd8141fd96a1e3cca74a5a07 }}/pixellos/agh.6.sr.to_node_1/order-microservice:${{ github.sha }}'
