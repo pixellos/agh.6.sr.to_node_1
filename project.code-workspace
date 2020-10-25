@@ -11,6 +11,9 @@
 		},
 		{
 			"path": ".github\\workflows"
+		},
+		{
+			"path": "pages"
 		}
 	],
 	"settings": {}
