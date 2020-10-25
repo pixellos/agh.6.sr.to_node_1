@@ -1,4 +1,4 @@
-name: build-and-publish-order-microservice
+name: order-microservice
 
 on:
   push:

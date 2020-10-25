@@ -1,4 +1,4 @@
-name: build-and-publish-frontend-microservice
+name: frontend-microservice
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
     - name: Publish Docker
       uses: elgohr/Publish-Docker-Github-Action@2.22
       with:
-        name: pixellos/agh.6.sr.to_node_1/order-microservice
+        name: pixellos/agh.6.sr.to_node_1/frontend-microservice
         registry: docker.pkg.github.com
         username: ${{ secrets.USERNAMEGH }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -35,4 +35,4 @@ jobs:
         app-name: 'sr-front'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_efb9ba43d86e4d27891fc96f0b5df8fd }}
-        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/order-microservice:${{ github.sha }}'
+        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/frontend-microservice:${{ github.sha }}'
