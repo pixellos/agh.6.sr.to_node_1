@@ -1,4 +1,4 @@
-name: build-and-publish-product-microservice
+name: build-and-publish-order-microservice
 
 on:
   push:
