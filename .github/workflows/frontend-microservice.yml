@@ -3,7 +3,7 @@ name: frontend-microservice
 on:
   push:
     branches: 
-      - master
+      - '*'
 
 jobs:
   build:
@@ -16,6 +16,7 @@ jobs:
         node-version: '14.13'
     - name: restore & build
       run: |
+        cd frontend
         npm install
         npm run build
       env:
