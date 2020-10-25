@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "pages"
+		},
+		{
+			"path": "docs"
 		}
 	],
 	"settings": {}
