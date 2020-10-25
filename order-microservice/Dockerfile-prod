@@ -1,7 +1,7 @@
 FROM node:14-alpine3.10
 WORKDIR /usr/src/app
-COPY *.json ./
-COPY . .
+COPY ./order-microservice/*.json ./
+COPY ./order-microservice .
 RUN npm install
 RUN npm run build
 

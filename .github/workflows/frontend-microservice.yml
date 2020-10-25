@@ -1,0 +1,40 @@
+name: frontend-microservice
+
+on:
+  push:
+    branches: 
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 14.13
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.13'
+    - name: restore & build
+      run: |
+        cd frontend
+        npm install
+        npm run build
+      env:
+        CI: true
+    - name: Publish Docker
+      uses: elgohr/Publish-Docker-Github-Action@2.22
+      with:
+        name: pixellos/agh.6.sr.to_node_1/frontend-microservice
+        registry: docker.pkg.github.com
+        username: ${{ secrets.USERNAMEGH }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: frontend/Dockerfile-prod
+        tags: ${{ github.sha }}
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'sr-front'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_492b32a2820a4c63bb62f95e9c04b4fb }}
+        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/frontend-microservice:${{ github.sha }}'

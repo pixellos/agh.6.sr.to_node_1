@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "frontend"
+		},
+		{
+			"path": "order-microservice"
+		},
+		{
+			"path": "product-microservice"
+		},
+		{
+			"path": ".github\\workflows"
+		},
+		{
+			"path": "pages"
+		},
+		{
+			"path": "docs"
+		}
+	],
+	"settings": {}
+}
