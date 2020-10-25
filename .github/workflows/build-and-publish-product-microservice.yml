@@ -13,16 +13,16 @@ jobs:
     - name: Publish Docker
       uses: elgohr/Publish-Docker-Github-Action@2.22
       with:
-        name: pixellos/agh.6.sr.to_node_1/order-microservice
+        name: pixellos/agh.6.sr.to_node_1/product-microservice
         registry: docker.pkg.github.com
         username: ${{ secrets.USERNAMEGH }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: order-microservice/Dockerfile-prod
-        tags: latest
+        dockerfile: product-microservice/Dockerfile-prod
+        tags: ${{ github.sha }}
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'agh-sr-exp1'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_6476af7d27284f1fa321189f7f54d3e6 }}
-        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/order-microservice:latest'
+        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/product-microservice:${{ github.sha }}'
