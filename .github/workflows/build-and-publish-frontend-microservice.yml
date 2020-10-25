@@ -29,10 +29,11 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: frontend/Dockerfile-prod
         tags: ${{ github.sha }}
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'sr-front'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_efb9ba43d86e4d27891fc96f0b5df8fd }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_492b32a2820a4c63bb62f95e9c04b4fb }}
         images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/frontend-microservice:${{ github.sha }}'
