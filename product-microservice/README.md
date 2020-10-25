@@ -1,4 +1,9 @@
 # AGH 6 TO/SR 
+[![Order](https://github.com/pixellos/agh.6.sr.to_node_1/workflows/order-microservice/badge.svg)](https://github.com/pixellos/agh.6.sr.to_node_1/actions)
+[![Product](https://github.com/pixellos/agh.6.sr.to_node_1/workflows/product-microservice/badge.svg)](https://github.com/pixellos/agh.6.sr.to_node_1/actions)
+[![Frontend](https://github.com/pixellos/agh.6.sr.to_node_1/workflows/frontend-microservice/badge.svg)](https://github.com/pixellos/agh.6.sr.to_node_1/actions)
+
+
 ## Mikroserwis R/W
 
 ## Jak odpalic (dev)
