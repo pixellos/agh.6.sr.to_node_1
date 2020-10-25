@@ -17,7 +17,7 @@ jobs:
         registry: docker.pkg.github.com
         username: ${{ secrets.USERNAMEGH }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: product-microservice/Dockerfile-prod
+        dockerfile: order-microservice/Dockerfile-prod
         tags: ${{ github.sha }}
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
