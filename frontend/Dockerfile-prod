@@ -5,7 +5,7 @@ COPY ./frontend/package*.json ./
 
 COPY ./frontend ./
 
-RUN npm install && npm run ng build
+RUN npm install && npm run build
 
 # Stage - Production
 FROM nginx:1.17-alpine
