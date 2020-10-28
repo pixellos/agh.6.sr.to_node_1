@@ -28,7 +28,7 @@ jobs:
         registry: docker.pkg.github.com
         username: ${{ secrets.USERNAMEGH }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: frontend/Dockerfile
+        dockerfile: frontend/Dockerfile-prod
         tags: ${{ github.sha }}
 
     - name: Deploy to Azure Web App
