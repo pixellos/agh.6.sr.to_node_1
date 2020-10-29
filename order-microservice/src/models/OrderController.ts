@@ -26,10 +26,8 @@ export class OrderController extends Controller {
     return { error: true, message: 'Unknown error' };
   }
 
-  @Get("/all")
+  @Get("all")
   public async list(): Promise<ErrorResponse | any> {
     return await Orders.QueryAllOrders({});
   }
 }
-
-

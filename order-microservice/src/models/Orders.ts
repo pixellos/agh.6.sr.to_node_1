@@ -1,9 +1,8 @@
+import { Model } from 'mongoose';
 import { v4 } from 'uuid';
 import { Connection } from "./Connection";
-import { OrderAggregate, OrderPrefix } from "./Order";
+import { defaultOrder, OrderAggregate, OrderEvent, OrderPrefix, OrderReducer } from "./Order";
 import { errorResponse } from "./OrderController";
-
-
 
 export type ErrorResponse = {
   error: true,
@@ -41,11 +40,17 @@ export namespace Orders {
     }
   }
 
+  export async function FlatMapEvents(m: Model<OrderEvent, {}>) {
+    const items = await m.find({});
+    const result = items.reduce(OrderReducer, defaultOrder);
+    return result;
+  }
 
   export async function QueryAllOrders({ }) {
     const connection = await Connection.connect();
     const orders = await Connection.GetAggregatesIds(connection, OrderPrefix);
-    return orders;
+    const result = await Promise.all(orders.map(o => OrderAggregate(o)).map(x => FlatMapEvents(x)));
+    return result;
   }
 
 }

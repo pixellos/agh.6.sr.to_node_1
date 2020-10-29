@@ -1,4 +1,5 @@
 
+import e from 'express';
 import mongoose, { Mongoose } from 'mongoose';
 import { EventBase, EventBaseSchema, OrderAction } from './EventBase';
 
@@ -6,29 +7,26 @@ export type OrderEvent = mongoose.Document & EventBase & {
   what: OrderAction
 } & ({
   what: 'Issued'
-  with: { name: string, productId: string, quantity: number }
+  with: Order 
 } | {what: 'Sent', with : {}})
 
 export type Order = {
   quantity: number;
   name: string;
-  creationDate: Date;
-  tags: string[];
+  productId: string, 
 }
 
 export const defaultOrder: Order = {
   quantity: 0,
   name: '' as string,
-  creationDate: new Date(),
-  tags: [] as string[]
+  productId: '',
 }
 
-export function ProductReducer(p: Order, event: OrderEvent) {
+export function OrderReducer(p: Order, event: OrderEvent) {
   switch (event.what) {
     case 'Issued':
-      const quantityAfter = p.quantity - event.with.quantity;
-      const result = { ...p, quantity: quantityAfter } as Order;
-      return result;
+      const result = Object.keys(defaultOrder).map(x => x as keyof Order).reduce((x, key) => ({...x, [key]: (event.with[key])}), p as Partial<Order>);
+      return result as Order;
       break;
     default:
       return defaultOrder;
