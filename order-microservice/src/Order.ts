@@ -23,11 +23,15 @@ export const defaultOrder: Order = {
   productId: '',
 }
 
+export type OrderDto = Order & { id?: string };
+
 export function OrderReducer(p: Order, event: OrderEvent) {
   switch (event.what) {
     case 'Issued':
-      const result = Object.keys(defaultOrder).map(x => x as keyof Order).reduce((x, key) => ({ ...x, [key]: (event.with[key]) }), p as Partial<Order>);
-      return result as Order;
+      const flatted = Object.keys(defaultOrder).map(x => x as keyof Order).reduce((x, key) => ({ ...x, [key]: (event.with[key]) }), p as Partial<Order>);
+      const result = flatted as OrderDto;
+      result.id = event.id;
+      return result;
       break;
     default:
       return defaultOrder;

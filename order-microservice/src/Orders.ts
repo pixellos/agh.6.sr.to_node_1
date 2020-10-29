@@ -1,14 +1,13 @@
 import { Model } from 'mongoose';
 import { v4 } from 'uuid';
 import { Connection } from "./Connection";
-import { defaultOrder, OrderAggregate, OrderEvent, OrderPrefix, OrderReducer } from "./Order";
+import { defaultOrder, OrderAggregate, OrderDto, OrderEvent, OrderPrefix, OrderReducer } from "./Order";
 import { errorResponse } from "./OrderController";
 
 export type ErrorResponse = {
   error: true,
   message: string
 }
-
 
 export namespace Orders {
   export type ViewModel = { name: string; quantity: number; productId: string; };
@@ -19,7 +18,7 @@ export namespace Orders {
     const aggregate = OrderAggregate(id);
     const doesExist = await aggregate.exists({});
     if (doesExist) {
-      return errorResponse({ message: 'Order already exists.' });
+      return errorResponse({ message: `Order with id ${id} already exists.` });
     }
     const createResult = await aggregate.create(
       {
@@ -40,17 +39,18 @@ export namespace Orders {
     }
   }
 
-  export async function FlatMapEvents(m: Model<OrderEvent, {}>) {
+  export async function FlatMapEvents(m: Model<OrderEvent, {}>, id: string) {
     const items = await m.find({});
-    const result = items.reduce(OrderReducer, defaultOrder);
+    const result = items.reduce(OrderReducer, defaultOrder) as OrderDto;
+    result.id = id;
     return result;
   }
 
   export async function QueryAllOrders({ }) {
     const connection = await Connection.connect();
     const orders = await Connection.GetAggregatesIds(connection, OrderPrefix);
-    const result = await Promise.all(orders.map(o => OrderAggregate(o)).map(x => FlatMapEvents(x)));
+    const result = await Promise.all(orders.map(o => ({ order: OrderAggregate(o), id: o }))
+      .map(x => FlatMapEvents(x.order, x.id)));
     return result;
   }
-
 }

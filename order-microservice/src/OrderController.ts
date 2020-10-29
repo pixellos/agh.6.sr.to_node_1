@@ -1,4 +1,5 @@
 import { Mongoose, default as mongoose } from "mongoose";
+import { rootCertificates } from "tls";
 import {
   Controller,
   Get,
@@ -6,9 +7,10 @@ import {
   Body,
   Route,
 } from "tsoa";
+import { OrderDto, OrderEvent } from "./Order";
 import { ErrorResponse, Orders } from "./Orders";
 
-export const errorResponse = (p: { message: string }) => ({ error: true, message: p.message });
+export const errorResponse = (p: { message: string }) => ({ error: true, message: p.message }) as ErrorResponse;
 
 @Route("order")
 export class OrderController extends Controller {
@@ -27,7 +29,7 @@ export class OrderController extends Controller {
   }
 
   @Get("all")
-  public async list(): Promise<ErrorResponse | any> {
+  public async list(): Promise<ErrorResponse | OrderDto[]> {
     return await Orders.QueryAllOrders({});
   }
 }

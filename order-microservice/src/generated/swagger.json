@@ -44,6 +44,41 @@
 					"name"
 				],
 				"type": "object"
+			},
+			"Order": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"productId",
+					"name",
+					"quantity"
+				],
+				"type": "object"
+			},
+			"OrderDto": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Order"
+					},
+					{
+						"properties": {
+							"id": {
+								"type": "string"
+							}
+						},
+						"type": "object"
+					}
+				]
 			}
 		},
 		"securitySchemes": {}
@@ -97,7 +132,12 @@
 										{
 											"$ref": "#/components/schemas/ErrorResponse"
 										},
-										{}
+										{
+											"items": {
+												"$ref": "#/components/schemas/OrderDto"
+											},
+											"type": "array"
+										}
 									]
 								}
 							}
@@ -106,6 +146,56 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/events/list/{type}/{id}": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"items": {
+												"properties": {},
+												"type": "object"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "type",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"Order"
+							]
+						}
+					}
+				]
 			}
 		}
 	},
