@@ -1,6 +1,7 @@
 
 import e from 'express';
 import mongoose, { Mongoose } from 'mongoose';
+import { stringify } from 'querystring';
 import { EventBase, EventBaseSchema, OrderAction } from './EventBase';
 
 export type OrderEvent = mongoose.Document & EventBase & {
@@ -25,7 +26,7 @@ export const defaultOrder: Order = {
 export function OrderReducer(p: Order, event: OrderEvent) {
   switch (event.what) {
     case 'Issued':
-      const result = Object.keys(defaultOrder).map(x => x as keyof Order).reduce((x, key) => ({...x, [key]: (event.with[key])}), p as Partial<Order>);
+      const result = Object.keys(defaultOrder).map(x => x as keyof Order).reduce((x, key) => ({ ...x, [key]: (event.with[key]) }), p as Partial<Order>);
       return result as Order;
       break;
     default:
@@ -42,7 +43,9 @@ const GetOrderAggregate = (aggregationType: string) => mongoose.model<OrderEvent
   name: String,
   tags: [String],
   with: new mongoose.Schema({
-    quantity: Number
+    quantity: Number,
+    name: String,
+    productId: String
   })
 }, { safe: true, validateBeforeSave: true } as mongoose.SchemaOptions))
 
