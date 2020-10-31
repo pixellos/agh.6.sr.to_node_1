@@ -8,13 +8,13 @@ export type OrderEvent = mongoose.Document & EventBase & {
   what: OrderAction
 } & ({
   what: 'Issued'
-  with: Order 
-} | {what: 'Sent', with : {}})
+  with: Order
+} | { what: 'Sent', with: {} })
 
 export type Order = {
   quantity: number;
   name: string;
-  productId: string, 
+  productId: string,
 }
 
 export const defaultOrder: Order = {
@@ -23,18 +23,30 @@ export const defaultOrder: Order = {
   productId: '',
 }
 
-export type OrderDto = Order & { id?: string };
+export type OrderDto = Order & {
+  id?: string
+  status: 'Started' | 'Sent' | 'Derived' | 'Returned'
+};
 
-export function OrderReducer(p: Order, event: OrderEvent) {
+export const defaultOrderDto: OrderDto = {
+  ...defaultOrder,
+  status: 'Started'
+}
+
+export function OrderReducer(p: OrderDto, event: OrderEvent) {
   switch (event.what) {
     case 'Issued':
-      const flatted = Object.keys(defaultOrder).map(x => x as keyof Order).reduce((x, key) => ({ ...x, [key]: (event.with[key]) }), p as Partial<Order>);
-      const result = flatted as OrderDto;
+      const copy = Object.keys(defaultOrder)
+        .map(x => x as keyof Order)
+        .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? x[key] }), p as Partial<Order>);
+      const result = copy as OrderDto;
+      result.status = 'Started';
       result.id = event.id;
       return result;
-      break;
+    case 'Sent':
+      return { ...p, status: 'Sent' } as OrderDto;
     default:
-      return defaultOrder;
+      return defaultOrderDto;
       break;
   }
 }

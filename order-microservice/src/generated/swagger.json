@@ -72,10 +72,22 @@
 					},
 					{
 						"properties": {
+							"status": {
+								"type": "string",
+								"enum": [
+									"Started",
+									"Sent",
+									"Derived",
+									"Returned"
+								]
+							},
 							"id": {
 								"type": "string"
 							}
 						},
+						"required": [
+							"status"
+						],
 						"type": "object"
 					}
 				]
@@ -90,6 +102,43 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/order/send": {
+			"post": {
+				"operationId": "Send",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/order/add": {
 			"post": {
 				"operationId": "Add",

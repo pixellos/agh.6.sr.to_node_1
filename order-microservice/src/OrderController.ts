@@ -15,6 +15,21 @@ export const errorResponse = (p: { message: string }) => ({ error: true, message
 @Route("order")
 export class OrderController extends Controller {
 
+  @Post("send")
+  public async send(
+    @Body()
+    data: {
+      id: string
+    }
+  ): Promise<ErrorResponse> {
+    // Todo: Pattern mediator.
+    const r = (await Orders.SendOrderCommand({ id: data.id,  type: 'SendOrderCommand' }));
+    if (r)
+      return r as ErrorResponse;
+
+    return { error: true, message: 'Unknown error' };
+  }
+
   @Post("add")
   public async add(
     @Body()
@@ -27,6 +42,7 @@ export class OrderController extends Controller {
 
     return { error: true, message: 'Unknown error' };
   }
+
 
   @Get("all")
   public async list(): Promise<ErrorResponse | OrderDto[]> {
