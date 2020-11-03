@@ -47,6 +47,14 @@ System umożliwia:
 **Wymagania niefunkcjonalne:**
 Stabilność systemu, Odporność na błędy, Przenośność kodu, Czystość kodu, Jakość kodu, Optymalizacja
 
+**Use cases:**
+
+Rejestr zamówień:
+![](./pictures/REJESTR_ZAMOWIEN.png)
+
+Rejestr produktów:
+![](./pictures/REJESTR_PRODUKTOW.png)
+
 Diagramy klas: TODO_GDY_KOD_BEDZIE_GOTOWY
 
 Diagramy komponentów: TODO_GDY_KOD_BEDZIE_GOTOWY
