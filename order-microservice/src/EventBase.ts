@@ -1,4 +1,5 @@
-export type OrderAction = 'Issued' | 'Sent'
+export type OrderAction = 'Issued' | 'Sent' | 'Paid' | 'Returned'
+
 
 export type EventBase = {
   who: 'admin'; // todo: move to oauth and use id,

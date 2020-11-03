@@ -1,15 +1,20 @@
 
-import e from 'express';
-import mongoose, { Mongoose } from 'mongoose';
-import { stringify } from 'querystring';
+import mongoose from 'mongoose';
 import { EventBase, EventBaseSchema, OrderAction } from './EventBase';
+
+export type OrderEventUnion = (
+  | {
+    what: 'Issued'
+    with: Order
+  }
+  | { what: 'Sent', with: {} }
+  | { what: 'Paid', with: { amount: number } }
+  | { what: 'Returned', with: { cause: string } }
+);
 
 export type OrderEvent = mongoose.Document & EventBase & {
   what: OrderAction
-} & ({
-  what: 'Issued'
-  with: Order
-} | { what: 'Sent', with: {} })
+} & OrderEventUnion;
 
 export type Order = {
   quantity: number;
@@ -60,14 +65,16 @@ const GetOrderAggregate = (aggregationType: string) => mongoose.model<OrderEvent
   tags: [String],
   with: new mongoose.Schema({
     quantity: Number,
+    amount: Number,
     name: String,
-    productId: String
+    productId: String,
+    cause: String,
   })
 }, { safe: true, validateBeforeSave: true } as mongoose.SchemaOptions))
 
 const map: { [key: string]: mongoose.Model<OrderEvent, {}> } = {}
 
-export const OrderAggregate = (id: string) => {
+export const OrderAggregate: (id: string) => mongoose.Model<OrderEvent> = (id: string) => {
   const found = map[id];
   const r = found ?? (map[id] = GetOrderAggregate(id));
   return r;

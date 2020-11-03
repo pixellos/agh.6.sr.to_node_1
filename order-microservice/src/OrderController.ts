@@ -6,9 +6,10 @@ import {
   Post,
   Body,
   Route,
+  Query,
 } from "tsoa";
 import { OrderDto, OrderEvent } from "./Order";
-import { ErrorResponse, Orders } from "./Orders";
+import { ErrorResponse, isErrorResponse, Orders } from "./Orders";
 
 export const errorResponse = (p: { message: string }) => ({ error: true, message: p.message }) as ErrorResponse;
 
@@ -24,9 +25,8 @@ export class OrderController extends Controller {
   ): Promise<ErrorResponse> {
     // Todo: Pattern mediator.
     const r = (await Orders.SendOrderCommand({ id: data.id,  type: 'SendOrderCommand' }));
-    if (r)
-      return r as ErrorResponse;
-
+    if (isErrorResponse(r)) return r;
+    
     return { error: true, message: 'Unknown error' };
   }
 
@@ -37,12 +37,22 @@ export class OrderController extends Controller {
   ): Promise<ErrorResponse> {
     // Todo: Pattern mediator.
     const r = (await Orders.CreateOrderCommand({ ...vm, type: 'CreateOrderCommandEvent' }));
+    if (isErrorResponse(r)) return r;
+    return { error: true, message: 'Unknown error' };
+  }
+  
+  @Post("pay")
+  public async pay(
+    @Query('amount')amount: number,
+    @Query('id')id: string,
+  ): Promise<ErrorResponse> {
+    // Todo: Pattern mediator.
+    const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand' }));
     if (r)
       return r as ErrorResponse;
 
     return { error: true, message: 'Unknown error' };
   }
-
 
   @Get("all")
   public async list(): Promise<ErrorResponse | OrderDto[]> {
