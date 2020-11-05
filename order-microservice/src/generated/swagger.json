@@ -6,17 +6,49 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Product": {
+			"ErrorResponse": {
 				"properties": {
-					"tags": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
+					"message": {
+						"type": "string"
 					},
-					"creationDate": {
-						"type": "string",
-						"format": "date-time"
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"true"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"message",
+					"error"
+				],
+				"type": "object"
+			},
+			"Orders.ViewModel": {
+				"properties": {
+					"productId": {
+						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"productId",
+					"quantity",
+					"name"
+				],
+				"type": "object"
+			},
+			"Order": {
+				"properties": {
+					"productId": {
+						"type": "string"
 					},
 					"name": {
 						"type": "string"
@@ -27,152 +59,62 @@
 					}
 				},
 				"required": [
-					"tags",
-					"creationDate",
+					"productId",
 					"name",
 					"quantity"
 				],
 				"type": "object"
 			},
-			"User": {
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
+			"OrderDto": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Order"
 					},
-					"email": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"phoneNumbers": {
-						"items": {
-							"type": "string"
+					{
+						"properties": {
+							"status": {
+								"type": "string",
+								"enum": [
+									"Started",
+									"Sent",
+									"Derived",
+									"Returned"
+								]
+							},
+							"id": {
+								"type": "string"
+							}
 						},
-						"type": "array"
+						"required": [
+							"status"
+						],
+						"type": "object"
 					}
-				},
-				"required": [
-					"id",
-					"email",
-					"name",
-					"phoneNumbers"
-				],
-				"type": "object",
-				"additionalProperties": false
+				]
 			}
 		},
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "ms_node_1",
+		"title": "order-microservice",
 		"version": "0.1.0",
 		"contact": {}
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/product/hi": {
-			"get": {
-				"operationId": "HelloWorld",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/Product"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/product/himany/{number}": {
-			"get": {
-				"operationId": "HelloWorldMany",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"allOf": [
-										{
-											"$ref": "#/components/schemas/Product"
-										}
-									],
-									"nullable": true
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "number",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/users/{userId}": {
-			"get": {
-				"operationId": "GetUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "name",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/users": {
+		"/order/send": {
 			"post": {
-				"operationId": "CreateUser",
+				"operationId": "Send",
 				"responses": {
-					"201": {
-						"description": "Created"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
 					}
 				},
 				"security": [],
@@ -182,12 +124,164 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"properties": {},
+								"properties": {
+									"id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"id"
+								],
 								"type": "object"
 							}
 						}
 					}
 				}
+			}
+		},
+		"/order/add": {
+			"post": {
+				"operationId": "Add",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Orders.ViewModel"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/order/pay": {
+			"post": {
+				"operationId": "Pay",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "amount",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/order/all": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"items": {
+												"$ref": "#/components/schemas/OrderDto"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/events/list/{type}/{id}": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"items": {
+												"properties": {},
+												"type": "object"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "type",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"Order"
+							]
+						}
+					}
+				]
 			}
 		}
 	},
