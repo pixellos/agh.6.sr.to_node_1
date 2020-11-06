@@ -57,7 +57,7 @@ Rejestr produktów:
 
 Diagramy klas: TODO_GDY_KOD_BEDZIE_GOTOWY
 
-Diagramy komponentów: TODO_GDY_KOD_BEDZIE_GOTOWY
+Diagramy komponentów: ![](./pictures/DiagramKomponentow.svg)
 
 Diagramy sekwencji: TODO_GDY_KOD_BEDZIE_GOTOWY
 
