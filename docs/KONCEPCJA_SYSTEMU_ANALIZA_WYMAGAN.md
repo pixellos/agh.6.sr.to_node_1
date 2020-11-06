@@ -61,7 +61,7 @@ Diagramy komponentów: TODO_GDY_KOD_BEDZIE_GOTOWY
 
 Diagramy sekwencji: TODO_GDY_KOD_BEDZIE_GOTOWY
 
-Struktura danych: TODO_GDY_KOD_BEDZIE_GOTOWY
+Struktura danych: ![](./pictures/StrukturaDanych.svg)
 
 **Planowane Testy:**
 Funkcjonalne, E2E
