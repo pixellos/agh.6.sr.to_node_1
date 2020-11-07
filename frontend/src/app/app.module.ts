@@ -1,32 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AdminProductsComponent } from './admin-products/admin-products.component';
-import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
-import {mainRoutingProviders, routing} from "../route";
-import { WelcomeComponent } from './welcome/welcome.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule} from "@angular/forms";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatNativeDateModule} from "@angular/material/core";
-import {MatInputModule} from "@angular/material/input";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {WelcomeComponent} from "./welcome/welcome.component";
+import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
+import {AdminProductsComponent} from "./admin-products/admin-products.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminProductsComponent,
+    WelcomeComponent,
     AdminOrdersComponent,
-    WelcomeComponent
+    AdminProductsComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, BrowserAnimationsModule,
-    mainRoutingProviders,
-    routing
+    AppRoutingModule,
+    MatToolbarModule, MatButtonModule, MatIconModule,
+    BrowserAnimationsModule,
+    // mainRoutingProviders, routing
   ],
   providers: [],
   bootstrap: [AppComponent]
