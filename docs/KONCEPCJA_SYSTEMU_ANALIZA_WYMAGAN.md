@@ -1,13 +1,16 @@
 # SKLEP INTERNETOWY
-autorzy: Mateusz Popielarz, Michał Flak, Kamil Gliński
+
+## Autorzy: 
+
+Mateusz Popielarz, Michał Flak, Kamil Gliński
 
 ## Koncepcja Systemu:
 
-Cel projektu:
+### Cel projektu:
 
 Wykonanie aplikacji sklepu internetowego w architekturze rozproszonej.
 
-Lista Wymagań:
+### Lista Wymagań:
 
 - rejestracja użytkownika
 - logowanie (autentykacja)
@@ -20,13 +23,13 @@ Lista Wymagań:
 - wystawienie opinii
 - kontakt za pomocą formularza
 
-**Główni aktorzy w systemie:**
+#### Główni aktorzy w systemie:
 
 - Administrator
 - Sprzedawca
 - Użytkownik
 
-**Propozycja architektury:**
+#### Propozycja architektury:
 
 Projekt zostanie zrealizowany w architekturze rozproszonej z użyciem mikroserwisów, oraz wzorców CQRS i Event Sourcing,
 
@@ -34,7 +37,12 @@ CQRS pozwoli nam na podzielenie logiki na dwie części: logikę zapytań oraz l
 
 Event Sourcing użyjemy w celu osiągnięcia śledzenia zmieniającego się stanu aplikacji, każda operacja zmiany stanu będzie zapisywana w event_log, pozwoli to na szybki dostęp do historii zmian stanu w czasie całego cyklu życia obiektu.
 
-**Propozycja Technologii:**
+#### Propozycja Technologii:
 
-NodeJS, Angular, CosmosDb z MongoAPI, Azure, Swagger-UI, Docker
+- NodeJS
+- Angular
+- CosmosDb z MongoAPI
+- Azure
+- Swagger-UI 
+- Docker
 
