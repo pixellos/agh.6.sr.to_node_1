@@ -34,7 +34,7 @@ Diagramy komponentów:
 
 Diagramy sekwencji:
 
-![](./pictures/StrukturaDanych.svg)
+![](./pictures/DIAGRAM_SEKWENCJI.svg)
 
 
 Struktura danych: 
