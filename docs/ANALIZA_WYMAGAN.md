@@ -1,7 +1,8 @@
 ## Analiza Wymagań
 
 **Wymagania funkcjonalne:**
-System umożliwia:
+
+### System umożliwia:
 - rejestrację użytkowników
 - autentykację użytkowników
 - manipulacje danymi produktów
@@ -16,18 +17,28 @@ Stabilność systemu, Odporność na błędy, Przenośność kodu, Czystość ko
 **Use cases:**
 
 Rejestr zamówień:
+
 ![](./pictures/REJESTR_ZAMOWIEN.png)
 
 Rejestr produktów:
+
 ![](./pictures/REJESTR_PRODUKTOW.png)
 
-Diagramy klas: TODO_GDY_KOD_BEDZIE_GOTOWY
+Diagramy klas: 
 
-Diagramy komponentów: ![](./pictures/DiagramKomponentow.svg)
+TODO_GDY_KOD_BEDZIE_GOTOWY
 
-Diagramy sekwencji: TODO_GDY_KOD_BEDZIE_GOTOWY
+Diagramy komponentów: 
 
-Struktura danych: ![](./pictures/StrukturaDanych.svg)
+![](./pictures/DiagramKomponentow.svg)
+
+Diagramy sekwencji:
+
+TODO_GDY_KOD_BEDZIE_GOTOWY
+
+Struktura danych: 
+
+![](./pictures/StrukturaDanych.svg)
 
 **Planowane Testy:**
 Funkcjonalne, E2E
