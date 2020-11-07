@@ -14,9 +14,9 @@
 **Wymagania niefunkcjonalne:**
 - Stabilność systemu - SLA - Uptime - System ma byc w stanie dzialac poprawnie przez 99% czasu,
 - Odporność na błędy - błędy/godzine, ktore sprawia, ze system bedzie w nieprawidlowym stanie
-- Przenośność kodu - Techonologie powinny byc dobierane z mysla, o tym, ze serwer moze miec rozne architektury
+- Przenośność kodu - Techonologie powinny byc dobierane z mysla, o tym, ze serwer moze miec rozne architektury, metryka : Ilosc architektur procesorow zdolna do uruchomienia programu
 - Czystość kodu - Cyclomatic complexity  < 11
-- Jakość kodu - Zachowany proces PR, podejscie funkcyjne
+- Jakość kodu - Zachowany proces PR, podejscie funkcyjne, metryka: ilosc plikow o > 1k loc
 - Optymalizacja - sredni czas przetwarzania requestu < 1s
 
 **Use cases:**
