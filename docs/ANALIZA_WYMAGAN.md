@@ -34,7 +34,8 @@ Diagramy komponentów:
 
 Diagramy sekwencji:
 
-TODO_GDY_KOD_BEDZIE_GOTOWY
+![](./pictures/StrukturaDanych.svg)
+
 
 Struktura danych: 
 
