@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {WelcomeComponent} from "./welcome/welcome.component";
 import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
 import {AdminProductsComponent} from "./admin-products/admin-products.component";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({
@@ -22,9 +23,8 @@ import {AdminProductsComponent} from "./admin-products/admin-products.component"
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatToolbarModule, MatButtonModule, MatIconModule,
+    MatToolbarModule, MatButtonModule, MatIconModule,  MatSidenavModule,
     BrowserAnimationsModule,
-    // mainRoutingProviders, routing
   ],
   providers: [],
   bootstrap: [AppComponent]
