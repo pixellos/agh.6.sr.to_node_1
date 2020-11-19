@@ -6,17 +6,62 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Product": {
+			"ErrorResponse": {
 				"properties": {
-					"tags": {
+					"message": {
+						"type": "string"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"true"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"message",
+					"error"
+				],
+				"type": "object"
+			},
+			"Products.ViewModel": {
+				"properties": {
+					"attributes": {
 						"items": {
 							"type": "string"
 						},
 						"type": "array"
 					},
-					"creationDate": {
-						"type": "string",
-						"format": "date-time"
+					"image": {
+						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"attributes",
+					"image",
+					"quantity",
+					"name"
+				],
+				"type": "object"
+			},
+			"Product": {
+				"properties": {
+					"attributes": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"image": {
+						"type": "string"
 					},
 					"name": {
 						"type": "string"
@@ -27,12 +72,39 @@
 					}
 				},
 				"required": [
-					"tags",
-					"creationDate",
+					"attributes",
+					"image",
 					"name",
 					"quantity"
 				],
 				"type": "object"
+			},
+			"ProductDto": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Product"
+					},
+					{
+						"properties": {
+							"status": {
+								"type": "string",
+								"enum": [
+									"Started",
+									"Sent",
+									"Derived",
+									"Returned"
+								]
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"status"
+						],
+						"type": "object"
+					}
+				]
 			},
 			"User": {
 				"properties": {
@@ -72,21 +144,53 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/product/hi": {
-			"get": {
-				"operationId": "HelloWorld",
+		"/product": {
+			"post": {
+				"operationId": "Create",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"allOf": [
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Products.ViewModel"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
 										{
-											"$ref": "#/components/schemas/Product"
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"items": {
+												"$ref": "#/components/schemas/ProductDto"
+											},
+											"type": "array"
 										}
-									],
-									"nullable": true
+									]
 								}
 							}
 						}
@@ -96,21 +200,23 @@
 				"parameters": []
 			}
 		},
-		"/product/himany/{number}": {
+		"/product/{id}": {
 			"get": {
-				"operationId": "HelloWorldMany",
+				"operationId": "Get",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"allOf": [
+									"anyOf": [
 										{
-											"$ref": "#/components/schemas/Product"
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"$ref": "#/components/schemas/ProductDto"
 										}
-									],
-									"nullable": true
+									]
 								}
 							}
 						}
@@ -120,11 +226,141 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "number",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/product/{id}/add": {
+			"post": {
+				"operationId": "Add",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "quantity",
 						"required": true,
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/product/{id}/buy": {
+			"post": {
+				"operationId": "Buy",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "quantity",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/events/list/{type}/{id}": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"items": {
+												"properties": {},
+												"type": "object"
+											},
+											"type": "array"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "type",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"Product"
+							]
 						}
 					}
 				]
