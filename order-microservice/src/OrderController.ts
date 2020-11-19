@@ -7,6 +7,7 @@ import {
   Body,
   Route,
   Query,
+  OperationId,
 } from "tsoa";
 import { OrderDto, OrderEvent } from "./Order";
 import { ErrorResponse, isErrorResponse, Orders } from "./Orders";
@@ -55,7 +56,7 @@ export class OrderController extends Controller {
   }
 
   @Get("all")
-  public async list(): Promise<ErrorResponse | OrderDto[]> {
+  public async all(): Promise<ErrorResponse | OrderDto[]> {
     return await Orders.QueryAllOrders({});
   }
 }
