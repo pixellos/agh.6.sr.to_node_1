@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.1.4",
     "@types/uuid": "^8.3.0",
     "applicationinsights": "^1.8.7",
     "body-parser": "^1.19.0",
@@ -11,8 +12,6 @@
     "livereload": "^0.9.1",
     "mongoose": "^5.10.9",
     "nstall": "^0.2.0",
-    "swagger-ts-client-gen": "^1.2.0",
-    "swagger-typescript-client-generator": "^1.5.3",
     "swagger-ui-express": "^4.1.4",
     "tsoa": "^3.3.0",
     "uuid": "^8.3.1"
@@ -36,7 +35,8 @@
   },
   "scripts": {
     "dev": "nodemon --verbose",
-    "generate": "openapi --input ./src/generated/swagger.json --output ./../frontend/src/client",
+    "generate": "openapi --input ./src/generated/swagger.json --output ./../frontend/src/order-client",
+    "generate2": "openapi-generator-cli generate -g typescript-angular -i ./src/generated/swagger.json -o ./../frontend/src/client-order",
     "build": "tsc",
     "start": "nodemon index.ts",
     "serve": "node dist/src/server.js"

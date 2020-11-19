@@ -207,7 +207,7 @@
 		},
 		"/order/all": {
 			"get": {
-				"operationId": "List",
+				"operationId": "All",
 				"responses": {
 					"200": {
 						"description": "Ok",

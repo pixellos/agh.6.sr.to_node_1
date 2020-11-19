@@ -66,7 +66,7 @@ id: string,
      * @result ErrorResponse Ok
      * @throws ApiError
      */
-    public static async list(): Promise<ErrorResponse> {
+    public static async all(): Promise<ErrorResponse> {
         const result = await __request({
             method: 'GET',
             path: `/order/all`,
@@ -80,7 +80,7 @@ id: string,
      * @result ErrorResponse Ok
      * @throws ApiError
      */
-    public static async list1(
+    public static async list(
 id: string,
 type: 'Order',
 ): Promise<ErrorResponse> {

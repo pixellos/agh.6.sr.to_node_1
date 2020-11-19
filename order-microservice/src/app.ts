@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import {RegisterRoutes} from './generated/routes';
 import * as swagger from './generated/swagger.json';
+import fs from 'fs';
 
 export const app = express();
 
