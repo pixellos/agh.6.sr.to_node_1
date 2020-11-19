@@ -33,6 +33,9 @@
 						},
 						"type": "array"
 					},
+					"image": {
+						"type": "string"
+					},
 					"quantity": {
 						"type": "number",
 						"format": "double"
@@ -43,6 +46,7 @@
 				},
 				"required": [
 					"attributes",
+					"image",
 					"quantity",
 					"name"
 				],
@@ -56,6 +60,9 @@
 						},
 						"type": "array"
 					},
+					"image": {
+						"type": "string"
+					},
 					"name": {
 						"type": "string"
 					},
@@ -66,6 +73,7 @@
 				},
 				"required": [
 					"attributes",
+					"image",
 					"name",
 					"quantity"
 				],
@@ -190,6 +198,41 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/product/{id}": {
+			"get": {
+				"operationId": "Get",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ErrorResponse"
+										},
+										{
+											"$ref": "#/components/schemas/ProductDto"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/product/{id}/add": {

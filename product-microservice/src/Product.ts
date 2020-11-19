@@ -23,12 +23,14 @@ export type ProductEvent = mongoose.Document & EventBase & {
 export type Product = {
   quantity: number;
   name: string;
+  image: string;
   attributes: string[];
 }
 
 export const defaultProduct: Product = {
   quantity: 0,
   name: '' as string,
+  image: '' as string,
   attributes: [] as string[]
 }
 
@@ -73,6 +75,7 @@ const GetProductAggregate = (aggregationType: string) => mongoose.model<ProductE
   with: new mongoose.Schema({
     quantity: Number,
     amount: Number,
+    image: String,
     name: String,
     cause: String,
   })

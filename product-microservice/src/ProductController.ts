@@ -30,6 +30,17 @@ export class ProductController extends Controller {
     return { error: true, message: 'Unknown error' };
   }
 
+  @Get("{id}")
+  public async get(
+    @Path() id: string
+  ): Promise<ErrorResponse | ProductDto> {
+    // Todo: Pattern mediator.
+    const r = (await Products.GetProduct( id ));
+    if (r)
+      return r as ErrorResponse;
+    return { error: true, message: 'Unknown error' };
+  }
+
   @Post("{id}/add")
   public async add(
     @Path() id: string,

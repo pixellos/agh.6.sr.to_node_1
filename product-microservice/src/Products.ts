@@ -15,7 +15,7 @@ export function isErrorResponse(o: any): o is ErrorResponse {
 }
 
 export namespace Products {
-  export type ViewModel = { name: string; quantity: number; attributes: string[]; };
+  export type ViewModel = { name: string; quantity: number; image: string; attributes: string[]; };
   export type CreateProductCommandEvent = ViewModel & { type: 'CreateProductCommand'; };
 
   
@@ -59,6 +59,7 @@ export namespace Products {
       with: {
         name: p.name,
         quantity: p.quantity,
+        image: p.image,
         attributes: p.attributes
       }
     })
