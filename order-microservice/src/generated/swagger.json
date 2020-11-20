@@ -6,24 +6,51 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"ErrorResponse": {
-				"properties": {
-					"message": {
-						"type": "string"
-					},
-					"error": {
-						"type": "boolean",
-						"enum": [
-							"true"
-						],
-						"nullable": false
-					}
-				},
-				"required": [
-					"message",
-					"error"
-				],
+			"Empty": {
+				"properties": {},
 				"type": "object"
+			},
+			"ErrorResponse_Empty_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"$ref": "#/components/schemas/Empty"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
 			},
 			"Orders.ViewModel": {
 				"properties": {
@@ -91,6 +118,173 @@
 						"type": "object"
 					}
 				]
+			},
+			"OrdersDto": {
+				"properties": {
+					"values": {
+						"items": {
+							"$ref": "#/components/schemas/OrderDto"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"values"
+				],
+				"type": "object"
+			},
+			"DataOrError": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/ErrorResponse_Empty_"
+					},
+					{
+						"$ref": "#/components/schemas/OrdersDto"
+					}
+				]
+			},
+			"OrderEventUnion": {
+				"anyOf": [
+					{
+						"properties": {
+							"with": {
+								"$ref": "#/components/schemas/Order"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Issued"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {},
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Sent"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"amount": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"amount"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Paid"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"cause": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"cause"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Returned"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"ErrorResponse_OrderEventUnion-Array_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"items": {
+									"$ref": "#/components/schemas/OrderEventUnion"
+								},
+								"type": "array"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
 			}
 		},
 		"securitySchemes": {}
@@ -111,7 +305,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
 								}
 							}
 						}
@@ -148,7 +342,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
 								}
 							}
 						}
@@ -177,7 +371,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
 								}
 							}
 						}
@@ -214,17 +408,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ErrorResponse"
-										},
-										{
-											"items": {
-												"$ref": "#/components/schemas/OrderDto"
-											},
-											"type": "array"
-										}
-									]
+									"$ref": "#/components/schemas/DataOrError"
 								}
 							}
 						}
@@ -243,18 +427,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ErrorResponse"
-										},
-										{
-											"items": {
-												"properties": {},
-												"type": "object"
-											},
-											"type": "array"
-										}
-									]
+									"$ref": "#/components/schemas/ErrorResponse_OrderEventUnion-Array_"
 								}
 							}
 						}

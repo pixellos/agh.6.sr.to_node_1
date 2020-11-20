@@ -27,7 +27,6 @@ export class CallComponent implements OnInit {
     data.forEach(x => {
       if (IsNotError(x)) {
         x.map(data => {
-          const id = data.id;/// tutaj dziala podpowiadanie !#!@!@!@!
         })
       }
     })

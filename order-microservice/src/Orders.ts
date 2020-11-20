@@ -5,13 +5,16 @@ import { OrderAction } from './EventBase';
 import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderReducer } from "./Order";
 import { errorResponse } from "./OrderController";
 
-export type ErrorResponse = {
+export type ErrorResponse<T> = {
   error: true,
   message: string
+} | {
+  error: false, 
+  data: T
 }
 
-export function isErrorResponse(o: any): o is ErrorResponse {
-  return (o as ErrorResponse).error;
+export function isErrorResponse<T>(o: any): o is ErrorResponse<T> {
+  return (o as ErrorResponse<T> && o.error).error;
 }
 
 export namespace Orders {
@@ -63,18 +66,18 @@ export namespace Orders {
     await Save(order, { what: 'Sent', with: {} })
   }
 
-  export async function PayOrderCommand(props: { id: string, amount: number,  type: 'PayForOrderCommand' }) {
+  export async function PayOrderCommand(props: { id: string, amount: number, type: 'PayForOrderCommand' }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Issued'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Paid', with: {amount: props.amount} })
+    await Save(order, { what: 'Paid', with: { amount: props.amount } })
   }
 
   export async function RefundOrderCommand(props: { id: string, type: 'RefundOrderCommand' }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Sent'] })
-    if (isErrorResponse(o)){
+    if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
@@ -96,7 +99,7 @@ export namespace Orders {
         productId: p.productId
       }
     })
-    if (isErrorResponse(save)) 
+    if (isErrorResponse(save))
       return errorResponse({ message: 'Order cannot be saved. Try again.' });
   }
 
@@ -112,6 +115,6 @@ export namespace Orders {
     const orders = await Connection.GetAggregatesIds(connection, OrderPrefix);
     const result = await Promise.all(orders.map(o => ({ order: OrderAggregate(o), id: o }))
       .map(x => FlatMapEvents(x.order, x.id)));
-    return result;
+    return { values: result };
   }
 }

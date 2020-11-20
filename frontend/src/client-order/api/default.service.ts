@@ -17,8 +17,9 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { ErrorResponse } from '../model/models';
-import { OrderDto } from '../model/models';
+import { DataOrError } from '../model/models';
+import { ErrorResponseEmpty } from '../model/models';
+import { ErrorResponseOrderEventUnionArray } from '../model/models';
 import { InlineObject } from '../model/models';
 import { OrdersViewModel } from '../model/models';
 
@@ -93,9 +94,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add(ordersViewModel: OrdersViewModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponse>;
-    public add(ordersViewModel: OrdersViewModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponse>>;
-    public add(ordersViewModel: OrdersViewModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponse>>;
+    public add(ordersViewModel: OrdersViewModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
+    public add(ordersViewModel: OrdersViewModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
+    public add(ordersViewModel: OrdersViewModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
     public add(ordersViewModel: OrdersViewModel, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (ordersViewModel === null || ordersViewModel === undefined) {
             throw new Error('Required parameter ordersViewModel was null or undefined when calling add.');
@@ -130,7 +131,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<ErrorResponse>(`${this.configuration.basePath}/order/add`,
+        return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/order/add`,
             ordersViewModel,
             {
                 responseType: <any>responseType,
@@ -146,9 +147,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public all(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponse | Array<OrderDto>>;
-    public all(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponse | Array<OrderDto>>>;
-    public all(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponse | Array<OrderDto>>>;
+    public all(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<DataOrError>;
+    public all(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<DataOrError>>;
+    public all(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<DataOrError>>;
     public all(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -171,7 +172,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<ErrorResponse | Array<OrderDto>>(`${this.configuration.basePath}/order/all`,
+        return this.httpClient.get<DataOrError>(`${this.configuration.basePath}/order/all`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -188,9 +189,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public list(id: string, type: 'Order', observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponse | Array<object>>;
-    public list(id: string, type: 'Order', observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponse | Array<object>>>;
-    public list(id: string, type: 'Order', observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponse | Array<object>>>;
+    public list(id: string, type: 'Order', observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseOrderEventUnionArray>;
+    public list(id: string, type: 'Order', observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseOrderEventUnionArray>>;
+    public list(id: string, type: 'Order', observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseOrderEventUnionArray>>;
     public list(id: string, type: 'Order', observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling list.');
@@ -219,7 +220,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<ErrorResponse | Array<object>>(`${this.configuration.basePath}/events/list/${encodeURIComponent(String(type))}/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<ErrorResponseOrderEventUnionArray>(`${this.configuration.basePath}/events/list/${encodeURIComponent(String(type))}/${encodeURIComponent(String(id))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -236,9 +237,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pay(amount: number, id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponse>;
-    public pay(amount: number, id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponse>>;
-    public pay(amount: number, id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponse>>;
+    public pay(amount: number, id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
+    public pay(amount: number, id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
+    public pay(amount: number, id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
     public pay(amount: number, id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (amount === null || amount === undefined) {
             throw new Error('Required parameter amount was null or undefined when calling pay.');
@@ -277,7 +278,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<ErrorResponse>(`${this.configuration.basePath}/order/pay`,
+        return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/order/pay`,
             null,
             {
                 params: queryParameters,
@@ -295,9 +296,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public send(inlineObject: InlineObject, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponse>;
-    public send(inlineObject: InlineObject, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponse>>;
-    public send(inlineObject: InlineObject, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponse>>;
+    public send(inlineObject: InlineObject, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
+    public send(inlineObject: InlineObject, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
+    public send(inlineObject: InlineObject, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
     public send(inlineObject: InlineObject, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (inlineObject === null || inlineObject === undefined) {
             throw new Error('Required parameter inlineObject was null or undefined when calling send.');
@@ -332,7 +333,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<ErrorResponse>(`${this.configuration.basePath}/order/send`,
+        return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/order/send`,
             inlineObject,
             {
                 responseType: <any>responseType,

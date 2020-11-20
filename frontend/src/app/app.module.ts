@@ -38,8 +38,10 @@ import { CallComponent } from './welcome/call.component';
       domain: 'dev-mattp.eu.auth0.com',
       clientId: 'xm77JO3aZNJizsy45n4PC0PdZfTV1jDV',
       scope: 'openid email profile',
+      audience: 'https://dev-mattp.eu.auth0.com/api/v2/',
+      issuer: 'https://dev-mattp.eu.auth0.com/',
       httpInterceptor: {
-        allowedList: [`http://localhost:3001/*`],
+        allowedList: [`http://localhost:3001/*`]
       },
     }),
     BrowserModule,

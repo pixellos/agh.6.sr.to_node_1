@@ -2,11 +2,12 @@ export type OrderAction = 'Issued' | 'Sent' | 'Paid' | 'Returned'
 
 
 export type EventBase = {
-  who: 'admin'; // todo: move to oauth and use id,
+  who: string;
   when: Date;
   revision: Number;
   previousRevision: Number;
-  what: OrderAction;
+  what: string
+  //what: 'Issued' | 'Sent' | 'Paid' | 'Returned';
 };
 
 export const EventBaseSchema: {[P in keyof EventBase] : any} = {

@@ -12,9 +12,11 @@ export type OrderEventUnion = (
   | { what: 'Returned', with: { cause: string } }
 );
 
-export type OrderEvent = mongoose.Document & EventBase & {
+export type OrderEventDto = EventBase & {
   what: OrderAction
 } & OrderEventUnion;
+
+export type OrderEvent = mongoose.Document & OrderEventDto;
 
 export type Order = {
   quantity: number;
@@ -27,6 +29,8 @@ export const defaultOrder: Order = {
   name: '' as string,
   productId: '',
 }
+
+export type OrdersDto = { values: OrderDto[] } ;
 
 export type OrderDto = Order & {
   id?: string
