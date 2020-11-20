@@ -4,9 +4,10 @@ import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
 import {RegisterRoutes} from './generated/routes';
 import * as swagger from './generated/swagger.json';
-import fs from 'fs';
+import cors from 'cors'
 
 export const app = express();
+app.use(cors())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger, ({ explorer: true })));
 app.use(

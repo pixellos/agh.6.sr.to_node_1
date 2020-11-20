@@ -34,25 +34,32 @@ import { CallComponent } from './welcome/call.component';
     CallComponent
   ],
   imports: [
-    HttpClientModule,
     AuthModule.forRoot({
       domain: 'dev-mattp.eu.auth0.com',
       clientId: 'xm77JO3aZNJizsy45n4PC0PdZfTV1jDV',
       scope: 'openid email profile',
-      audience: 'http://localhost:3001/',
-      
+      httpInterceptor: {
+        allowedList: [`http://localhost:3001/*`],
+      },
     }),
     BrowserModule,
     AppRoutingModule,
-    MatToolbarModule, MatButtonModule, MatIconModule,  MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
     BrowserAnimationsModule,
+    HttpClientModule
     
     // Import the module into the application, with configuration
   
   ],
   providers: [
-    
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -6,17 +6,16 @@ import { AuthService } from '@auth0/auth0-angular';
 import { Configuration, ErrorResponse } from 'src/client-order';
 
 import {DefaultService} from 'src/client-order/api/default.service'
-import { OrderDto } from 'src/order-client';
 
 @Component({
-  selector: 'app-auth-button',
+  selector: 'app-call-button',
   template: `
   <button class="btn btn-primary btn-block" (click)="angularIsShit()">
     Call
   </button>
 `
 })
-export class AuthButtonComponent implements OnInit {
+export class CallComponent implements OnInit {
   // Inject the authentication service into your component through the constructor
   constructor(public auth: AuthService, public client: HttpClient) { }
   
