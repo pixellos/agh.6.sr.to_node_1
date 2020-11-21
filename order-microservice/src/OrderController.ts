@@ -54,7 +54,7 @@ export class OrderController extends Controller {
 
   @Get("all")
   public async all(@Request() request: UserRequest): Promise<ErrorResponse<OrderDto[]>> {
-    const user = request.user.sub;
+    const user = request?.user?.sub ?? 'test';
     return await Orders.QueryAllOrders({});
   }
 }

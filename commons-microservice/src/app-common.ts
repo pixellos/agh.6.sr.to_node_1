@@ -20,10 +20,10 @@ export function SetupBase(app: core.Express, swagger: {}) {
     audience: 'https://dev-mattp.eu.auth0.com/api/v2/',
     issuer: 'https://dev-mattp.eu.auth0.com/',
     secret: secret,
-    algorithms: ['RS256'],
-  }).unless({  custom: x =>  x.path.indexOf('api-docs') !== -1}));
+    algorithms: ['RS256']
+  }).unless({ custom: x => x.hostname.indexOf('localhost') !== -1 }));
 
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger, ({ explorer: true })));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger, ({  explorer: true })));
 
   app.use(
     bodyParser.urlencoded({
