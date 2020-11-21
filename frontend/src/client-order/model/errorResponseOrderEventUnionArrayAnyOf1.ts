@@ -10,16 +10,13 @@
  * Do not edit the class manually.
  */
 import { OrderEventUnion } from './orderEventUnion';
-import { ErrorResponseOrderEventUnionArrayAnyOf } from './errorResponseOrderEventUnionArrayAnyOf';
-import { ErrorResponseOrderEventUnionArrayAnyOf1 } from './errorResponseOrderEventUnionArrayAnyOf1';
 
 
-export interface ErrorResponseOrderEventUnionArray { 
-    message: string;
-    error: ErrorResponseOrderEventUnionArray.ErrorEnum;
+export interface ErrorResponseOrderEventUnionArrayAnyOf1 { 
     data: Array<OrderEventUnion>;
+    error: ErrorResponseOrderEventUnionArrayAnyOf1.ErrorEnum;
 }
-export namespace ErrorResponseOrderEventUnionArray {
+export namespace ErrorResponseOrderEventUnionArrayAnyOf1 {
     export type ErrorEnum = 'false';
     export const ErrorEnum = {
         False: 'false' as ErrorEnum

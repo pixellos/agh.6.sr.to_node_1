@@ -12,13 +12,13 @@
 
 
 export interface ErrorResponseEmptyAnyOf { 
-    message: string;
+    data: object;
     error: ErrorResponseEmptyAnyOf.ErrorEnum;
 }
 export namespace ErrorResponseEmptyAnyOf {
-    export type ErrorEnum = 'true';
+    export type ErrorEnum = 'false';
     export const ErrorEnum = {
-        True: 'true' as ErrorEnum
+        False: 'false' as ErrorEnum
     };
 }
 

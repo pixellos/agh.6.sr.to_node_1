@@ -11,10 +11,11 @@
  */
 import { Order } from './order';
 import { OrderDtoAllOf } from './orderDtoAllOf';
+import { OrderProduct } from './orderProduct';
 
 
 export interface OrderDto { 
-    productId: string;
+    products: Array<OrderProduct>;
     name: string;
     quantity: number;
     status: OrderDto.StatusEnum;

@@ -6,67 +6,24 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Empty": {
-				"properties": {},
-				"type": "object"
-			},
-			"ErrorResponse_Empty_": {
-				"anyOf": [
-					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
-					},
-					{
-						"properties": {
-							"data": {
-								"$ref": "#/components/schemas/Empty"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
-					}
-				]
-			},
-			"Orders.ViewModel": {
+			"OrderProduct": {
 				"properties": {
-					"productId": {
+					"price": {
+						"type": "string"
+					},
+					"totalPrice": {
 						"type": "string"
 					},
 					"quantity": {
-						"type": "number",
-						"format": "double"
+						"type": "string"
 					},
 					"name": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"productId",
+					"price",
+					"totalPrice",
 					"quantity",
 					"name"
 				],
@@ -74,8 +31,11 @@
 			},
 			"Order": {
 				"properties": {
-					"productId": {
-						"type": "string"
+					"products": {
+						"items": {
+							"$ref": "#/components/schemas/OrderProduct"
+						},
+						"type": "array"
 					},
 					"name": {
 						"type": "string"
@@ -86,62 +46,11 @@
 					}
 				},
 				"required": [
-					"productId",
+					"products",
 					"name",
 					"quantity"
 				],
 				"type": "object"
-			},
-			"OrderDto": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/Order"
-					},
-					{
-						"properties": {
-							"status": {
-								"type": "string",
-								"enum": [
-									"Started",
-									"Sent",
-									"Derived",
-									"Returned"
-								]
-							},
-							"id": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"status"
-						],
-						"type": "object"
-					}
-				]
-			},
-			"OrdersDto": {
-				"properties": {
-					"values": {
-						"items": {
-							"$ref": "#/components/schemas/OrderDto"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"values"
-				],
-				"type": "object"
-			},
-			"DataOrError": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/ErrorResponse_Empty_"
-					},
-					{
-						"$ref": "#/components/schemas/OrdersDto"
-					}
-				]
 			},
 			"OrderEventUnion": {
 				"anyOf": [
@@ -285,6 +194,147 @@
 						"type": "object"
 					}
 				]
+			},
+			"Empty": {
+				"properties": {},
+				"type": "object"
+			},
+			"ErrorResponse_Empty_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"$ref": "#/components/schemas/Empty"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"Orders.ViewModel": {
+				"properties": {
+					"products": {
+						"items": {
+							"$ref": "#/components/schemas/OrderProduct"
+						},
+						"type": "array"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"products",
+					"quantity",
+					"name"
+				],
+				"type": "object"
+			},
+			"OrderDto": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Order"
+					},
+					{
+						"properties": {
+							"status": {
+								"type": "string",
+								"enum": [
+									"Started",
+									"Sent",
+									"Derived",
+									"Returned"
+								]
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"status"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"ErrorResponse_OrderDto-Array_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"items": {
+									"$ref": "#/components/schemas/OrderDto"
+								},
+								"type": "array"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
 			}
 		},
 		"securitySchemes": {}
@@ -296,6 +346,45 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/events/list/{type}/{id}": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_OrderEventUnion-Array_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "type",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"Order"
+							]
+						}
+					}
+				]
+			}
+		},
 		"/order/send": {
 			"post": {
 				"operationId": "Send",
@@ -408,7 +497,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/DataOrError"
+									"$ref": "#/components/schemas/ErrorResponse_OrderDto-Array_"
 								}
 							}
 						}
@@ -416,45 +505,6 @@
 				},
 				"security": [],
 				"parameters": []
-			}
-		},
-		"/events/list/{type}/{id}": {
-			"get": {
-				"operationId": "List",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse_OrderEventUnion-Array_"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "type",
-						"required": true,
-						"schema": {
-							"type": "string",
-							"enum": [
-								"Order"
-							]
-						}
-					}
-				]
 			}
 		}
 	},

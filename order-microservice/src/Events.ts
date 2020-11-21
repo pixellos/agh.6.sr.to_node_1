@@ -1,8 +1,6 @@
-import { isTemplateExpression } from "typescript";
 import { Connection } from "./Connection";
-import { OrderAggregate, OrderEvent, OrderEventDto, OrderPrefix } from "./Order";
-import { errorResponse, okResponse } from "./OrderController";
-import { ErrorResponse } from "./Orders";
+import { OrderAggregate, OrderEventDto } from "./Order";
+import { errorResponse, ErrorResponse, okResponse } from "./../../commons-microservice/src/CommonHelpers";
 
 // Todo: Move to events microservice
 

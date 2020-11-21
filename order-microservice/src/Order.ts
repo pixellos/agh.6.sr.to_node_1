@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose';
-import { EventBase, EventBaseSchema, OrderAction } from './EventBase';
+import { EventBase, OrderAction, EventBaseSchema } from "../../commons-microservice/src/EventBase";
 
 export type OrderEventUnion = (
   | {
@@ -18,16 +18,23 @@ export type OrderEventDto = EventBase & {
 
 export type OrderEvent = mongoose.Document & OrderEventDto;
 
+export type OrderProduct = {
+  name: string,
+  quantity: string,
+  totalPrice: string,
+  price: string
+}
+
 export type Order = {
   quantity: number;
   name: string;
-  productId: string,
+  products: OrderProduct[]
 }
 
 export const defaultOrder: Order = {
   quantity: 0,
   name: '' as string,
-  productId: '',
+  products: []
 }
 
 export type OrdersDto = { values: OrderDto[] } ;
@@ -71,7 +78,7 @@ const GetOrderAggregate = (aggregationType: string) => mongoose.model<OrderEvent
     quantity: Number,
     amount: Number,
     name: String,
-    productId: String,
+    products: Array,
     cause: String,
   })
 }, { safe: true, validateBeforeSave: true } as mongoose.SchemaOptions))

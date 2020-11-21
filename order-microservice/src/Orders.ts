@@ -1,24 +1,11 @@
 import { Model } from 'mongoose';
 import { v4 } from 'uuid';
+import { errorResponse, isErrorResponse, okResponse } from '../../commons-microservice/src/CommonHelpers';
 import { Connection } from "./Connection";
-import { OrderAction } from './EventBase';
-import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderReducer } from "./Order";
-import { errorResponse } from "./OrderController";
-
-export type ErrorResponse<T> = {
-  error: true,
-  message: string
-} | {
-  error: false, 
-  data: T
-}
-
-export function isErrorResponse<T>(o: any): o is ErrorResponse<T> {
-  return (o as ErrorResponse<T> && o.error).error;
-}
+import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
 
 export namespace Orders {
-  export type ViewModel = { name: string; quantity: number; productId: string; };
+  export type ViewModel = { name: string; quantity: number; products: OrderProduct[]; };
   export type CreateOrderCommandEvent = ViewModel & { type: 'CreateOrderCommandEvent'; };
 
   export async function GetOrder(id: string) {
@@ -96,7 +83,7 @@ export namespace Orders {
       with: {
         name: p.name,
         quantity: p.quantity,
-        productId: p.productId
+        products: p.products,
       }
     })
     if (isErrorResponse(save))
@@ -115,6 +102,6 @@ export namespace Orders {
     const orders = await Connection.GetAggregatesIds(connection, OrderPrefix);
     const result = await Promise.all(orders.map(o => ({ order: OrderAggregate(o), id: o }))
       .map(x => FlatMapEvents(x.order, x.id)));
-    return { values: result };
+    return okResponse(result);
   }
 }

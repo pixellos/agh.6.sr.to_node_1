@@ -1,4 +1,3 @@
-import { Mongoose, default as mongoose } from "mongoose";
 import {
   Controller,
   Get,
@@ -8,13 +7,9 @@ import {
   Query,
   Request
 } from "tsoa";
-import { OrderDto, OrderEvent, OrdersDto } from "./Order";
-import { ErrorResponse, isErrorResponse, Orders } from "./Orders";
-
-export const errorResponse = <T = {}>(p: { message: string }) => ({ error: true, message: p.message }) as ErrorResponse<T>;
-export const okResponse = <T>(data: T) => ({ error: false, data: data }) as ErrorResponse<T>;
-
-type Empty = {};
+import { Empty, ErrorResponse, isErrorResponse, UserRequest } from "../../commons-microservice/src/CommonHelpers";
+import { OrderDto } from "./Order";
+import { Orders } from "./Orders";
 
 @Route("order")
 export class OrderController extends Controller {
@@ -27,9 +22,9 @@ export class OrderController extends Controller {
     }
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
-    const r = (await Orders.SendOrderCommand({ id: data.id,  type: 'SendOrderCommand' }));
+    const r = (await Orders.SendOrderCommand({ id: data.id, type: 'SendOrderCommand' }));
     if (isErrorResponse(r)) return r;
-    
+
     return { error: true, message: 'Unknown error' };
   }
 
@@ -43,11 +38,11 @@ export class OrderController extends Controller {
     if (isErrorResponse(r)) return r;
     return { error: true, message: 'Unknown error' };
   }
-  
+
   @Post("pay")
   public async pay(
-    @Query('amount')amount: number,
-    @Query('id')id: string,
+    @Query('amount') amount: number,
+    @Query('id') id: string,
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
     const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand' }));
@@ -58,16 +53,8 @@ export class OrderController extends Controller {
   }
 
   @Get("all")
-  public async all(@Request() request: R): Promise<DataOrError> {
+  public async all(@Request() request: UserRequest): Promise<ErrorResponse<OrderDto[]>> {
     const user = request.user.sub;
     return await Orders.QueryAllOrders({});
-  }
-}
-
-export type DataOrError = ErrorResponse<Empty> | OrdersDto;
-
-type R = {
-  user: {
-    sub: string
   }
 }

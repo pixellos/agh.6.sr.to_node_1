@@ -9,17 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderEventUnion } from './orderEventUnion';
+import { ErrorResponseOrderDtoArrayAnyOf } from './errorResponseOrderDtoArrayAnyOf';
+import { OrderDto } from './orderDto';
 import { ErrorResponseOrderEventUnionArrayAnyOf } from './errorResponseOrderEventUnionArrayAnyOf';
-import { ErrorResponseOrderEventUnionArrayAnyOf1 } from './errorResponseOrderEventUnionArrayAnyOf1';
 
 
-export interface ErrorResponseOrderEventUnionArray { 
+export interface ErrorResponseOrderDtoArray { 
     message: string;
-    error: ErrorResponseOrderEventUnionArray.ErrorEnum;
-    data: Array<OrderEventUnion>;
+    error: ErrorResponseOrderDtoArray.ErrorEnum;
+    data: Array<OrderDto>;
 }
-export namespace ErrorResponseOrderEventUnionArray {
+export namespace ErrorResponseOrderDtoArray {
     export type ErrorEnum = 'false';
     export const ErrorEnum = {
         False: 'false' as ErrorEnum

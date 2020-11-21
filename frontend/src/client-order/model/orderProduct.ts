@@ -11,15 +11,10 @@
  */
 
 
-export interface ErrorResponseOrderEventUnionArrayAnyOf { 
-    message: string;
-    error: ErrorResponseOrderEventUnionArrayAnyOf.ErrorEnum;
+export interface OrderProduct { 
+    price: string;
+    totalPrice: string;
+    quantity: string;
+    name: string;
 }
-export namespace ErrorResponseOrderEventUnionArrayAnyOf {
-    export type ErrorEnum = 'true';
-    export const ErrorEnum = {
-        True: 'true' as ErrorEnum
-    };
-}
-
 

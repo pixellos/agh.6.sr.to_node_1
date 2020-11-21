@@ -9,10 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OrderProduct } from './orderProduct';
 
 
 export interface Order { 
-    productId: string;
+    products: Array<OrderProduct>;
     name: string;
     quantity: number;
 }

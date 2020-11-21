@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { ErrorResponseEmptyAnyOf } from './errorResponseEmptyAnyOf';
-import { ErrorResponseEmptyAnyOf1 } from './errorResponseEmptyAnyOf1';
+import { ErrorResponseOrderEventUnionArrayAnyOf } from './errorResponseOrderEventUnionArrayAnyOf';
 
 
 export interface ErrorResponseEmpty { 

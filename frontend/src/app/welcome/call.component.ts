@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 // Import the AuthService type from the SDK
 import { AuthService } from '@auth0/auth0-angular';
-import { Configuration, ErrorResponse } from 'src/client-order';
+import { Configuration } from 'src/client-order';
 
 import {DefaultService} from 'src/client-order/api/default.service'
 

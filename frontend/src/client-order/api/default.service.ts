@@ -17,8 +17,8 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { DataOrError } from '../model/models';
 import { ErrorResponseEmpty } from '../model/models';
+import { ErrorResponseOrderDtoArray } from '../model/models';
 import { ErrorResponseOrderEventUnionArray } from '../model/models';
 import { InlineObject } from '../model/models';
 import { OrdersViewModel } from '../model/models';
@@ -147,9 +147,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public all(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<DataOrError>;
-    public all(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<DataOrError>>;
-    public all(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<DataOrError>>;
+    public all(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseOrderDtoArray>;
+    public all(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseOrderDtoArray>>;
+    public all(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseOrderDtoArray>>;
     public all(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -172,7 +172,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<DataOrError>(`${this.configuration.basePath}/order/all`,
+        return this.httpClient.get<ErrorResponseOrderDtoArray>(`${this.configuration.basePath}/order/all`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

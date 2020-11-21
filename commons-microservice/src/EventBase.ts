@@ -1,6 +1,5 @@
 export type OrderAction = 'Issued' | 'Sent' | 'Paid' | 'Returned'
 
-
 export type EventBase = {
   who: string;
   when: Date;
