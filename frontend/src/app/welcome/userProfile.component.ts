@@ -26,7 +26,6 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.auth.user$.subscribe(
       (profile) => {
-        debugger;
         (this.profileJson = JSON.stringify(profile, null, 2))
       }
     );

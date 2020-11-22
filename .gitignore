@@ -1,1 +1,8 @@
 node_modules
+commons-microservice/lib/app-common.d.ts
+commons-microservice/lib/app-common.js
+commons-microservice/lib/CommonHelpers.d.ts
+commons-microservice/lib/CommonHelpers.js
+commons-microservice/lib/EventBase.d.ts
+commons-microservice/lib/EventBase.js
+commons-microservice/tsconfig.tsbuildinfo

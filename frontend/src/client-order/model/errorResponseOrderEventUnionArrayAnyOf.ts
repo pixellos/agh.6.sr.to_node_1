@@ -9,12 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderProduct } from './orderProduct';
 
 
-export interface Order { 
-    products: Array<OrderProduct>;
-    name: string;
-    quantity: number;
+export interface ErrorResponseOrderEventUnionArrayAnyOf { 
+    message: string;
+    error: ErrorResponseOrderEventUnionArrayAnyOf.ErrorEnum;
 }
+export namespace ErrorResponseOrderEventUnionArrayAnyOf {
+    export type ErrorEnum = 'true';
+    export const ErrorEnum = {
+        True: 'true' as ErrorEnum
+    };
+}
+
 
