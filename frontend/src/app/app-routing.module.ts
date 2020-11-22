@@ -4,6 +4,8 @@ import {WelcomeComponent} from "./welcome/welcome.component";
 import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
 import {AdminProductsComponent} from "./admin-products/admin-products.component";
 import {ProductComponent} from "./product/product.component";
+import {BuyComponent} from "./buy/buy.component";
+import {OrderComponent} from "./order/order.component";
 
 const routes: Routes = [
   {
@@ -13,6 +15,14 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductComponent
+  },
+  {
+    path: 'orders',
+    component: OrderComponent
+  },
+  {
+    path: 'buy',
+    component: BuyComponent
   },
   {
     path: 'admin-products',

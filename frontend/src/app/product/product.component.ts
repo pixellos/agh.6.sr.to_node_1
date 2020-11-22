@@ -3,6 +3,7 @@ import {PreviewButtonComponent} from "../preview-button/preview-button.component
 import {BuyButtonComponent} from "../buy-button/buy-button.component";
 import {GridOptions} from "ag-grid-community";
 import {Product} from "../model/product";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -58,9 +59,13 @@ export class ProductComponent implements OnInit {
 
   productOptions: GridOptions = {suppressCellSelection: true};
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
+
+  buyProcess() {
+    this.router.navigateByUrl('/buy');
+  };
 
 }

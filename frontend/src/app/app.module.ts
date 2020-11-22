@@ -21,6 +21,9 @@ import { PreviewButtonComponent } from './preview-button/preview-button.componen
 import { BuyButtonComponent } from './buy-button/buy-button.component';
 import { PreviewPopupComponent } from './preview-popup/preview-popup.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { BuyComponent } from './buy/buy.component';
+import {MatRadioModule} from "@angular/material/radio";
+import { OrderComponent } from './order/order.component';
 
 
 @NgModule({
@@ -35,6 +38,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     PreviewButtonComponent,
     BuyButtonComponent,
     PreviewPopupComponent,
+    BuyComponent,
+    OrderComponent,
   ],
   imports: [
     AuthModule.forRoot({
@@ -48,6 +53,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatToolbarModule, MatButtonModule, MatIconModule,  MatSidenavModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatRadioModule,
     AgGridModule.withComponents([])
   ],
   providers: [],

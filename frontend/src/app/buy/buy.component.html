@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <h1>Proces Kupna Produktu</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      Produkt: {{product.shortDescription}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      Ilosc: 1
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      Cena: {{product.price}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      Mozliwosci Wysylki:
+    </div>
+  </div>
+  <div class="row">
+    <mat-radio-group aria-label="Select an option">
+      <div class="col">
+        <mat-radio-button value="POCZTA">Poczta</mat-radio-button>
+      </div>
+      <div class="col">
+        <mat-radio-button value="KURIER">Kurier</mat-radio-button>
+      </div>
+      <div class="col">
+        <mat-radio-button value="ODBIOR">Odbior osobisty</mat-radio-button>
+      </div>
+    </mat-radio-group>
+  </div>
+  <div class="row">
+    <div>
+      <button (click)="backToProducts()" mat-raised-button>Powrot</button>
+    </div>
+    <div>
+      <button (click)="confirmOrder()" mat-raised-button color="primary">Zatwierdz Zamowienie</button>
+    </div>
+  </div>
+</div>
