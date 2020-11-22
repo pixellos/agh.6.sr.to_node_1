@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Product} from "src/app/model/product";
 
 @Component({
   selector: 'app-preview-popup',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewPopupComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {product: Product}) {
+    console.log("id:" + data.product.id)
+  }
 
   ngOnInit(): void {
   }

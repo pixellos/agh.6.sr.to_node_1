@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {PreviewButtonComponent} from "../preview-button/preview-button.component";
 import {BuyButtonComponent} from "../buy-button/buy-button.component";
 import {GridOptions} from "ag-grid-community";
+import {Product} from "../model/product";
+
 
 @Component({
   selector: 'app-product',
@@ -18,7 +20,7 @@ export class ProductComponent implements OnInit {
     {headerName: 'Kup',  cellRendererFramework: BuyButtonComponent},
     {headerName: 'Przegladaj',  cellRendererFramework: PreviewButtonComponent}
   ];
-  ProductRowData = [
+  ProductRowData: Product[] = [
     {id: 1, shortDescription: "Monitor Samsung 21'", price: 500, quantity: 20, description: "TODO"},
     {id: 2, shortDescription: "Monitor Samsung 23'", price: 700, quantity: 40, description: "TODO"},
     {id: 3, shortDescription: "Monitor Samsung 26'", price: 900, quantity: 70, description: "TODO"},

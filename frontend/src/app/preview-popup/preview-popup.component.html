@@ -1,1 +1,36 @@
-<p>preview-popup works!</p>
+<div class="container">
+  <div class="row">
+    <h2>{{data.product.shortDescription}}</h2>
+  </div>
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div class="col-4">
+        <img src="https://techsetter.pl/wp-content/uploads/2019/06/notebooki-infografiki-2560x1440-iiyama-prolite.jpg"
+             class="img-fluid border border-secondary" alt="Responsive image">
+      </div>
+    </div>
+    <h2>Opis:</h2>
+    <p>Stylowe wzornictwo - elegancka podstawa oraz smukła czarna obudowa
+       Płynny obraz bez zniekształceń - technologia FreeSync™ oraz 4 ms GTG
+       Komfort dla oczu - dzięki technologii flicker free i eye saver mode
+      Szybki czas reakcji - zaledwie 4 ms
+      Współczynnik kontrastu 10 000 000:1
+      Złącza D-Sub (VGA), HDMI
+      Funkcja polepszania obrazu Samsung Magic Upscale
+      Funkcja Eco Saving
+      Technologia ochrony oczu
+      SPECJALNY TRYB DLA GRACZY
+      Idealna czerń i kolory
+      Możliwość montażu na ścianie
+    </p>
+  </div>
+  <div class="row">
+    <h2>Cena: {{data.product.price}} PLN</h2>
+  </div>
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <button mat-raised-button color="primary">Kup</button>
+    </div>
+  </div>
+
+</div>

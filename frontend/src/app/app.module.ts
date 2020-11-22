@@ -20,6 +20,7 @@ import { ProductComponent } from './product/product.component';
 import { PreviewButtonComponent } from './preview-button/preview-button.component';
 import { BuyButtonComponent } from './buy-button/buy-button.component';
 import { PreviewPopupComponent } from './preview-popup/preview-popup.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { PreviewPopupComponent } from './preview-popup/preview-popup.component';
     AppRoutingModule,
     MatToolbarModule, MatButtonModule, MatIconModule,  MatSidenavModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     AgGridModule.withComponents([])
   ],
   providers: [],
