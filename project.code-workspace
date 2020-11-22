@@ -24,6 +24,10 @@
 		{
 			"path": "app-gateway-microservice"
 		},
+		{
+			"name": "root",
+			"path": "."
+		}
 	],
 	"settings": {}
 }
