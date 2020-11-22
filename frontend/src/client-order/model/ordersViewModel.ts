@@ -9,10 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OrderProduct } from './orderProduct';
 
 
 export interface OrdersViewModel { 
-    productId: string;
+    products: Array<OrderProduct>;
     quantity: number;
     name: string;
 }

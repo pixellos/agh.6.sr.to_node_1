@@ -10,11 +10,17 @@ import { MatIconModule } from '@angular/material/icon';
 import {WelcomeComponent} from "./welcome/welcome.component";
 import {AdminOrdersComponent} from "./admin-orders/admin-orders.component";
 import {AdminProductsComponent} from "./admin-products/admin-products.component";
-import { MatSidenavModule } from "@angular/material/sidenav";
 // Import the module from the SDK
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './welcome/auth.component';
 import { UserProfileComponent } from './welcome/userProfile.component';
+
+import {MatSidenavModule} from "@angular/material/sidenav";
+// Import the HTTP interceptor from the Auth0 Angular SDK
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CallComponent } from './welcome/call.component';
+
 
 
 @NgModule({
@@ -25,23 +31,38 @@ import { UserProfileComponent } from './welcome/userProfile.component';
     AdminProductsComponent,
     AuthButtonComponent,
     UserProfileComponent,
+    CallComponent
   ],
   imports: [
     AuthModule.forRoot({
       domain: 'dev-mattp.eu.auth0.com',
       clientId: 'xm77JO3aZNJizsy45n4PC0PdZfTV1jDV',
       scope: 'openid email profile',
-      
+      audience: 'https://dev-mattp.eu.auth0.com/api/v2/',
+      issuer: 'https://dev-mattp.eu.auth0.com/',
+      httpInterceptor: {
+        allowedList: [`http://localhost:3001/*`]
+      },
     }),
     BrowserModule,
     AppRoutingModule,
-    MatToolbarModule, MatButtonModule, MatIconModule,  MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
     BrowserAnimationsModule,
+    HttpClientModule
     
     // Import the module into the application, with configuration
   
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

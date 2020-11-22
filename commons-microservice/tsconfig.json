@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "es6",
+    "module": "amd",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "composite": true,
+    "outDir": "./lib",
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["./src/*.ts"]
+}

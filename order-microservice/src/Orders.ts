@@ -1,21 +1,11 @@
 import { Model } from 'mongoose';
 import { v4 } from 'uuid';
+import { errorResponse, isErrorResponse, okResponse } from '../../commons-microservice/src/CommonHelpers';
 import { Connection } from "./Connection";
-import { OrderAction } from './EventBase';
-import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderReducer } from "./Order";
-import { errorResponse } from "./OrderController";
-
-export type ErrorResponse = {
-  error: true,
-  message: string
-}
-
-export function isErrorResponse(o: any): o is ErrorResponse {
-  return (o as ErrorResponse).error;
-}
+import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
 
 export namespace Orders {
-  export type ViewModel = { name: string; quantity: number; productId: string; };
+  export type ViewModel = { name: string; quantity: number; products: OrderProduct[]; };
   export type CreateOrderCommandEvent = ViewModel & { type: 'CreateOrderCommandEvent'; };
 
   export async function GetOrder(id: string) {
@@ -63,18 +53,18 @@ export namespace Orders {
     await Save(order, { what: 'Sent', with: {} })
   }
 
-  export async function PayOrderCommand(props: { id: string, amount: number,  type: 'PayForOrderCommand' }) {
+  export async function PayOrderCommand(props: { id: string, amount: number, type: 'PayForOrderCommand' }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Issued'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Paid', with: {amount: props.amount} })
+    await Save(order, { what: 'Paid', with: { amount: props.amount } })
   }
 
   export async function RefundOrderCommand(props: { id: string, type: 'RefundOrderCommand' }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Sent'] })
-    if (isErrorResponse(o)){
+    if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
@@ -93,10 +83,10 @@ export namespace Orders {
       with: {
         name: p.name,
         quantity: p.quantity,
-        productId: p.productId
+        products: p.products,
       }
     })
-    if (isErrorResponse(save)) 
+    if (isErrorResponse(save))
       return errorResponse({ message: 'Order cannot be saved. Try again.' });
   }
 
@@ -112,6 +102,6 @@ export namespace Orders {
     const orders = await Connection.GetAggregatesIds(connection, OrderPrefix);
     const result = await Promise.all(orders.map(o => ({ order: OrderAggregate(o), id: o }))
       .map(x => FlatMapEvents(x.order, x.id)));
-    return result;
+    return okResponse(result);
   }
 }

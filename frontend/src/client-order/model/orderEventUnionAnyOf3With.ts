@@ -11,15 +11,7 @@
  */
 
 
-export interface ErrorResponse { 
-    message: string;
-    error: ErrorResponse.ErrorEnum;
+export interface OrderEventUnionAnyOf3With { 
+    cause: string;
 }
-export namespace ErrorResponse {
-    export type ErrorEnum = 'true';
-    export const ErrorEnum = {
-        True: 'true' as ErrorEnum
-    };
-}
-
 

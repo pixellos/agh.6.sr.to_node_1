@@ -9,12 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderProduct } from './orderProduct';
 
 
-export interface Order { 
-    products: Array<OrderProduct>;
-    name: string;
-    quantity: number;
+export interface OrderEventUnionAnyOf1 { 
+    _with: object;
+    what: OrderEventUnionAnyOf1.WhatEnum;
 }
+export namespace OrderEventUnionAnyOf1 {
+    export type WhatEnum = 'Sent';
+    export const WhatEnum = {
+        Sent: 'Sent' as WhatEnum
+    };
+}
+
 
