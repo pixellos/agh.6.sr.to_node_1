@@ -14,9 +14,9 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@2.22
       with:
         name: pixellos/agh.6.sr.to_node_1/product-microservice
-        registry: docker.pkg.github.com
+          registry: docker.pkg.github.com
         username: ${{ secrets.USERNAMEGH }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: product-microservice/Dockerfile-prod
+        dockerfile: Dockerfile
         tags: ${{ github.sha }}
-  
+        buildargs: MS_NAME=product-microservice
