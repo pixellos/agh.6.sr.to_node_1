@@ -1,7 +1,7 @@
 FROM node:current-alpine3.10 as build
 
 WORKDIR /usr/src/app
-COPY ./frontend/package*.json ./
+COPY ./frontend/*.json ./
 COPY ./frontend/src/ ./src/
 
 RUN npm install
