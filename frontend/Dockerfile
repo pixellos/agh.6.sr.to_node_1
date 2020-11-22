@@ -2,10 +2,10 @@ FROM node:current-alpine3.10 as build
 
 WORKDIR /usr/src/app
 COPY ./frontend/package*.json ./
-
 COPY ./frontend/src/ ./src/
 
-RUN npm install && npm run build
+RUN npm install
+RUN npm run build
 
 # Stage - Production
 FROM nginx:1.17-alpine
