@@ -53,7 +53,7 @@ export namespace Orders {
     await Save(order, { what: 'Sent', with: {} })
   }
 
-  export async function PayOrderCommand(props: { id: string, amount: number, type: 'PayForOrderCommand' }) {
+  export async function PayOrderCommand(props: { id: string, amount: number, type: 'PayForOrderCommand', user: string }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Issued'] })
     if (isErrorResponse(o)) {
       return o;

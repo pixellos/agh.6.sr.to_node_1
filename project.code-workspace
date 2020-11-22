@@ -20,7 +20,10 @@
 		},
 		{
 			"path": "commons-microservice"
-		}
+		},
+		{
+			"path": "app-gateway-microservice"
+		},
 	],
 	"settings": {}
 }

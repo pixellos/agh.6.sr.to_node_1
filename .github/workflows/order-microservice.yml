@@ -19,10 +19,4 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: order-microservice/Dockerfile-prod
         tags: ${{ github.sha }}
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'sr-ms-order'
-        slot-name: 'production'
-        publish-profile: ${{  secrets.AzureAppService_PublishProfile_df7c4adfadcb417cb4c061a3f102c53c  }}
-        images: 'docker.pkg.github.com/pixellos/agh.6.sr.to_node_1/order-microservice:${{ github.sha }}'
+ 

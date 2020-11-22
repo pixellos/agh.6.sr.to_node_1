@@ -43,9 +43,11 @@ export class OrderController extends Controller {
   public async pay(
     @Query('amount') amount: number,
     @Query('id') id: string,
+    @Request() request: UserRequest
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
-    const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand' }));
+    const user = request?.user?.sub ?? 'test';
+    const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand', user:user  }));
     if (r)
       return r as ErrorResponse<{}>;
 
