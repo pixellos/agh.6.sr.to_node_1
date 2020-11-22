@@ -23,6 +23,7 @@ export class ProductController extends Controller {
     product: Products.ViewModel
   ): Promise<ErrorResponse> {
     // Todo: Pattern mediator.
+    console.log("Entered create");
     const r = (await Products.CreateProductCommand({ ...product,  type: 'CreateProductCommand' }));
     if (r)
       return r as ErrorResponse;
@@ -35,6 +36,7 @@ export class ProductController extends Controller {
     @Path() id: string
   ): Promise<ErrorResponse | ProductDto> {
     // Todo: Pattern mediator.
+    debugger;
     const r = (await Products.GetProduct( id ));
     if (r)
       return r as ErrorResponse;

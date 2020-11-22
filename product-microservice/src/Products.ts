@@ -15,11 +15,13 @@ export function isErrorResponse(o: any): o is ErrorResponse {
 }
 
 export namespace Products {
-  export type ViewModel = { name: string; quantity: number; image: string; attributes: string[]; };
+  export type ViewModel = { shortDescription: string; description: string; quantity: number; price: number; image: string;  };
   export type CreateProductCommandEvent = ViewModel & { type: 'CreateProductCommand'; };
 
   
   export async function GetProduct(id: string) {
+    const connection = await Connection.connect();
+
     const Product = ProductAggregate(id);
     const doesExist = await Product.exists({});
     if (!doesExist) {
@@ -30,6 +32,8 @@ export namespace Products {
   }
 
   export async function AddProductCommand(props: { id: string, quantity: number,  type: 'AddProductCommand' }) {
+    const connection = await Connection.connect();
+
     const o = await GetProduct(props.id)
     if (isErrorResponse(o)) {
       return o;
@@ -39,6 +43,8 @@ export namespace Products {
   }
 
   export async function BuyProductCommand(props: { id: string, quantity: number,  type: 'BuyProductCommand' }) {
+    const connection = await Connection.connect();
+
     const o = await GetProduct(props.id)
     if (isErrorResponse(o)) {
       return o;
@@ -48,28 +54,45 @@ export namespace Products {
   }
 
   export async function CreateProductCommand(p: CreateProductCommandEvent) {
+    const connection = await Connection.connect();
+
+    console.log("Entered createProductCommand");
+    
     const id = v4();
     const aggregate = ProductAggregate(id);
+    console.log("Created aggregate: ", aggregate);
+
     const doesExist = await aggregate.exists({});
     if (doesExist) {
+      console.log("Already exists");
+
       return errorResponse({ message: `Product with id ${id} already exists.` });
     }
+
+    console.log("Entering Save");
+
     const save = await Save(aggregate, {
       what: 'Created',
       with: {
-        name: p.name,
+        shortDescription: p.shortDescription,
+        description: p.description,
         quantity: p.quantity,
-        image: p.image,
-        attributes: p.attributes
+        price: p.price,
+        image: p.image
       }
     })
+
+    console.log("Saved: ", save);
     if (isErrorResponse(save)) 
       return errorResponse({ message: 'Product cannot be saved. Try again.' });
   }
 
   export async function Save(product: Model<ProductEvent>, partial: ProductEventUnion) {
+    console.log("Entered save: ", JSON.stringify(product), JSON.stringify(partial));
+
     const data = await product.find({});
-    const previousRevision = Math.max(...data.map(x => x.revision.valueOf()));
+    const previousRevisionCandidate = Math.max(...data.map(x => x.revision.valueOf()));
+    const previousRevision = previousRevisionCandidate < 0 ? 0 : previousRevisionCandidate;
     const createResult = await product.create({
       who: 'admin',
       previousRevision: previousRevision,
@@ -82,7 +105,7 @@ export namespace Products {
     return previousRevision + 1;
   }
 
-  export async function FlatMapEvents(m: Model<ProductEvent, {}>, id: string) {
+  export async function FlatMapEvents(m: Model<ProductEvent>, id: string) {
     const items = await m.find({});
     const result = items.reduce(ProductReducer, defaultProductDto) as ProductDto;
     result.id = id;
@@ -92,6 +115,7 @@ export namespace Products {
   export async function QueryAllProducts({ }) {
     const connection = await Connection.connect();
     const Products = await Connection.GetAggregatesIds(connection, ProductPrefix);
+    console.log("Products: ", JSON.stringify(Products) );
     const result = await Promise.all(Products.map(o => ({ Product: ProductAggregate(o), id: o }))
       .map(x => FlatMapEvents(x.Product, x.id)));
     return result;

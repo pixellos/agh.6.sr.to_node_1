@@ -22,16 +22,18 @@ export type ProductEvent = mongoose.Document & EventBase & {
 
 export type Product = {
   quantity: number;
-  name: string;
+  shortDescription: string;
+  description: string;
+  price: number;
   image: string;
-  attributes: string[];
 }
 
 export const defaultProduct: Product = {
   quantity: 0,
-  name: '' as string,
-  image: '' as string,
-  attributes: [] as string[]
+  price: 0,
+  shortDescription: '' as string,
+  description: '' as string,
+  image: '' as string
 }
 
 export type ProductDto = Product & {
@@ -65,25 +67,25 @@ export function ProductReducer(p: ProductDto, event: ProductEvent) {
   }
 }
 
-export const ProductPrefix = "Product-";
+export const ProductPrefix = "product-";
 
 const GetProductAggregate = (aggregationType: string) => mongoose.model<ProductEvent>(ProductPrefix + aggregationType, new mongoose.Schema({
   ...EventBaseSchema,
-  quantity: Number,
-  name: String,
   tags: [String],
   with: new mongoose.Schema({
     quantity: Number,
-    amount: Number,
+    price: Number,
     image: String,
-    name: String,
-    cause: String,
+    shortDescription: String,
+    description: String,
   })
 }, { safe: true, validateBeforeSave: true } as mongoose.SchemaOptions))
 
 const map: { [key: string]: mongoose.Model<ProductEvent, {}> } = {}
 
 export const ProductAggregate: (id: string) => mongoose.Model<ProductEvent> = (id: string) => {
+  console.log("Inside ProductAggregate");
+
   const found = map[id];
   const r = found ?? (map[id] = GetProductAggregate(id));
   return r;
