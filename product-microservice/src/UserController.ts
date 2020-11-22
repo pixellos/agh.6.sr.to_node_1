@@ -16,7 +16,7 @@ export interface User {
   phoneNumbers: string[];
 }
 
-
+/*
 @Route("users")
 export class UsersController extends Controller {
   @Get("{userId}")
@@ -36,3 +36,4 @@ export class UsersController extends Controller {
     return;
   }
 }
+*/
