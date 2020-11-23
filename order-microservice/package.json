@@ -41,7 +41,7 @@
   "scripts": {
     "dev": "nodemon --verbose",
     "generate2": "openapi-generator-cli generate -g typescript-angular -i ./src/generated/swagger.json -o ./../frontend/src/client-order",
-    "build": "tsc",
+    "build": "node node_modules/typescript/bin/tsc --build",
     "start": "nodemon index.ts",
     "serve": "node dist/src/server.js"
   }

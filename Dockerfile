@@ -8,6 +8,10 @@ COPY ./${MS_NAME}/*json ./${MS_NAME}/.
 
 COPY ./commons-microservice/ ./commons-microservice/
 
+WORKDIR /usr/src/app/commons-microservice
+RUN npm install
+RUN npm run build
+
 WORKDIR /usr/src/app/${MS_NAME}
 
 RUN npm install
