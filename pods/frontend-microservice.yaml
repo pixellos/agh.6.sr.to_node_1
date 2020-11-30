@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-microservice-deployment
+  labels:
+    app: frontend-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-microservice
+  template:
+    metadata:
+      labels:
+        app: frontend-microservice
+    spec:
+      containers:
+      - name: frontend-microservice
+        image: frontend-microservice
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-microservice-service
+spec:
+  selector:
+    app: frontend-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
