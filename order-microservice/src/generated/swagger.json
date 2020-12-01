@@ -53,100 +53,115 @@
 				"type": "object"
 			},
 			"OrderEventUnion": {
-				"anyOf": [
+				"allOf": [
 					{
 						"properties": {
-							"with": {
-								"$ref": "#/components/schemas/Order"
-							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Issued"
-								],
-								"nullable": false
+							"who": {
+								"type": "string"
 							}
 						},
 						"required": [
-							"with",
-							"what"
+							"who"
 						],
 						"type": "object"
 					},
 					{
-						"properties": {
-							"with": {
-								"properties": {},
-								"type": "object"
-							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Sent"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"with",
-							"what"
-						],
-						"type": "object"
-					},
-					{
-						"properties": {
-							"with": {
+						"anyOf": [
+							{
 								"properties": {
-									"amount": {
-										"type": "number",
-										"format": "double"
+									"with": {
+										"$ref": "#/components/schemas/Order"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Issued"
+										],
+										"nullable": false
 									}
 								},
 								"required": [
-									"amount"
+									"with",
+									"what"
 								],
 								"type": "object"
 							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Paid"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"with",
-							"what"
-						],
-						"type": "object"
-					},
-					{
-						"properties": {
-							"with": {
+							{
 								"properties": {
-									"cause": {
-										"type": "string"
+									"with": {
+										"properties": {},
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Sent"
+										],
+										"nullable": false
 									}
 								},
 								"required": [
-									"cause"
+									"with",
+									"what"
 								],
 								"type": "object"
 							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Returned"
+							{
+								"properties": {
+									"with": {
+										"properties": {
+											"amount": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"required": [
+											"amount"
+										],
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Paid"
+										],
+										"nullable": false
+									}
+								},
+								"required": [
+									"with",
+									"what"
 								],
-								"nullable": false
+								"type": "object"
+							},
+							{
+								"properties": {
+									"with": {
+										"properties": {
+											"cause": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"cause"
+										],
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Returned"
+										],
+										"nullable": false
+									}
+								},
+								"required": [
+									"with",
+									"what"
+								],
+								"type": "object"
 							}
-						},
-						"required": [
-							"with",
-							"what"
-						],
-						"type": "object"
+						]
 					}
 				]
 			},
@@ -243,6 +258,9 @@
 			},
 			"Orders.ViewModel": {
 				"properties": {
+					"user": {
+						"type": "string"
+					},
 					"products": {
 						"items": {
 							"$ref": "#/components/schemas/OrderProduct"
@@ -258,6 +276,7 @@
 					}
 				},
 				"required": [
+					"user",
 					"products",
 					"quantity",
 					"name"

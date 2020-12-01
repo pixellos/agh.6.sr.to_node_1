@@ -9,15 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderEventUnionAnyOf } from './orderEventUnionAnyOf';
-import { OrderEventUnionAnyOf3 } from './orderEventUnionAnyOf3';
-import { OrderEventUnionAnyOf2 } from './orderEventUnionAnyOf2';
-import { OrderEventUnionAnyOf1 } from './orderEventUnionAnyOf1';
-import { OrderEventUnionAnyOf3With } from './orderEventUnionAnyOf3With';
+import { OrderEventUnionAllOf } from './orderEventUnionAllOf';
 
 
-export interface OrderEventUnion { 
-    _with: OrderEventUnionAnyOf3With;
+export interface OrderEventUnion extends OrderEventUnionAllOf { 
+    _with: object;
     what: OrderEventUnion.WhatEnum;
 }
 export namespace OrderEventUnion {
