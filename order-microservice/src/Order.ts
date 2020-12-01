@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 import { EventBase, OrderAction, EventBaseSchema } from "../../commons-microservice/src/EventBase";
 
-export type OrderEventUnion = (
+export type OrderEventUnion = { who: string } & (
   | {
     what: 'Issued'
     with: Order

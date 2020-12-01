@@ -19,10 +19,12 @@ export class OrderController extends Controller {
     @Body()
     data: {
       id: string
-    }
+    },
+    @Request() request: UserRequest
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
-    const r = (await Orders.SendOrderCommand({ id: data.id, type: 'SendOrderCommand' }));
+    const user = request?.user?.sub ?? 'test';
+    const r = (await Orders.SendOrderCommand({ id: data.id, type: 'SendOrderCommand', user: user }));
     if (isErrorResponse(r)) return r;
 
     return { error: true, message: 'Unknown error' };
@@ -31,10 +33,12 @@ export class OrderController extends Controller {
   @Post("add")
   public async add(
     @Body()
-    vm: Orders.ViewModel
+    vm: Orders.ViewModel,
+    @Request() request: UserRequest
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
-    const r = (await Orders.CreateOrderCommand({ ...vm, type: 'CreateOrderCommandEvent' }));
+    const user = request?.user?.sub ?? 'test';
+    const r = (await Orders.CreateOrderCommand({ ...vm, type: 'CreateOrderCommandEvent', user: user }));
     if (isErrorResponse(r)) return r;
     return { error: true, message: 'Unknown error' };
   }
@@ -47,7 +51,7 @@ export class OrderController extends Controller {
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
     const user = request?.user?.sub ?? 'test';
-    const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand', user:user  }));
+    const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand', user: user }));
     if (r)
       return r as ErrorResponse<{}>;
 
