@@ -90,6 +90,66 @@ export class DefaultService {
     }
 
     /**
+     * @param cause 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public acceptRefund(cause: string, id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
+    public acceptRefund(cause: string, id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
+    public acceptRefund(cause: string, id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
+    public acceptRefund(cause: string, id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (cause === null || cause === undefined) {
+            throw new Error('Required parameter cause was null or undefined when calling acceptRefund.');
+        }
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling acceptRefund.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (cause !== undefined && cause !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>cause, 'cause');
+        }
+        if (id !== undefined && id !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>id, 'id');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/order/acceptRefund`,
+            null,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * @param ordersViewModel 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -233,16 +293,20 @@ export class DefaultService {
 
     /**
      * @param amount 
+     * @param method 
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pay(amount: number, id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
-    public pay(amount: number, id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
-    public pay(amount: number, id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
-    public pay(amount: number, id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public pay(amount: number, method: string, id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
+    public pay(amount: number, method: string, id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
+    public pay(amount: number, method: string, id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
+    public pay(amount: number, method: string, id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (amount === null || amount === undefined) {
             throw new Error('Required parameter amount was null or undefined when calling pay.');
+        }
+        if (method === null || method === undefined) {
+            throw new Error('Required parameter method was null or undefined when calling pay.');
         }
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling pay.');
@@ -252,6 +316,10 @@ export class DefaultService {
         if (amount !== undefined && amount !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>amount, 'amount');
+        }
+        if (method !== undefined && method !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>method, 'method');
         }
         if (id !== undefined && id !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
@@ -279,6 +347,66 @@ export class DefaultService {
         }
 
         return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/order/pay`,
+            null,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param cause 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public refund(cause: string, id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
+    public refund(cause: string, id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
+    public refund(cause: string, id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
+    public refund(cause: string, id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (cause === null || cause === undefined) {
+            throw new Error('Required parameter cause was null or undefined when calling refund.');
+        }
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling refund.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (cause !== undefined && cause !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>cause, 'cause');
+        }
+        if (id !== undefined && id !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>id, 'id');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/order/refund`,
             null,
             {
                 params: queryParameters,

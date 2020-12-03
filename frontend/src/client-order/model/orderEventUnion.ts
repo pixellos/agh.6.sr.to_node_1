@@ -17,9 +17,9 @@ export interface OrderEventUnion extends OrderEventUnionAllOf {
     what: OrderEventUnion.WhatEnum;
 }
 export namespace OrderEventUnion {
-    export type WhatEnum = 'Returned';
+    export type WhatEnum = 'Refunded';
     export const WhatEnum = {
-        Returned: 'Returned' as WhatEnum
+        Refunded: 'Refunded' as WhatEnum
     };
 }
 

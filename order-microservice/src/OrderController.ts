@@ -23,6 +23,7 @@ export class OrderController extends Controller {
     @Request() request: UserRequest
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
+    // TODO: Check if admin
     const user = request?.user?.sub ?? 'test';
     const r = (await Orders.SendOrderCommand({ id: data.id, type: 'SendOrderCommand', user: user }));
     if (isErrorResponse(r)) return r;
@@ -32,7 +33,7 @@ export class OrderController extends Controller {
 
   @Post("add")
   public async add(
-    @Body()
+    @Body() 
     vm: Orders.ViewModel,
     @Request() request: UserRequest
   ): Promise<ErrorResponse<Empty>> {
@@ -46,12 +47,44 @@ export class OrderController extends Controller {
   @Post("pay")
   public async pay(
     @Query('amount') amount: number,
+    @Query('method') method: string,
     @Query('id') id: string,
     @Request() request: UserRequest
   ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
     const user = request?.user?.sub ?? 'test';
-    const r = (await Orders.PayOrderCommand({ id, amount, type: 'PayForOrderCommand', user: user }));
+    const r = (await Orders.PayOrderCommand({ id, amount, method: method, type: 'PayForOrderCommand', user: user }));
+    if (r)
+      return r as ErrorResponse<{}>;
+
+    return { error: true, message: 'Unknown error' };
+  }
+
+  @Post("refund")
+  public async refund(
+    @Query('cause') cause: string,
+    @Query('id') id: string,
+    @Request() request: UserRequest
+  ): Promise<ErrorResponse<Empty>> {
+    // Todo: Pattern mediator.
+    const user = request?.user?.sub ?? 'test';
+    const r = (await Orders.RefundCommand({ id, cause, type: 'RefundOrderCommand', user: user }));
+    if (r)
+      return r as ErrorResponse<{}>;
+
+    return { error: true, message: 'Unknown error' };
+  }
+
+  @Post("acceptRefund")
+  public async acceptRefund(
+    @Query('cause') cause: string,
+    @Query('id') id: string,
+    @Request() request: UserRequest
+  ): Promise<ErrorResponse<Empty>> {
+    // Todo: Pattern mediator.
+    // TODO : Validate if admin
+    const user = request?.user?.sub ?? 'test';
+    const r = (await Orders.AcceptRefundCommand({ id, cause, type: 'AcceptRefundOrderCommand', user: user }));
     if (r)
       return r as ErrorResponse<{}>;
 

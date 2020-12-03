@@ -7,9 +7,10 @@ export type OrderEventUnion = { who: string } & (
     what: 'Issued'
     with: Order
   }
-  | { what: 'Sent', with: {} }
-  | { what: 'Paid', with: { amount: number } }
-  | { what: 'Returned', with: { cause: string } }
+  | { what: 'Sent', with: {  } }
+  | { what: 'Paid', with: { amount: number, method: string } }
+  | { what: 'RefundRequested', with: { refundCause: string } }
+  | { what: 'Refunded', with: { cause: string } }
 );
 
 export type OrderEventDto = EventBase & {
@@ -37,7 +38,7 @@ export const defaultOrder: Order = {
   products: []
 }
 
-export type OrdersDto = { values: OrderDto[] } ;
+export type OrdersDto = { values: OrderDto[] };
 
 export type OrderDto = Order & {
   id?: string
