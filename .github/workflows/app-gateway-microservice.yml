@@ -1,4 +1,4 @@
-name: order-microservice
+name: app-gateway-microservice
 
 on:
   push:
@@ -11,13 +11,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Publish Docker
-      uses: elgohr/Publish-Docker-Github-Action@2.22
+      uses: elgohr/Publish-Docker-Github-Action@3.01
       with:
-        name: pixellos/agh.6.sr.to_node_1/order-microservice
+        name: pixellos/agh.6.sr.to_node_1/app-gateway-microservice
         registry: docker.pkg.github.com
         username: ${{ secrets.USERNAMEGH }}
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: Dockerfile
         tags: ${{ github.sha }}
-        buildargs: MS_NAME=order-microservice
- 
+        buildargs: MS_NAME=app-gateway-microservice
+  
