@@ -21,7 +21,12 @@ FROM node:14-alpine3.10
 ARG MS_NAME
 
 WORKDIR /root/
-COPY --from=builder /usr/src/app/${MS_NAME}/dist .
+COPY --from=builder /usr/src/app/${MS_NAME}/dist app/dist
+COPY --from=builder /usr/src/app/commons-microservice/node_modules app/dist/node_modules
+COPY --from=builder /usr/src/app/${MS_NAME}/node_modules app/dist/node_modules
+COPY --from=builder /usr/src/app/commons-microservice/lib commons-microservice/src
+COPY --from=builder /usr/src/app/commons-microservice/node_modules commons-microservice/src/node_modules
+WORKDIR /root/app/dist
 
 EXPOSE 3000
-CMD node index.js
+CMD node server.js
