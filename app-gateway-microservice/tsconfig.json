@@ -11,8 +11,6 @@
     "resolveJsonModule": true,
   },
   "references": [
-    
     { "path": "../commons-microservice/tsconfig.json" }
-
   ]
 }

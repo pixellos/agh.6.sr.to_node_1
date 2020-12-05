@@ -2,7 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "target": "es6",
-    "module": "amd",
+    "module": "commonjs",
     "rootDir": "./src",
     "moduleResolution": "node",
     "composite": true,

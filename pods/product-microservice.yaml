@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-microservice-deployment
+  labels:
+    app: product-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-microservice
+  template:
+    metadata:
+      labels:
+        app: product-microservice
+    spec:
+      containers:
+      - name: product-microservice
+        image: docker.local:5000/product-microservice:latest
+        ports:
+        - containerPort: 3002
+        env:
+          - name: PORT
+            value: '3002'
+        imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-microservice-service
+spec:
+  selector:
+    app: product-microservice
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
+  type: NodePort

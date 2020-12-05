@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
       - name: frontend-microservice
-        image: frontend-microservice
+        image: docker.local:5000/frontend-microservice:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         imagePullPolicy: Never
 ---
 apiVersion: v1
@@ -30,6 +30,6 @@ spec:
     app: frontend-microservice
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8080
+      targetPort: 8080
   type: NodePort
