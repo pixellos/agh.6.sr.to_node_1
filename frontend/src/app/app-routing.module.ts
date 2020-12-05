@@ -6,6 +6,8 @@ import {AdminProductsComponent} from "./admin-products/admin-products.component"
 import {ProductComponent} from "./product/product.component";
 import {BuyComponent} from "./buy/buy.component";
 import {OrderComponent} from "./order/order.component";
+import {AboutComponent} from "./about/about.component";
+import {CartComponent} from "./cart/cart.component";
 
 const routes: Routes = [
   {
@@ -23,6 +25,14 @@ const routes: Routes = [
   {
     path: 'buy',
     component: BuyComponent
+  },
+  {
+    path: 'about',
+    component: AboutComponent
+  },
+  {
+    path: 'cart',
+    component: CartComponent
   },
   {
     path: 'admin-products',
