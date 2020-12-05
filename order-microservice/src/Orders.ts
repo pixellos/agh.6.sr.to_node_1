@@ -52,22 +52,31 @@ export namespace Orders {
     await Save(order, { what: 'Sent', with: {}, who: props.user })
   }
 
-  export async function PayOrderCommand(props: { id: string, amount: number, type: 'PayForOrderCommand', user: string }) {
+  export async function PayOrderCommand(props: { id: string, amount: number, method: string, type: 'PayForOrderCommand', user: string }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Issued'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Paid', with: { amount: props.amount }, who: props.user })
+    await Save(order, { what: 'Paid', with: { amount: props.amount, method: props.method }, who: props.user })
   }
 
-  export async function RefundOrderCommand(props: { id: string, type: 'RefundOrderCommand', user: string }) {
-    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Sent'] })
+  export async function RefundCommand(props: { id: string, cause: string, type: 'RefundOrderCommand', user: string }) {
+    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Sent', with: {}, who: props.user })
+    await Save(order, { what: 'RefundRequested', with: { refundCause: props.cause }, who: props.user })
+  }
+
+  export async function AcceptRefundCommand(props: { id: string, cause: string, type: 'AcceptRefundOrderCommand', user: string }) {
+    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid'] })
+    if (isErrorResponse(o)) {
+      return o;
+    }
+    const { data: item, order } = o;
+    await Save(order, { what: 'Refunded', with: { cause: props.cause }, who: props.user })
   }
 
   export async function CreateOrderCommand(p: CreateOrderCommandEvent) {

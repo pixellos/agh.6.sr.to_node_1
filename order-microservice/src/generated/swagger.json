@@ -110,12 +110,16 @@
 								"properties": {
 									"with": {
 										"properties": {
+											"method": {
+												"type": "string"
+											},
 											"amount": {
 												"type": "number",
 												"format": "double"
 											}
 										},
 										"required": [
+											"method",
 											"amount"
 										],
 										"type": "object"
@@ -124,6 +128,33 @@
 										"type": "string",
 										"enum": [
 											"Paid"
+										],
+										"nullable": false
+									}
+								},
+								"required": [
+									"with",
+									"what"
+								],
+								"type": "object"
+							},
+							{
+								"properties": {
+									"with": {
+										"properties": {
+											"refundCause": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"refundCause"
+										],
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"RefundRequested"
 										],
 										"nullable": false
 									}
@@ -150,7 +181,7 @@
 									"what": {
 										"type": "string",
 										"enum": [
-											"Returned"
+											"Refunded"
 										],
 										"nullable": false
 									}
@@ -494,6 +525,86 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "method",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/order/refund": {
+			"post": {
+				"operationId": "Refund",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "cause",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/order/acceptRefund": {
+			"post": {
+				"operationId": "AcceptRefund",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "cause",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					},
 					{
