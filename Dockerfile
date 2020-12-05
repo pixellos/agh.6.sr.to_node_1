@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 ARG MS_NAME
 
 COPY ./${MS_NAME}/src/. ./${MS_NAME}/src/
-COPY ./${MS_NAME}/*json ./${MS_NAME}/.
+COPY ./${MS_NAME}/*json ./${MS_NAME}/
 
 COPY ./commons-microservice/ ./commons-microservice/
 
