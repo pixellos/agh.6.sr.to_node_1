@@ -26,6 +26,7 @@ export type Product = {
   description: string;
   price: number;
   image: string;
+  tags: string[];
 }
 
 export const defaultProduct: Product = {
@@ -33,7 +34,8 @@ export const defaultProduct: Product = {
   price: 0,
   shortDescription: '' as string,
   description: '' as string,
-  image: '' as string
+  image: '' as string,
+  tags: [] as string[]
 }
 
 export type ProductDto = Product & {
@@ -71,13 +73,13 @@ export const ProductPrefix = "product-";
 
 const GetProductAggregate = (aggregationType: string) => mongoose.model<ProductEvent>(ProductPrefix + aggregationType, new mongoose.Schema({
   ...EventBaseSchema,
-  tags: [String],
   with: new mongoose.Schema({
     quantity: Number,
     price: Number,
     image: String,
     shortDescription: String,
     description: String,
+    tags: [String]
   })
 }, { safe: true, validateBeforeSave: true } as mongoose.SchemaOptions))
 
