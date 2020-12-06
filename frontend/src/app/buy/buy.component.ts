@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Product} from "../model/product";
 import {Router} from "@angular/router";
+import {Order} from "../model/order";
 
 @Component({
   selector: 'app-buy',
@@ -8,16 +9,21 @@ import {Router} from "@angular/router";
   styleUrls: ['./buy.component.css']
 })
 export class BuyComponent implements OnInit {
-  product: Product = {id: 1, shortDescription: "Monitor Samsung 21'", price: 500, quantity: 20, description: "TODO"};
+
+  products: Product [] = [];
+  totalSum: number;
 
   constructor(private router: Router) {
+    this.products = this.router.getCurrentNavigation().extras.state.products;
   }
 
   ngOnInit(): void {
+     this.totalSum = this.products.reduce((acc, product) => acc += product.price, 0);
   }
 
   confirmOrder() {
-    this.router.navigateByUrl('/orders');
+    const order:Order = new Order(1, this.products, this.totalSum);
+    this.router.navigate(['orders'], { state: { order: order} });
   }
 
   backToProducts() {

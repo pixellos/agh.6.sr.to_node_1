@@ -4,22 +4,37 @@
       <h1>Proces Kupna Produktu</h1>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      Produkt: {{product.shortDescription}}
+
+  <div *ngFor="let product of products">
+    <div class="row">
+      <div class="col">
+        Produkt: {{product.shortDescription}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        Ilosc: 1
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        Cena: {{product.price}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        ------
+      </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col">
-      Ilosc: 1
+      <b> Sumaryczna Cena: {{totalSum}} </b>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      Cena: {{product.price}}
-    </div>
-  </div>
-  <div class="row">
+
+  <div class="row mt-3">
     <div class="col">
       Mozliwosci Wysylki:
     </div>

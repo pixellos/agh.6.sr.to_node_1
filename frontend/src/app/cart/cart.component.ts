@@ -45,6 +45,7 @@ export class CartComponent implements OnInit {
 
   buyCart() {
     this.cookies.delete('cart');
+    this.router.navigate(['buy'], { state: { products: this.cartRowData } });
   }
 
   backToProducts() {

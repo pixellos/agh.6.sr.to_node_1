@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ICellRendererAngularComp} from "ag-grid-angular";
 import {Router} from "@angular/router";
+import {Product} from "../model/product";
 
 @Component({
   selector: 'app-buy-button',
@@ -18,7 +19,9 @@ export class BuyButtonComponent implements ICellRendererAngularComp {
   }
 
   buyProcess() {
-    this.router.navigateByUrl('/buy');
+    let products: Product [] = [];
+    products.push(this.params.data);
+    this.router.navigate(['buy'], { state: { products: products } });
   };
 
   refresh(): boolean {
