@@ -17,7 +17,7 @@ foreach ($svc in $services) {
     docker push "docker.local:5000/$svc-microservice"
 }
 
-# docker run  -p "8091:3000" -d product-microservice:local -n product-microservice
-#docker run -p "8092:3000" docker.local:5000/order-microservice:latest
-# docker run -p "8095:3000" -d  app-gateway-microservice:local -n app-gateway-microservice
-# docker run  -p "809:80" -d frontend-microservice:local -n frontend-microservice
+# docker run  -p "1114:3000" -d product-microservice:local -n product-microservice
+# docker run -p "1113:3000" do1cker.local:5000/order-microservice:latest
+# docker run -p "1112:3000" -d  app-gateway-microservice:local -n app-gateway-microservice
+# docker run  -p "1111:80" -d frontend-microservice:local -n frontend-microservice
