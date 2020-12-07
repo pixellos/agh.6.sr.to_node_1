@@ -30,6 +30,9 @@ import { AboutComponent } from './about/about.component';
 import { CartButtonComponent } from './cart-button/cart-button.component';
 import {CookieService} from "ngx-cookie-service";
 import { DeleteButtonCartComponent } from './delete-button-cart/delete-button-cart.component';
+import { ComplaintButtonComponent } from './complaint-button/complaint-button.component';
+import { ComplaintComponent } from './complaint/complaint.component';
+import { ComplaintProcessComponent } from './complaint-process/complaint-process.component';
 
 
 @NgModule({
@@ -50,7 +53,10 @@ import { DeleteButtonCartComponent } from './delete-button-cart/delete-button-ca
     CartComponent,
     AboutComponent,
     CartButtonComponent,
-    DeleteButtonCartComponent
+    DeleteButtonCartComponent,
+    ComplaintButtonComponent,
+    ComplaintComponent,
+    ComplaintProcessComponent
   ],
   imports: [
     AuthModule.forRoot({
@@ -72,8 +78,8 @@ import { DeleteButtonCartComponent } from './delete-button-cart/delete-button-ca
     BrowserAnimationsModule,
     MatDialogModule,
     MatRadioModule,
-    AgGridModule.withComponents([]),
-    HttpClientModule
+    HttpClientModule,
+    AgGridModule.withComponents([])
   ],
   providers: [
     {
