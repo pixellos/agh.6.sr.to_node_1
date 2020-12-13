@@ -1,21 +1,23 @@
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
-docker stop product-microservice
-docker stop order-microservice
-docker stop frontend-microservice
-docker stop app-gateway-microservice
+$beServices = @("order", "product", "app-gateway")
+$services = @("frontend", "order", "product", "app-gateway")
 
-docker build . --build-arg MS_NAME=app-gateway-microservice -t docker.local:5000/app-gateway-microservice:latest
-docker build . --build-arg MS_NAME=order-microservice -t docker.local:5000/order-microservice:latest
-docker build . --build-arg MS_NAME=product-microservice -t docker.local:5000/product-microservice:latest
+foreach ($svc in $services) {
+    docker stop "$svc-microservice"
+}
+
+foreach ($svc in $beServices) {
+    docker build . --build-arg "MS_NAME=$svc-microservice" -t "docker.local:5000/$svc-microservice:latest"
+}
+
 docker build . -f .\frontend\Dockerfile -t docker.local:5000/frontend-microservice:latest
 
-docker push docker.local:5000/product-microservice
-docker push docker.local:5000/order-microservice
-docker push docker.local:5000/frontend-microservice
-docker push docker.local:5000/app-gateway-microservice
+foreach ($svc in $services) {
+    docker push "docker.local:5000/$svc-microservice"
+}
 
-# docker run  -p "8091:3000" -d product-microservice:local -n product-microservice
-docker run -p "8092:3000" docker.local:5000/order-microservice:latest
-# docker run -p "8095:3000" -d  app-gateway-microservice:local -n app-gateway-microservice
-# docker run  -p "809:80" -d frontend-microservice:local -n frontend-microservice
+# docker run  -p "1114:3000" -d product-microservice:local -n product-microservice
+# docker run -p "1113:3000" do1cker.local:5000/order-microservice:latest
+# docker run -p "1112:3000" -d  app-gateway-microservice:local -n app-gateway-microservice
+# docker run  -p "1111:80" -d frontend-microservice:local -n frontend-microservice
