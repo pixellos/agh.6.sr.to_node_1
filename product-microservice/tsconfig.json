@@ -3,12 +3,14 @@
     "experimentalDecorators": true,
     "target": "es6",
     "module": "commonjs",
-    "rootDir": "./",
+    "rootDir": "./src",
     "baseUrl": ".",
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
     "resolveJsonModule": true,
-    "sourceMap": true
-  }
+  },
+  "references": [
+    { "path": "../commons-microservice/tsconfig.json" }
+  ]
 }

@@ -6,24 +6,224 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"ErrorResponse": {
+			"Product": {
 				"properties": {
-					"message": {
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"image": {
 						"type": "string"
 					},
-					"error": {
-						"type": "boolean",
-						"enum": [
-							"true"
-						],
-						"nullable": false
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"description": {
+						"type": "string"
+					},
+					"shortDescription": {
+						"type": "string"
+					},
+					"quantity": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
-					"message",
-					"error"
+					"tags",
+					"image",
+					"price",
+					"description",
+					"shortDescription",
+					"quantity"
 				],
 				"type": "object"
+			},
+			"ProductQuantity": {
+				"properties": {
+					"quantity": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"quantity"
+				],
+				"type": "object"
+			},
+			"ProductEventUnion": {
+				"anyOf": [
+					{
+						"properties": {
+							"with": {
+								"$ref": "#/components/schemas/Product"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Changed"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"with": {
+								"$ref": "#/components/schemas/Product"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Created"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"with": {
+								"$ref": "#/components/schemas/ProductQuantity"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Added"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"with": {
+								"$ref": "#/components/schemas/ProductQuantity"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Bought"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"ErrorResponse_ProductEventUnion-Array_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"items": {
+									"$ref": "#/components/schemas/ProductEventUnion"
+								},
+								"type": "array"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"Empty": {
+				"properties": {},
+				"type": "object"
+			},
+			"ErrorResponse_Empty_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"$ref": "#/components/schemas/Empty"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
 			},
 			"Products.ViewModel": {
 				"properties": {
@@ -61,41 +261,47 @@
 				],
 				"type": "object"
 			},
-			"Product": {
-				"properties": {
-					"tags": {
-						"items": {
-							"type": "string"
+			"ErrorResponse_Product_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
 						},
-						"type": "array"
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
 					},
-					"image": {
-						"type": "string"
-					},
-					"price": {
-						"type": "number",
-						"format": "double"
-					},
-					"description": {
-						"type": "string"
-					},
-					"shortDescription": {
-						"type": "string"
-					},
-					"quantity": {
-						"type": "number",
-						"format": "double"
+					{
+						"properties": {
+							"data": {
+								"$ref": "#/components/schemas/Product"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
 					}
-				},
-				"required": [
-					"tags",
-					"image",
-					"price",
-					"description",
-					"shortDescription",
-					"quantity"
-				],
-				"type": "object"
+				]
 			},
 			"ProductDto": {
 				"allOf": [
@@ -123,17 +329,101 @@
 						"type": "object"
 					}
 				]
+			},
+			"ErrorResponse_ProductDto-Array_": {
+				"anyOf": [
+					{
+						"properties": {
+							"message": {
+								"type": "string"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"true"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"message",
+							"error"
+						],
+						"type": "object"
+					},
+					{
+						"properties": {
+							"data": {
+								"items": {
+									"$ref": "#/components/schemas/ProductDto"
+								},
+								"type": "array"
+							},
+							"error": {
+								"type": "boolean",
+								"enum": [
+									"false"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"data",
+							"error"
+						],
+						"type": "object"
+					}
+				]
 			}
 		},
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "ms_node_1",
+		"title": "product-microservice",
 		"version": "0.1.0",
 		"contact": {}
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/events/list/{type}/{id}": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_ProductEventUnion-Array_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "type",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"enum": [
+								"Product"
+							]
+						}
+					}
+				]
+			}
+		},
 		"/product": {
 			"post": {
 				"operationId": "Create",
@@ -143,7 +433,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
 								}
 							}
 						}
@@ -161,52 +451,18 @@
 						}
 					}
 				}
-			},
-			"get": {
-				"operationId": "List",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ErrorResponse"
-										},
-										{
-											"items": {
-												"$ref": "#/components/schemas/ProductDto"
-											},
-											"type": "array"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
 			}
 		},
 		"/product/{id}": {
 			"get": {
-				"operationId": "Get",
+				"operationId": "GetById",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ErrorResponse"
-										},
-										{
-											"$ref": "#/components/schemas/ProductDto"
-										}
-									]
+									"$ref": "#/components/schemas/ErrorResponse_Product_"
 								}
 							}
 						}
@@ -234,7 +490,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
 								}
 							}
 						}
@@ -271,14 +527,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ErrorResponse"
-										},
-										{
-											"type": "string"
-										}
-									]
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
 								}
 							}
 						}
@@ -306,54 +555,23 @@
 				]
 			}
 		},
-		"/events/list/{type}/{id}": {
+		"/product/all": {
 			"get": {
-				"operationId": "List",
+				"operationId": "listAll",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ErrorResponse"
-										},
-										{
-											"items": {
-												"properties": {},
-												"type": "object"
-											},
-											"type": "array"
-										}
-									]
+									"$ref": "#/components/schemas/ErrorResponse_ProductDto-Array_"
 								}
 							}
 						}
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "type",
-						"required": true,
-						"schema": {
-							"type": "string",
-							"enum": [
-								"Product"
-							]
-						}
-					}
-				]
+				"parameters": []
 			}
 		}
 	},

@@ -2,23 +2,26 @@
 import mongoose from 'mongoose';
 import { EventBase, EventBaseSchema, ProductAction } from './EventBase';
 
-
-
-export type ProductEventUnion = (
+export type ProductEventUnion = 
   | {
     what: 'Changed' //changed existing product or created a new one
     with: Product
-  }| {
+  }
+  | {
     what: 'Created' //changed existing product or created a new one
     with: Product
   }
-  | { what: 'Added', with: { quantity: number } } //added more products of this type to inventory
-  | { what: 'Bought', with: { quantity: number } } //removed products from inventory
-);
+  | { what: 'Added', with: ProductQuantity } //added more products of this type to inventory
+  | { what: 'Bought', with: ProductQuantity } //removed products from inventory
+;
 
 export type ProductEvent = mongoose.Document & EventBase & {
   what: ProductAction
 } & ProductEventUnion;
+
+export type ProductQuantity = {
+  quantity: number
+}
 
 export type Product = {
   quantity: number;

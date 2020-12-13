@@ -1,18 +1,8 @@
 import { Model } from 'mongoose';
 import { v4 } from 'uuid';
+import { errorResponse, isErrorResponse, okResponse } from '../../commons-microservice/src/CommonHelpers';
 import { Connection } from "./Connection";
-import { ProductAction } from './EventBase';
 import { defaultProductDto, ProductAggregate, ProductDto, ProductEvent, ProductEventUnion, ProductPrefix, ProductReducer } from "./Product";
-import { errorResponse } from "./ProductController";
-
-export type ErrorResponse = {
-  error: true,
-  message: string
-}
-
-export function isErrorResponse(o: any): o is ErrorResponse {
-  return (o as ErrorResponse).error;
-}
 
 export namespace Products {
   export type ViewModel = { shortDescription: string; description: string; quantity: number; price: number; image: string; tags:string[]  };
@@ -25,10 +15,10 @@ export namespace Products {
     const Product = ProductAggregate(id);
     const doesExist = await Product.exists({});
     if (!doesExist) {
-      return errorResponse({ message: `Product with id ${id} does not exists.` });
+      return errorResponse<ProductDto>({ message: `Product with id ${id} does not exists.` });
     }
     const data = await FlatMapEvents(Product, id);
-    return { Product, data };
+    return okResponse({ ...Product, ...data });
   }
 
   export async function AddProductCommand(props: { id: string, quantity: number,  type: 'AddProductCommand' }) {
@@ -39,7 +29,7 @@ export namespace Products {
       return o;
     }
     const { data: item, Product } = o;
-    await Save(Product, { what: 'Added', with: {quantity: props.quantity} })
+    return await Save(Product, { what: 'Added', with: {quantity: props.quantity} })
   }
 
   export async function BuyProductCommand(props: { id: string, quantity: number,  type: 'BuyProductCommand' }) {
@@ -50,7 +40,7 @@ export namespace Products {
       return o;
     }
     const { data: item, Product } = o;
-    await Save(Product, { what: 'Bought', with: {quantity: props.quantity} })
+    return await Save(Product, { what: 'Bought', with: {quantity: props.quantity} })
   }
 
   export async function CreateProductCommand(p: CreateProductCommandEvent) {
@@ -66,7 +56,7 @@ export namespace Products {
     if (doesExist) {
       console.log("Already exists");
 
-      return errorResponse({ message: `Product with id ${id} already exists.` });
+      return errorResponse<number>({ message: `Product with id ${id} already exists.` });
     }
 
     console.log("Entering Save");
@@ -83,9 +73,11 @@ export namespace Products {
       }
     })
 
-    console.log("Saved: ", save);
-    if (isErrorResponse(save)) 
-      return errorResponse({ message: 'Product cannot be saved. Try again.' });
+    if (isErrorResponse(save)) {
+      return errorResponse<number>({ message: 'Product cannot be saved. Try again.' });
+    }
+
+    return save;
   }
 
   export async function Save(product: Model<ProductEvent>, partial: ProductEventUnion) {
@@ -102,8 +94,8 @@ export namespace Products {
       ...partial,
     })
     if (isErrorResponse(createResult))
-      return errorResponse({ message: 'Product cannot be saved. Try again.' });
-    return previousRevision + 1;
+      return errorResponse<number>({ message: 'Product cannot be saved. Try again.' });
+    return okResponse(previousRevision + 1);
   }
 
   export async function FlatMapEvents(m: Model<ProductEvent>, id: string) {
@@ -119,6 +111,6 @@ export namespace Products {
     console.log("Products: ", JSON.stringify(Products) );
     const result = await Promise.all(Products.map(o => ({ Product: ProductAggregate(o), id: o }))
       .map(x => FlatMapEvents(x.Product, x.id)));
-    return result;
+    return okResponse(result);
   }
 }

@@ -1,5 +1,6 @@
 {
-  "exec": "ts-node src/server.ts",
+  "exec": "tsc --build && tsoa routes && tsoa spec && npm run generate2 && ts-node src/server.ts",
+  "ignore": ["src/generated/*.*"],
   "watch": ["src"],
   "ext": "ts"
 }
