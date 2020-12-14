@@ -8,7 +8,7 @@ import {
   Path,
   OperationId,
 } from "tsoa";
-import { Empty, errorResponse, ErrorResponse, okResponse } from "../../commons-microservice/src/CommonHelpers";
+import { Empty, errorResponse, ErrorResponse, isErrorResponse, okResponse } from "../../commons-microservice/src/CommonHelpers";
 import { Product, ProductDto, ProductEvent } from "./Product";
 import { Products } from "./Products";
 
@@ -27,12 +27,16 @@ export class ProductController extends Controller {
     return r;
   }
 
-  @Get("{id}")
+  @Get("{id}/get")
   public async getById(
     @Path() id: string
   ): Promise<ErrorResponse<Product>> {
     // Todo: Pattern mediator.
-    return (await Products.GetProduct(id));
+    const r = (await Products.GetProduct(id));
+    if (isErrorResponse(r))
+      return r;
+    
+    return okResponse(r.data.data)
   }
 
   @Post("{id}/add")

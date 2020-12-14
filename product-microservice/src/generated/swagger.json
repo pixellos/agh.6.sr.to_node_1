@@ -6,6 +6,25 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"BadResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"true"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"message",
+					"error"
+				],
+				"type": "object"
+			},
 			"Product": {
 				"properties": {
 					"tags": {
@@ -134,48 +153,35 @@
 					}
 				]
 			},
+			"OkResponse_ProductEventUnion-Array_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/ProductEventUnion"
+						},
+						"type": "array"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
 			"ErrorResponse_ProductEventUnion-Array_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"items": {
-									"$ref": "#/components/schemas/ProductEventUnion"
-								},
-								"type": "array"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_ProductEventUnion-Array_"
 					}
 				]
 			},
@@ -183,45 +189,32 @@
 				"properties": {},
 				"type": "object"
 			},
+			"OkResponse_Empty_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/Empty"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
 			"ErrorResponse_Empty_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"$ref": "#/components/schemas/Empty"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_Empty_"
 					}
 				]
 			},
@@ -261,45 +254,32 @@
 				],
 				"type": "object"
 			},
+			"OkResponse_Product_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/Product"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
 			"ErrorResponse_Product_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"$ref": "#/components/schemas/Product"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_Product_"
 					}
 				]
 			},
@@ -330,48 +310,35 @@
 					}
 				]
 			},
+			"OkResponse_ProductDto-Array_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/ProductDto"
+						},
+						"type": "array"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
 			"ErrorResponse_ProductDto-Array_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"items": {
-									"$ref": "#/components/schemas/ProductDto"
-								},
-								"type": "array"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_ProductDto-Array_"
 					}
 				]
 			}
@@ -453,7 +420,7 @@
 				}
 			}
 		},
-		"/product/{id}": {
+		"/product/{id}/get": {
 			"get": {
 				"operationId": "GetById",
 				"responses": {

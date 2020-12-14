@@ -10,42 +10,32 @@ export namespace Products {
 
   
   export async function GetProduct(id: string) {
-    const connection = await Connection.connect();
-
     const Product = ProductAggregate(id);
     const doesExist = await Product.exists({});
     if (!doesExist) {
-      return errorResponse<ProductDto>({ message: `Product with id ${id} does not exists.` });
+      return errorResponse({ message: `Product with id ${id} does not exists.` });
     }
     const data = await FlatMapEvents(Product, id);
-    return okResponse({ ...Product, ...data });
+    return okResponse({ Product, data });
   }
 
   export async function AddProductCommand(props: { id: string, quantity: number,  type: 'AddProductCommand' }) {
-    const connection = await Connection.connect();
-
     const o = await GetProduct(props.id)
     if (isErrorResponse(o)) {
       return o;
     }
-    const { data: item, Product } = o;
-    return await Save(Product, { what: 'Added', with: {quantity: props.quantity} })
+    debugger;
+    return await Save(o.data.Product, { what: 'Added', with: {quantity: props.quantity} })
   }
-
   export async function BuyProductCommand(props: { id: string, quantity: number,  type: 'BuyProductCommand' }) {
-    const connection = await Connection.connect();
-
     const o = await GetProduct(props.id)
     if (isErrorResponse(o)) {
       return o;
     }
-    const { data: item, Product } = o;
-    return await Save(Product, { what: 'Bought', with: {quantity: props.quantity} })
+    return await Save(o.data.Product, { what: 'Bought', with: {quantity: props.quantity} })
   }
 
   export async function CreateProductCommand(p: CreateProductCommandEvent) {
-    const connection = await Connection.connect();
-
     console.log("Entered createProductCommand");
     
     const id = v4();
@@ -56,7 +46,7 @@ export namespace Products {
     if (doesExist) {
       console.log("Already exists");
 
-      return errorResponse<number>({ message: `Product with id ${id} already exists.` });
+      return errorResponse({ message: `Product with id ${id} already exists.` });
     }
 
     console.log("Entering Save");
@@ -74,7 +64,7 @@ export namespace Products {
     })
 
     if (isErrorResponse(save)) {
-      return errorResponse<number>({ message: 'Product cannot be saved. Try again.' });
+      return errorResponse({ message: 'Product cannot be saved. Try again.' });
     }
 
     return save;
@@ -94,7 +84,7 @@ export namespace Products {
       ...partial,
     })
     if (isErrorResponse(createResult))
-      return errorResponse<number>({ message: 'Product cannot be saved. Try again.' });
+      return errorResponse({ message: 'Product cannot be saved. Try again.' });
     return okResponse(previousRevision + 1);
   }
 

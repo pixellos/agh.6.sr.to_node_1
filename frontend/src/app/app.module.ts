@@ -26,6 +26,8 @@ import {OrderComponent} from "./order/order.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CallComponent} from "./welcome/call.component";
 
+import {ApiModule} from 'src/client-order/api.module'
+import {Configuration} from 'src/client-order/configuration'
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ import {CallComponent} from "./welcome/call.component";
     PreviewPopupComponent,
     BuyComponent,
     OrderComponent,
-    CallComponent
+    CallComponent,
   ],
   imports: [
     AuthModule.forRoot({
@@ -64,7 +66,8 @@ import {CallComponent} from "./welcome/call.component";
     MatDialogModule,
     MatRadioModule,
     AgGridModule.withComponents([]),
-    HttpClientModule
+    HttpClientModule,
+    ApiModule.forRoot(() => new Configuration({basePath: 'http://localhost:3001'})),
   ],
   providers: [
     {

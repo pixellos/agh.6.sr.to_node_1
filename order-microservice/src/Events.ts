@@ -12,6 +12,6 @@ export namespace Events {
       return okResponse(items.map(x=> x));
     }
 
-    return errorResponse<OrderEventUnion[]>({message: 'Type is not known'});
+    return errorResponse({message: 'Type is not known'});
   }
 }
