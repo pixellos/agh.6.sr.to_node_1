@@ -1,9 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {CookieService} from "ngx-cookie-service";
 import {ColumnApi, GridApi, GridOptions, GridReadyEvent} from "ag-grid-community";
 import {Product} from "../model/product";
 import {Router} from "@angular/router";
 import {DeleteButtonCartComponent} from "../delete-button-cart/delete-button-cart.component";
+import {CartService} from "../cart.service";
 
 @Component({
   selector: 'app-cart',
@@ -26,12 +26,11 @@ export class CartComponent implements OnInit {
 
   cartOptions: GridOptions = {suppressCellSelection: true};
 
-  constructor(private cookies: CookieService, private router: Router) {
+  constructor(private cartService: CartService, private router: Router) {
   }
 
   ngOnInit(): void {
-    const cartItems: Product[] = JSON.parse(this.cookies.get('cart'));
-    this.cartRowData = cartItems;
+    this.cartRowData = this.cartService.products;
   }
 
   public onGridReady(params: GridReadyEvent): void {
@@ -44,7 +43,7 @@ export class CartComponent implements OnInit {
   }
 
   buyCart() {
-    this.cookies.delete('cart');
+    this.cartService.products = []
     this.router.navigate(['buy'], { state: { products: this.cartRowData } });
   }
 

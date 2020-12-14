@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {ICellRendererAngularComp} from "ag-grid-angular";
-import {CookieService} from "ngx-cookie-service";
+import {CartService} from "../cart.service";
 
 @Component({
   selector: 'app-delete-button-cart',
@@ -10,7 +10,7 @@ import {CookieService} from "ngx-cookie-service";
 export class DeleteButtonCartComponent implements ICellRendererAngularComp {
   public params: any;
 
-  constructor(private cookies: CookieService) {
+  constructor(private cartService: CartService) {
   }
 
   agInit(params: any): void {
@@ -18,8 +18,10 @@ export class DeleteButtonCartComponent implements ICellRendererAngularComp {
   }
 
   deleteFromCart() {
-
-  };
+    console.log(this.params);
+    this.params.api.updateRowData({remove: [this.params.data]});
+    this.cartService.delete(this.params.data.id)
+  }
 
   refresh(): boolean {
     return false;
