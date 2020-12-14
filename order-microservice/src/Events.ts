@@ -7,7 +7,6 @@ import { errorResponse, ErrorResponse, okResponse } from "./../../commons-micros
 export namespace Events {
   export async function InspectEventsQuery(id: string, type: 'Order'): Promise<ErrorResponse<OrderEventUnion[]>> {
     if (type == 'Order') {
-      const connection = await Connection.connect();
       const order = OrderAggregate(id);
       const items = await order.find({});
       return okResponse(items.map(x=> x));

@@ -19,5 +19,5 @@ export type ErrorResponse<T> = {
 }
 
 export function isErrorResponse<T>(o: any): o is ErrorResponse<T> {
-  return (o as ErrorResponse<T> && o.error).error;
+  return (o as ErrorResponse<T> && o && o?.error)?.error;
 }

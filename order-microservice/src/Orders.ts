@@ -38,9 +38,9 @@ export namespace Orders {
       when: new Date(),
       ...partial,
     })
-    if (isErrorResponse(createResult))
+    if (createResult === undefined)
       return errorResponse({ message: 'Order cannot be saved. Try again.' });
-    return previousRevision + 1;
+    return okResponse(previousRevision + 1);
   }
 
   export async function SendOrderCommand(props: { id: string, type: 'SendOrderCommand', user: string }) {
