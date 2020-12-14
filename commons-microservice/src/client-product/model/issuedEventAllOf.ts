@@ -9,9 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Order } from './order';
 
 
-export interface OrderEventUnionAnyOf3With { 
-    cause: string;
+export interface IssuedEventAllOf { 
+    _with: Order;
+    what: IssuedEventAllOf.WhatEnum;
 }
+export namespace IssuedEventAllOf {
+    export type WhatEnum = 'Issued';
+    export const WhatEnum = {
+        Issued: 'Issued' as WhatEnum
+    };
+}
+
 

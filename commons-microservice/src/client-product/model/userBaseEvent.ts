@@ -9,18 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderEventUnionAllOf } from './orderEventUnionAllOf';
 
 
-export interface OrderEventUnion extends OrderEventUnionAllOf { 
-    _with: object;
-    what: OrderEventUnion.WhatEnum;
+export interface UserBaseEvent { 
+    who: string;
 }
-export namespace OrderEventUnion {
-    export type WhatEnum = 'Refunded';
-    export const WhatEnum = {
-        Refunded: 'Refunded' as WhatEnum
-    };
-}
-
 

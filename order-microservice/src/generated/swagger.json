@@ -6,8 +6,28 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"UserBaseEvent": {
+				"properties": {
+					"who": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"who"
+				],
+				"type": "object"
+			},
 			"OrderProduct": {
 				"properties": {
+					"imageUrl": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"shortDescription": {
+						"type": "string"
+					},
 					"price": {
 						"type": "string"
 					},
@@ -22,6 +42,9 @@
 					}
 				},
 				"required": [
+					"imageUrl",
+					"description",
+					"shortDescription",
 					"price",
 					"totalPrice",
 					"quantity",
@@ -52,147 +75,182 @@
 				],
 				"type": "object"
 			},
-			"OrderEventUnion": {
+			"IssuedEvent": {
 				"allOf": [
 					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
 						"properties": {
-							"who": {
-								"type": "string"
+							"with": {
+								"$ref": "#/components/schemas/Order"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Issued"
+								],
+								"nullable": false
 							}
 						},
 						"required": [
-							"who"
+							"with",
+							"what"
 						],
 						"type": "object"
+					}
+				]
+			},
+			"SentEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
 					},
 					{
-						"anyOf": [
-							{
-								"properties": {
-									"with": {
-										"$ref": "#/components/schemas/Order"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Issued"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
+						"properties": {
+							"with": {
+								"properties": {},
 								"type": "object"
 							},
-							{
-								"properties": {
-									"with": {
-										"properties": {},
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Sent"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
+							"what": {
+								"type": "string",
+								"enum": [
+									"Sent"
 								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {
-											"method": {
-												"type": "string"
-											},
-											"amount": {
-												"type": "number",
-												"format": "double"
-											}
-										},
-										"required": [
-											"method",
-											"amount"
-										],
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Paid"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {
-											"refundCause": {
-												"type": "string"
-											}
-										},
-										"required": [
-											"refundCause"
-										],
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"RefundRequested"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {
-											"cause": {
-												"type": "string"
-											}
-										},
-										"required": [
-											"cause"
-										],
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Refunded"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
+								"nullable": false
 							}
-						]
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"PaidEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"method": {
+										"type": "string"
+									},
+									"amount": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"method",
+									"amount"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Paid"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"RefundEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"cause": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"cause"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Refunded"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"RequestRefuntEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"refundCause": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refundCause"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"RefundRequested"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OrderEventUnion": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/IssuedEvent"
+					},
+					{
+						"$ref": "#/components/schemas/SentEvent"
+					},
+					{
+						"$ref": "#/components/schemas/PaidEvent"
+					},
+					{
+						"$ref": "#/components/schemas/RefundEvent"
+					},
+					{
+						"$ref": "#/components/schemas/RequestRefuntEvent"
 					}
 				]
 			},

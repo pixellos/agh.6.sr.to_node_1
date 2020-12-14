@@ -9,17 +9,20 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Order } from './order';
+import { PaidEventAllOf } from './paidEventAllOf';
+import { PaidEventAllOfWith } from './paidEventAllOfWith';
+import { UserBaseEvent } from './userBaseEvent';
 
 
-export interface OrderEventUnionAnyOf { 
-    _with: Order;
-    what: OrderEventUnionAnyOf.WhatEnum;
+export interface PaidEvent { 
+    who: string;
+    _with: PaidEventAllOfWith;
+    what: PaidEvent.WhatEnum;
 }
-export namespace OrderEventUnionAnyOf {
-    export type WhatEnum = 'Issued';
+export namespace PaidEvent {
+    export type WhatEnum = 'Paid';
     export const WhatEnum = {
-        Issued: 'Issued' as WhatEnum
+        Paid: 'Paid' as WhatEnum
     };
 }
 

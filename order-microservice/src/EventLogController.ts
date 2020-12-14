@@ -5,7 +5,7 @@ import {
 } from "tsoa";
 import { ErrorResponse } from "../../commons-microservice/src/CommonHelpers";
 import { Events } from "./Events";
-import {  OrderEventDto, OrderEventUnion } from "./Order";
+import {  IssuedEvent, OrderEventDto, OrderEventUnion } from "./Order";
 
 
 @Route("events")

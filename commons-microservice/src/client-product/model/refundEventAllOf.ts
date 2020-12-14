@@ -9,10 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OrderDto } from './orderDto';
+import { RefundEventAllOfWith } from './refundEventAllOfWith';
 
 
-export interface OrdersDto { 
-    values: Array<OrderDto>;
+export interface RefundEventAllOf { 
+    _with: RefundEventAllOfWith;
+    what: RefundEventAllOf.WhatEnum;
 }
+export namespace RefundEventAllOf {
+    export type WhatEnum = 'Refunded';
+    export const WhatEnum = {
+        Refunded: 'Refunded' as WhatEnum
+    };
+}
+
 
