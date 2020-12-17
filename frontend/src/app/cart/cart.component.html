@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <h1>Koszyk</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <ag-grid-angular
+        style="width: 100%; height: 30vh;"
+        class="ag-theme-alpine"
+        [rowData]="cartRowData"
+        [columnDefs]="cartColumnDefs"
+        [gridOptions]="cartOptions"
+        [enableRangeSelection]="true"
+        [pagination]="false"
+        [paginationAutoPageSize]="false"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button (click)="backToProducts()" mat-raised-button>Powrot</button>
+      <button (click)="buyCart()" mat-raised-button color="primary">Kup Koszyk</button>
+    </div>
+  </div>
+</div>

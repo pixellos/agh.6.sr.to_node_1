@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <h1>Proces Zglaszania Reklamacji</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <b>Zglaszany produkt:</b>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          ID: {{product.id}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{product.shortDescription}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Cena: {{product.price}} zlotych
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="compilantContent">Tresc Reklamacji</label>
+        <textarea class="form-control" id="compilantContent" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <button (click)="backToOrders()" mat-raised-button>Powrot</button>
+    </div>
+    <div>
+      <button (click)="confirmComplaint()" mat-raised-button color="primary">Zatwierdz Reklamacje</button>
+    </div>
+  </div>
+</div>

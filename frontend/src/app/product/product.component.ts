@@ -4,6 +4,7 @@ import {BuyButtonComponent} from "../buy-button/buy-button.component";
 import {GridOptions} from "ag-grid-community";
 import {Product} from "../model/product";
 import {Router} from "@angular/router";
+import {CartButtonComponent} from "../cart-button/cart-button.component";
 
 
 @Component({
@@ -16,10 +17,11 @@ export class ProductComponent implements OnInit {
   ProductColumnDefs = [
     {headerName: 'Id', field: 'id', maxWidth: 100 , sortable: true, filter: true },
     {headerName: 'Opis', field: 'shortDescription', sortable: true, filter: true },
-    {headerName: 'Cena', field: 'price', sortable: true, filter: true},
-    {headerName: 'Ilosc', field: 'quantity', sortable: true, filter: true},
-    {headerName: 'Kup',  cellRendererFramework: BuyButtonComponent},
-    {headerName: 'Przegladaj',  cellRendererFramework: PreviewButtonComponent}
+    {headerName: 'Cena', maxWidth: 200, field: 'price', sortable: true, filter: true},
+    {headerName: 'Ilosc', maxWidth: 150, field: 'quantity', sortable: true, filter: true},
+    {headerName: 'Koszyk', maxWidth: 150, cellRendererFramework: CartButtonComponent},
+    {headerName: 'Kup', maxWidth: 150,  cellRendererFramework: BuyButtonComponent},
+    {headerName: 'Przegladaj', maxWidth: 150,  cellRendererFramework: PreviewButtonComponent}
   ];
   ProductRowData: Product[] = [
     {id: 1, shortDescription: "Monitor Samsung 21'", price: 500, quantity: 20, description: "TODO"},

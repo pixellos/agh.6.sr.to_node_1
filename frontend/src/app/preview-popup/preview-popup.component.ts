@@ -9,9 +9,10 @@ import {Router} from "@angular/router";
   styleUrls: ['./preview-popup.component.css']
 })
 export class PreviewPopupComponent implements OnInit {
+  products: Product [] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {product: Product}, public dialog: MatDialog, private router: Router) {
-    console.log("id:" + data.product.id)
+    this.products.push(data.product);
   }
 
   ngOnInit(): void {
@@ -19,7 +20,7 @@ export class PreviewPopupComponent implements OnInit {
 
   buyProcess() {
     this.dialog.closeAll();
-    this.router.navigateByUrl('/buy');
+    this.router.navigate(['buy'], { state: { products: this.products } });
   };
 
 }

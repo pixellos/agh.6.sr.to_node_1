@@ -25,6 +25,14 @@ import {MatRadioModule} from "@angular/material/radio";
 import {OrderComponent} from "./order/order.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CallComponent} from "./welcome/call.component";
+import { CartComponent } from './cart/cart.component';
+import { AboutComponent } from './about/about.component';
+import { CartButtonComponent } from './cart-button/cart-button.component';
+import {CookieService} from "ngx-cookie-service";
+import { DeleteButtonCartComponent } from './delete-button-cart/delete-button-cart.component';
+import { ComplaintButtonComponent } from './complaint-button/complaint-button.component';
+import { ComplaintComponent } from './complaint/complaint.component';
+import { ComplaintProcessComponent } from './complaint-process/complaint-process.component';
 
 
 @NgModule({
@@ -41,7 +49,14 @@ import {CallComponent} from "./welcome/call.component";
     PreviewPopupComponent,
     BuyComponent,
     OrderComponent,
-    CallComponent
+    CallComponent,
+    CartComponent,
+    AboutComponent,
+    CartButtonComponent,
+    DeleteButtonCartComponent,
+    ComplaintButtonComponent,
+    ComplaintComponent,
+    ComplaintProcessComponent
   ],
   imports: [
     AuthModule.forRoot({
@@ -63,8 +78,8 @@ import {CallComponent} from "./welcome/call.component";
     BrowserAnimationsModule,
     MatDialogModule,
     MatRadioModule,
-    AgGridModule.withComponents([]),
-    HttpClientModule
+    HttpClientModule,
+    AgGridModule.withComponents([])
   ],
   providers: [
     {
@@ -72,6 +87,7 @@ import {CallComponent} from "./welcome/call.component";
       useClass: AuthHttpInterceptor,
       multi: true,
     },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
