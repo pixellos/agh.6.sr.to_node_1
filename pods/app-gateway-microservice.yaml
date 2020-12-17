@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-gateway-microservice-deployment
+  labels:
+    app: app-gateway-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-gateway-microservice
+  template:
+    metadata:
+      labels:
+        app: app-gateway-microservice
+    spec:
+      containers:
+      - name: app-gateway-microservice
+        image: docker.local:5000/app-gateway-microservice:latest
+        ports:
+        - containerPort: 3003
+        env:
+          - name: PORT
+            value: '3003'
+        imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-gateway-microservice-service
+spec:
+  selector:
+    app: app-gateway-microservice
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3003
+  type: NodePort

@@ -15,5 +15,5 @@ https://portal.azure.com/#@aghedupl.onmicrosoft.com/resource/subscriptions/71ab0
 dodaj plik `.env`
 w nim
 ```
-MONGO_DB="cstring"
+MONGO_DB="mongodb://localhost:27012"
 ```

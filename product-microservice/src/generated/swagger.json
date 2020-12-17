@@ -27,6 +27,12 @@
 			},
 			"Products.ViewModel": {
 				"properties": {
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
 					"image": {
 						"type": "string"
 					},
@@ -46,6 +52,7 @@
 					}
 				},
 				"required": [
+					"tags",
 					"image",
 					"price",
 					"quantity",
@@ -56,6 +63,12 @@
 			},
 			"Product": {
 				"properties": {
+					"tags": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
 					"image": {
 						"type": "string"
 					},
@@ -75,6 +88,7 @@
 					}
 				},
 				"required": [
+					"tags",
 					"image",
 					"price",
 					"description",

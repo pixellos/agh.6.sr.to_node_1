@@ -13,6 +13,7 @@ import { OrderProduct } from './orderProduct';
 
 
 export interface OrdersViewModel { 
+    user: string;
     products: Array<OrderProduct>;
     quantity: number;
     name: string;

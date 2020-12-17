@@ -23,7 +23,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderEventUnion": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"ref":"Order","required":true},"what":{"dataType":"enum","enums":["Issued"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{},"required":true},"what":{"dataType":"enum","enums":["Sent"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"amount":{"dataType":"double","required":true}},"required":true},"what":{"dataType":"enum","enums":["Paid"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"cause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["Returned"],"required":true}}}],"validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"who":{"dataType":"string","required":true}}},{"dataType":"union","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"ref":"Order","required":true},"what":{"dataType":"enum","enums":["Issued"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{},"required":true},"what":{"dataType":"enum","enums":["Sent"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string","required":true},"amount":{"dataType":"double","required":true}},"required":true},"what":{"dataType":"enum","enums":["Paid"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"refundCause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["RefundRequested"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"cause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["Refunded"],"required":true}}}]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ErrorResponse_OrderEventUnion-Array_": {
@@ -43,7 +43,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Orders.ViewModel": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"products":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderProduct"},"required":true},"quantity":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"user":{"dataType":"string","required":true},"products":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderProduct"},"required":true},"quantity":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderDto": {
@@ -93,6 +93,7 @@ export function RegisterRoutes(app: express.Router) {
             function (request: any, response: any, next: any) {
             const args = {
                     data: {"in":"body","name":"data","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string","required":true}}},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -115,6 +116,7 @@ export function RegisterRoutes(app: express.Router) {
             function (request: any, response: any, next: any) {
             const args = {
                     vm: {"in":"body","name":"vm","required":true,"ref":"Orders.ViewModel"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -137,7 +139,9 @@ export function RegisterRoutes(app: express.Router) {
             function (request: any, response: any, next: any) {
             const args = {
                     amount: {"in":"query","name":"amount","required":true,"dataType":"double"},
+                    method: {"in":"query","name":"method","required":true,"dataType":"string"},
                     id: {"in":"query","name":"id","required":true,"dataType":"string"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -153,6 +157,54 @@ export function RegisterRoutes(app: express.Router) {
 
 
             const promise = controller.pay.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/order/refund',
+            function (request: any, response: any, next: any) {
+            const args = {
+                    cause: {"in":"query","name":"cause","required":true,"dataType":"string"},
+                    id: {"in":"query","name":"id","required":true,"dataType":"string"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new OrderController();
+
+
+            const promise = controller.refund.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/order/acceptRefund',
+            function (request: any, response: any, next: any) {
+            const args = {
+                    cause: {"in":"query","name":"cause","required":true,"dataType":"string"},
+                    id: {"in":"query","name":"id","required":true,"dataType":"string"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new OrderController();
+
+
+            const promise = controller.acceptRefund.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

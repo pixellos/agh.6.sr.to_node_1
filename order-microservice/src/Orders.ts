@@ -5,7 +5,7 @@ import { Connection } from "./Connection";
 import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
 
 export namespace Orders {
-  export type ViewModel = { name: string; quantity: number; products: OrderProduct[]; };
+  export type ViewModel = { name: string; quantity: number; products: OrderProduct[]; user: string };
   export type CreateOrderCommandEvent = ViewModel & { type: 'CreateOrderCommandEvent'; };
 
   export async function GetOrder(id: string) {
@@ -33,7 +33,6 @@ export namespace Orders {
     const data = await order.find({});
     const previousRevision = Math.max(...data.map(x => x.revision.valueOf()));
     const createResult = await order.create({
-      who: 'admin',
       previousRevision: previousRevision,
       revision: previousRevision + 1,
       when: new Date(),
@@ -44,31 +43,40 @@ export namespace Orders {
     return previousRevision + 1;
   }
 
-  export async function SendOrderCommand(props: { id: string, type: 'SendOrderCommand' }) {
+  export async function SendOrderCommand(props: { id: string, type: 'SendOrderCommand', user: string }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Sent', with: {} })
+    await Save(order, { what: 'Sent', with: {}, who: props.user })
   }
 
-  export async function PayOrderCommand(props: { id: string, amount: number, type: 'PayForOrderCommand' }) {
+  export async function PayOrderCommand(props: { id: string, amount: number, method: string, type: 'PayForOrderCommand', user: string }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Issued'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Paid', with: { amount: props.amount } })
+    await Save(order, { what: 'Paid', with: { amount: props.amount, method: props.method }, who: props.user })
   }
 
-  export async function RefundOrderCommand(props: { id: string, type: 'RefundOrderCommand' }) {
-    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Sent'] })
+  export async function RefundCommand(props: { id: string, cause: string, type: 'RefundOrderCommand', user: string }) {
+    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid'] })
     if (isErrorResponse(o)) {
       return o;
     }
     const { data: item, order } = o;
-    await Save(order, { what: 'Sent', with: {} })
+    await Save(order, { what: 'RefundRequested', with: { refundCause: props.cause }, who: props.user })
+  }
+
+  export async function AcceptRefundCommand(props: { id: string, cause: string, type: 'AcceptRefundOrderCommand', user: string }) {
+    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid'] })
+    if (isErrorResponse(o)) {
+      return o;
+    }
+    const { data: item, order } = o;
+    await Save(order, { what: 'Refunded', with: { cause: props.cause }, who: props.user })
   }
 
   export async function CreateOrderCommand(p: CreateOrderCommandEvent) {
@@ -84,7 +92,8 @@ export namespace Orders {
         name: p.name,
         quantity: p.quantity,
         products: p.products,
-      }
+      },
+      who: p.user
     })
     if (isErrorResponse(save))
       return errorResponse({ message: 'Order cannot be saved. Try again.' });

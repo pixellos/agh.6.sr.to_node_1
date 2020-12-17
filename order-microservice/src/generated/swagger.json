@@ -53,100 +53,146 @@
 				"type": "object"
 			},
 			"OrderEventUnion": {
-				"anyOf": [
+				"allOf": [
 					{
 						"properties": {
-							"with": {
-								"$ref": "#/components/schemas/Order"
-							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Issued"
-								],
-								"nullable": false
+							"who": {
+								"type": "string"
 							}
 						},
 						"required": [
-							"with",
-							"what"
+							"who"
 						],
 						"type": "object"
 					},
 					{
-						"properties": {
-							"with": {
-								"properties": {},
-								"type": "object"
-							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Sent"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"with",
-							"what"
-						],
-						"type": "object"
-					},
-					{
-						"properties": {
-							"with": {
+						"anyOf": [
+							{
 								"properties": {
-									"amount": {
-										"type": "number",
-										"format": "double"
+									"with": {
+										"$ref": "#/components/schemas/Order"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Issued"
+										],
+										"nullable": false
 									}
 								},
 								"required": [
-									"amount"
+									"with",
+									"what"
 								],
 								"type": "object"
 							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Paid"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"with",
-							"what"
-						],
-						"type": "object"
-					},
-					{
-						"properties": {
-							"with": {
+							{
 								"properties": {
-									"cause": {
-										"type": "string"
+									"with": {
+										"properties": {},
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Sent"
+										],
+										"nullable": false
 									}
 								},
 								"required": [
-									"cause"
+									"with",
+									"what"
 								],
 								"type": "object"
 							},
-							"what": {
-								"type": "string",
-								"enum": [
-									"Returned"
+							{
+								"properties": {
+									"with": {
+										"properties": {
+											"method": {
+												"type": "string"
+											},
+											"amount": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"required": [
+											"method",
+											"amount"
+										],
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Paid"
+										],
+										"nullable": false
+									}
+								},
+								"required": [
+									"with",
+									"what"
 								],
-								"nullable": false
+								"type": "object"
+							},
+							{
+								"properties": {
+									"with": {
+										"properties": {
+											"refundCause": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"refundCause"
+										],
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"RefundRequested"
+										],
+										"nullable": false
+									}
+								},
+								"required": [
+									"with",
+									"what"
+								],
+								"type": "object"
+							},
+							{
+								"properties": {
+									"with": {
+										"properties": {
+											"cause": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"cause"
+										],
+										"type": "object"
+									},
+									"what": {
+										"type": "string",
+										"enum": [
+											"Refunded"
+										],
+										"nullable": false
+									}
+								},
+								"required": [
+									"with",
+									"what"
+								],
+								"type": "object"
 							}
-						},
-						"required": [
-							"with",
-							"what"
-						],
-						"type": "object"
+						]
 					}
 				]
 			},
@@ -243,6 +289,9 @@
 			},
 			"Orders.ViewModel": {
 				"properties": {
+					"user": {
+						"type": "string"
+					},
 					"products": {
 						"items": {
 							"$ref": "#/components/schemas/OrderProduct"
@@ -258,6 +307,7 @@
 					}
 				},
 				"required": [
+					"user",
 					"products",
 					"quantity",
 					"name"
@@ -475,6 +525,86 @@
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "method",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/order/refund": {
+			"post": {
+				"operationId": "Refund",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "cause",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/order/acceptRefund": {
+			"post": {
+				"operationId": "AcceptRefund",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "cause",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					},
 					{

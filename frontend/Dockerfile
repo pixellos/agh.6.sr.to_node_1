@@ -1,7 +1,14 @@
-FROM node:current-alpine3.10
+FROM node:current-alpine3.10 as build
+
 WORKDIR /usr/src/app
-COPY frontend/package*.json ./
+COPY ./frontend/*.json ./
+COPY ./frontend/src/ ./src/
+
 RUN npm install
-COPY frontend/ ./
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN npm run build
+
+# Stage - Production
+FROM nginx:1.17-alpine
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
