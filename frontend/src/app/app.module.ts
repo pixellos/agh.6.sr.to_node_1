@@ -25,6 +25,14 @@ import {MatRadioModule} from "@angular/material/radio";
 import {OrderComponent} from "./order/order.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CallComponent} from "./welcome/call.component";
+import { CartComponent } from './cart/cart.component';
+import { AboutComponent } from './about/about.component';
+import { CartButtonComponent } from './cart-button/cart-button.component';
+import {CookieService} from "ngx-cookie-service";
+import { DeleteButtonCartComponent } from './delete-button-cart/delete-button-cart.component';
+import { ComplaintButtonComponent } from './complaint-button/complaint-button.component';
+import { ComplaintComponent } from './complaint/complaint.component';
+import { ComplaintProcessComponent } from './complaint-process/complaint-process.component';
 
 import {ApiModule} from 'src/client-order/api.module'
 import {Configuration} from 'src/client-order/configuration'
@@ -44,6 +52,14 @@ import {Configuration} from 'src/client-order/configuration'
     BuyComponent,
     OrderComponent,
     CallComponent,
+    CartComponent,
+    AboutComponent,
+    CartButtonComponent,
+    DeleteButtonCartComponent,
+    ComplaintButtonComponent,
+    ComplaintComponent,
+    ComplaintProcessComponent
+
   ],
   imports: [
     AuthModule.forRoot({
@@ -75,6 +91,7 @@ import {Configuration} from 'src/client-order/configuration'
       useClass: AuthHttpInterceptor,
       multi: true,
     },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
