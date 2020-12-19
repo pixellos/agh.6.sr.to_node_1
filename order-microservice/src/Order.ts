@@ -1,21 +1,29 @@
 
 import mongoose from 'mongoose';
 import { EventBase, OrderAction, EventBaseSchema } from "../../commons-microservice/src/EventBase";
+export type UserBaseEvent = { who: string };
 
-export type OrderEventUnion = { who: string } & (
-  | {
-    what: 'Issued'
-    with: Order
-  }
-  | { what: 'Sent', with: {  } }
-  | { what: 'Paid', with: { amount: number, method: string } }
-  | { what: 'RefundRequested', with: { refundCause: string } }
-  | { what: 'Refunded', with: { cause: string } }
-);
+export type SentEvent = UserBaseEvent & { what: 'Sent', with: {} };
+
+export type IssuedEvent = UserBaseEvent & {
+  what: 'Issued'
+  with: Order
+}
+
+export type PaidEvent = UserBaseEvent & { what: 'Paid', with: { amount: number, method: string } }
+export type RequestRefuntEvent = UserBaseEvent & { what: 'RefundRequested', with: { refundCause: string } };
+export type RefundEvent = UserBaseEvent & { what: 'Refunded', with: { cause: string } };
+
+export type OrderEventUnion =
+  | IssuedEvent
+  | SentEvent
+  | PaidEvent
+  | RefundEvent
+  | RequestRefuntEvent
 
 export type OrderEventDto = EventBase & {
   what: OrderAction
-} & OrderEventUnion;
+} & UserBaseEvent & OrderEventUnion;
 
 export type OrderEvent = mongoose.Document & OrderEventDto;
 
@@ -23,7 +31,10 @@ export type OrderProduct = {
   name: string,
   quantity: string,
   totalPrice: string,
-  price: string
+  price: string,
+  shortDescription: string,
+  description: string,
+  imageUrl: string
 }
 
 export type Order = {

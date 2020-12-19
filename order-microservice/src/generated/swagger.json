@@ -6,8 +6,47 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"BadResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"true"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"message",
+					"error"
+				],
+				"type": "object"
+			},
+			"UserBaseEvent": {
+				"properties": {
+					"who": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"who"
+				],
+				"type": "object"
+			},
 			"OrderProduct": {
 				"properties": {
+					"imageUrl": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"shortDescription": {
+						"type": "string"
+					},
 					"price": {
 						"type": "string"
 					},
@@ -22,6 +61,9 @@
 					}
 				},
 				"required": [
+					"imageUrl",
+					"description",
+					"shortDescription",
 					"price",
 					"totalPrice",
 					"quantity",
@@ -52,192 +94,214 @@
 				],
 				"type": "object"
 			},
-			"OrderEventUnion": {
+			"IssuedEvent": {
 				"allOf": [
 					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
 						"properties": {
-							"who": {
-								"type": "string"
+							"with": {
+								"$ref": "#/components/schemas/Order"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Issued"
+								],
+								"nullable": false
 							}
 						},
 						"required": [
-							"who"
+							"with",
+							"what"
 						],
 						"type": "object"
-					},
-					{
-						"anyOf": [
-							{
-								"properties": {
-									"with": {
-										"$ref": "#/components/schemas/Order"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Issued"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {},
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Sent"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {
-											"method": {
-												"type": "string"
-											},
-											"amount": {
-												"type": "number",
-												"format": "double"
-											}
-										},
-										"required": [
-											"method",
-											"amount"
-										],
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Paid"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {
-											"refundCause": {
-												"type": "string"
-											}
-										},
-										"required": [
-											"refundCause"
-										],
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"RefundRequested"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"with": {
-										"properties": {
-											"cause": {
-												"type": "string"
-											}
-										},
-										"required": [
-											"cause"
-										],
-										"type": "object"
-									},
-									"what": {
-										"type": "string",
-										"enum": [
-											"Refunded"
-										],
-										"nullable": false
-									}
-								},
-								"required": [
-									"with",
-									"what"
-								],
-								"type": "object"
-							}
-						]
 					}
 				]
+			},
+			"SentEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {},
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Sent"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"PaidEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"method": {
+										"type": "string"
+									},
+									"amount": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"method",
+									"amount"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Paid"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"RefundEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"cause": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"cause"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"Refunded"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"RequestRefuntEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"properties": {
+									"refundCause": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refundCause"
+								],
+								"type": "object"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"RefundRequested"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"OrderEventUnion": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/IssuedEvent"
+					},
+					{
+						"$ref": "#/components/schemas/SentEvent"
+					},
+					{
+						"$ref": "#/components/schemas/PaidEvent"
+					},
+					{
+						"$ref": "#/components/schemas/RefundEvent"
+					},
+					{
+						"$ref": "#/components/schemas/RequestRefuntEvent"
+					}
+				]
+			},
+			"OkResponse_OrderEventUnion-Array_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/OrderEventUnion"
+						},
+						"type": "array"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
 			},
 			"ErrorResponse_OrderEventUnion-Array_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"items": {
-									"$ref": "#/components/schemas/OrderEventUnion"
-								},
-								"type": "array"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_OrderEventUnion-Array_"
 					}
 				]
 			},
@@ -245,45 +309,32 @@
 				"properties": {},
 				"type": "object"
 			},
+			"OkResponse_Empty_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/Empty"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
 			"ErrorResponse_Empty_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"$ref": "#/components/schemas/Empty"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_Empty_"
 					}
 				]
 			},
@@ -341,48 +392,35 @@
 					}
 				]
 			},
+			"OkResponse_OrderDto-Array_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/OrderDto"
+						},
+						"type": "array"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
 			"ErrorResponse_OrderDto-Array_": {
 				"anyOf": [
 					{
-						"properties": {
-							"message": {
-								"type": "string"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"true"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"message",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"properties": {
-							"data": {
-								"items": {
-									"$ref": "#/components/schemas/OrderDto"
-								},
-								"type": "array"
-							},
-							"error": {
-								"type": "boolean",
-								"enum": [
-									"false"
-								],
-								"nullable": false
-							}
-						},
-						"required": [
-							"data",
-							"error"
-						],
-						"type": "object"
+						"$ref": "#/components/schemas/OkResponse_OrderDto-Array_"
 					}
 				]
 			}

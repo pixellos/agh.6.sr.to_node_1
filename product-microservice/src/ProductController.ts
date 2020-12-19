@@ -1,5 +1,3 @@
-import { Mongoose, default as mongoose } from "mongoose";
-import { rootCertificates } from "tls";
 import {
   Controller,
   Get,
@@ -8,68 +6,60 @@ import {
   Route,
   Query,
   Path,
+  OperationId,
 } from "tsoa";
-import { ProductDto, ProductEvent } from "./Product";
-import { ErrorResponse, isErrorResponse, Products } from "./Products";
+import { Empty, errorResponse, ErrorResponse, isErrorResponse, okResponse } from "../../commons-microservice/src/CommonHelpers";
+import { Product, ProductDto, ProductEvent } from "./Product";
+import { Products } from "./Products";
 
-export const errorResponse = (p: { message: string }) => ({ error: true, message: p.message }) as ErrorResponse;
 
 @Route("product")
 export class ProductController extends Controller {
 
-  @Post()
+  @Post("/")
   public async create(
     @Body()
     product: Products.ViewModel
-  ): Promise<ErrorResponse> {
+  ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
     console.log("Entered create");
-    const r = (await Products.CreateProductCommand({ ...product,  type: 'CreateProductCommand' }));
-    if (r)
-      return r as ErrorResponse;
-    
-    return { error: true, message: 'Unknown error' };
+    const r = (await Products.CreateProductCommand({ ...product, type: 'CreateProductCommand' }));
+    return r;
   }
 
-  @Get("{id}")
-  public async get(
+  @Get("{id}/get")
+  public async getById(
     @Path() id: string
-  ): Promise<ErrorResponse | ProductDto> {
+  ): Promise<ErrorResponse<Product>> {
     // Todo: Pattern mediator.
-    debugger;
-    const r = (await Products.GetProduct( id ));
-    if (r)
-      return r as ErrorResponse;
-    return { error: true, message: 'Unknown error' };
+    const r = (await Products.GetProduct(id));
+    if (isErrorResponse(r))
+      return r;
+    
+    return okResponse(r.data.data)
   }
 
   @Post("{id}/add")
   public async add(
     @Path() id: string,
     @Query('quantity') quantity: number,
-  ): Promise<ErrorResponse> {
+  ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
-    const r = (await Products.AddProductCommand({ id, quantity, type: 'AddProductCommand' }));
-    if (r)
-      return r as ErrorResponse;
-    return { error: true, message: 'Unknown error' };
+    return (await Products.AddProductCommand({ id, quantity, type: 'AddProductCommand' }));
   }
-  
+
   @Post("{id}/buy")
   public async buy(
     @Path() id: string,
     @Query('quantity') quantity: number,
-  ): Promise<ErrorResponse | string> {
+  ): Promise<ErrorResponse<Empty>> {
     // Todo: Pattern mediator.
-    const r = (await Products.BuyProductCommand({ id, quantity, type: 'BuyProductCommand' }));
-    if (r)
-      return r as ErrorResponse;
-
-    return { error: true, message: 'Unknown error' };
+    return (await Products.BuyProductCommand({ id, quantity, type: 'BuyProductCommand' }));
   }
 
-  @Get()
-  public async list(): Promise<ErrorResponse | ProductDto[]> {
+  @Get("all")
+  @OperationId('listAll')
+  public async listAll(): Promise<ErrorResponse<ProductDto[]>> {
     return await Products.QueryAllProducts({});
   }
 }

@@ -34,6 +34,8 @@ import { ComplaintButtonComponent } from './complaint-button/complaint-button.co
 import { ComplaintComponent } from './complaint/complaint.component';
 import { ComplaintProcessComponent } from './complaint-process/complaint-process.component';
 
+import {ApiModule} from 'src/client-order/api.module'
+import {Configuration} from 'src/client-order/configuration'
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { ComplaintProcessComponent } from './complaint-process/complaint-process
     ComplaintButtonComponent,
     ComplaintComponent,
     ComplaintProcessComponent
+
   ],
   imports: [
     AuthModule.forRoot({
@@ -78,8 +81,9 @@ import { ComplaintProcessComponent } from './complaint-process/complaint-process
     BrowserAnimationsModule,
     MatDialogModule,
     MatRadioModule,
+    AgGridModule.withComponents([]),
     HttpClientModule,
-    AgGridModule.withComponents([])
+    ApiModule.forRoot(() => new Configuration({basePath: 'http://localhost:3001'})),
   ],
   providers: [
     {

@@ -11,9 +11,19 @@ import * as express from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "BadResponse": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"error":{"dataType":"enum","enums":[true],"required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserBaseEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"who":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderProduct": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"price":{"dataType":"string","required":true},"totalPrice":{"dataType":"string","required":true},"quantity":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"imageUrl":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"shortDescription":{"dataType":"string","required":true},"price":{"dataType":"string","required":true},"totalPrice":{"dataType":"string","required":true},"quantity":{"dataType":"string","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Order": {
@@ -21,14 +31,44 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"products":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderProduct"},"required":true},"name":{"dataType":"string","required":true},"quantity":{"dataType":"double","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IssuedEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"ref":"Order","required":true},"what":{"dataType":"enum","enums":["Issued"],"required":true}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SentEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{},"required":true},"what":{"dataType":"enum","enums":["Sent"],"required":true}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaidEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string","required":true},"amount":{"dataType":"double","required":true}},"required":true},"what":{"dataType":"enum","enums":["Paid"],"required":true}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RefundEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"cause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["Refunded"],"required":true}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RequestRefuntEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"refundCause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["RefundRequested"],"required":true}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderEventUnion": {
         "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"who":{"dataType":"string","required":true}}},{"dataType":"union","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"ref":"Order","required":true},"what":{"dataType":"enum","enums":["Issued"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{},"required":true},"what":{"dataType":"enum","enums":["Sent"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string","required":true},"amount":{"dataType":"double","required":true}},"required":true},"what":{"dataType":"enum","enums":["Paid"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"refundCause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["RefundRequested"],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"cause":{"dataType":"string","required":true}},"required":true},"what":{"dataType":"enum","enums":["Refunded"],"required":true}}}]}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"ref":"IssuedEvent"},{"ref":"SentEvent"},{"ref":"PaidEvent"},{"ref":"RefundEvent"},{"ref":"RequestRefuntEvent"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "OkResponse_OrderEventUnion-Array_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderEventUnion"},"required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ErrorResponse_OrderEventUnion-Array_": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"error":{"dataType":"enum","enums":[true],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderEventUnion"},"required":true},"error":{"dataType":"enum","enums":[false],"required":true}}}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_OrderEventUnion-Array_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Empty": {
@@ -36,9 +76,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "OkResponse_Empty_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"ref":"Empty","required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ErrorResponse_Empty_": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"error":{"dataType":"enum","enums":[true],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"ref":"Empty","required":true},"error":{"dataType":"enum","enums":[false],"required":true}}}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_Empty_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Orders.ViewModel": {
@@ -51,9 +96,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"intersection","subSchemas":[{"ref":"Order"},{"dataType":"nestedObjectLiteral","nestedProperties":{"status":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["Started"]},{"dataType":"enum","enums":["Sent"]},{"dataType":"enum","enums":["Derived"]},{"dataType":"enum","enums":["Returned"]}],"required":true},"id":{"dataType":"string"}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "OkResponse_OrderDto-Array_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderDto"},"required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ErrorResponse_OrderDto-Array_": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"error":{"dataType":"enum","enums":[true],"required":true}}},{"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderDto"},"required":true},"error":{"dataType":"enum","enums":[false],"required":true}}}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_OrderDto-Array_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
