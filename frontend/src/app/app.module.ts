@@ -83,7 +83,7 @@ import {Configuration} from 'src/client-order/configuration'
     MatRadioModule,
     AgGridModule.withComponents([]),
     HttpClientModule,
-    ApiModule.forRoot(() => new Configuration({basePath: 'http://localhost:3001'})),
+    ApiModule.forRoot(() => new Configuration({basePath: 'http://localhost:3001/frontend'})),
   ],
   providers: [
     {

@@ -4,12 +4,23 @@ admin:
   port: 9876
   host: localhost
 apiEndpoints:
-  api:
+  product:
     host: localhost
-    paths: '/ip'
+    paths: ['/product','/product/*']
+  order:
+    host: localhost    
+    paths: ['/order','/order/*']
+  frontend:
+    host: localhost    
+    paths: '*'
+
 serviceEndpoints:
-  httpbin:
-    url: 'https://httpbin.org'
+  product:
+    url: 'http://host.docker.internal:1114/product'
+  order:
+    url: 'http://host.docker.internal:1113/order'
+  frontend:
+    url: 'http://host.docker.internal:1111/'
 policies:
   - basic-auth
   - cors
@@ -22,11 +33,31 @@ policies:
 pipelines:
   default:
     apiEndpoints:
-      - api
+      - frontend
     policies:
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
     # - key-auth:
       - proxy:
           - action:
-              serviceEndpoint: httpbin 
+              serviceEndpoint: frontend 
+              changeOrigin: true
+  orderPipeline:
+    apiEndpoints:
+      - order
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: order 
+              changeOrigin: true
+  productPipeline:
+    apiEndpoints:
+      - product
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: product 
               changeOrigin: true

@@ -7,6 +7,10 @@ foreach ($svc in $services) {
     docker stop "$svc-microservice"
 }
 
+foreach ($svc in $services) {
+    docker container rm "$svc-microservice"
+}
+
 foreach ($svc in $beServices) {
     docker build . --build-arg "MS_NAME=$svc-microservice" -t "docker.local:5000/$svc-microservice:latest"
 }
