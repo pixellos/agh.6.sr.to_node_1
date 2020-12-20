@@ -33,8 +33,8 @@ FROM node:14-alpine3.10
 ARG MS_NAME
 
 #env settings for local run - adjust / remove before deployment:
-#ENV MONGO_DB="mongodb://host.docker.internal:27017"
-#ENV PORT=3000
+ENV MONGO_DB="mongodb://host.docker.internal:27017"
+ENV PORT=3000
 
 WORKDIR /root/
 COPY --from=builder /usr/src/app/${MS_NAME}/dist app/dist

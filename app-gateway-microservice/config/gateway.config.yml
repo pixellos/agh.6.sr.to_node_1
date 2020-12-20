@@ -16,9 +16,9 @@ apiEndpoints:
 
 serviceEndpoints:
   product:
-    url: 'http://host.docker.internal:1114/product'
+    url: 'http://host.docker.internal:1114/'
   order:
-    url: 'http://host.docker.internal:1113/order'
+    url: 'http://host.docker.internal:1113/'
   frontend:
     url: 'http://host.docker.internal:1111/'
 policies:
