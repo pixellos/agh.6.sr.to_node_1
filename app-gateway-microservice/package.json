@@ -15,7 +15,9 @@
     "nstall": "^0.2.0",
     "swagger-ui-express": "^4.1.4",
     "tsoa": "^3.4.0",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "express-gateway": "^1.16.10"
+    
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.1.5",
@@ -42,7 +44,7 @@
     "dev": "nodemon --verbose",
     "generate2": "openapi-generator-cli generate -g typescript-angular -i ./src/generated/swagger.json -o ./../frontend/src/client-order",
     "build": "node node_modules/typescript/bin/tsc --build",
-    "start": "nodemon index.ts",
+    "start": "nodemon server.ts",
     "serve": "node dist/src/server.js"
   }
 }
