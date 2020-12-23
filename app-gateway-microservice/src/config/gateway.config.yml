@@ -1,5 +1,5 @@
 http:
-  port: 3000
+  port: 3001
 admin:
   port: 9876
   host: localhost
@@ -16,11 +16,11 @@ apiEndpoints:
 
 serviceEndpoints:
   product:
-    url: 'http://host.docker.internal:1114/'
+    url: 'http://localhost:3003/'
   order:
-    url: 'http://host.docker.internal:1113/'
+    url: 'http://localhost:3002/'
   frontend:
-    url: 'http://host.docker.internal:1111/'
+    url: 'http://localhost:3000/'
 policies:
   - basic-auth
   - cors
@@ -35,6 +35,9 @@ pipelines:
     apiEndpoints:
       - frontend
     policies:
+      - log: # policy name
+        - action:    # array of condition/actions objects
+            message: frontend ${req.method} ${req.originalUrl} # parameter for log action
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
     # - key-auth:
       - proxy:
@@ -45,19 +48,29 @@ pipelines:
     apiEndpoints:
       - order
     policies:
+      - log: # policy name
+          - action:    # array of condition/actions objects
+              message: order ${req} ${req.method} ${req.originalUrl} # parameter for log action
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
     # - key-auth:
       - proxy:
           - action:
               serviceEndpoint: order 
+              stripPath: true
               changeOrigin: true
+              prependPath: false
   productPipeline:
     apiEndpoints:
       - product
     policies:
+      - log: # policy name
+          - action:    # array of condition/actions objects
+              message: product ${req.method} ${req.originalUrl} # parameter for log action
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
     # - key-auth:
       - proxy:
           - action:
               serviceEndpoint: product 
+              stripPath: true
               changeOrigin: true
+              prependPath: false
