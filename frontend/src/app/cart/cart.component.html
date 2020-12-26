@@ -10,10 +10,11 @@
       <ag-grid-angular
         style="width: 100%; height: 30vh;"
         class="ag-theme-alpine"
-        [rowData]="cartRowData"
+        [rowData]="cartData"
         [columnDefs]="cartColumnDefs"
         [gridOptions]="cartOptions"
         [enableRangeSelection]="true"
+        [overlayNoRowsTemplate]="overlayNoRowsTemplate"
         [pagination]="false"
         [paginationAutoPageSize]="false"
       >

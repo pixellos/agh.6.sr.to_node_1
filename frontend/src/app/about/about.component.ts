@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataGeneratorService} from "../data-generator.service";
 
 @Component({
   selector: 'app-about',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataGenerator: DataGeneratorService) { }
 
   ngOnInit(): void {
+  }
+
+  generateData() {
+    this.dataGenerator.generateData()
   }
 
 }

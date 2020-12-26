@@ -1,34 +1,28 @@
-<div class="container">
+<div class="container border rounded">
   <div class="row">
     <div class="col d-flex justify-content-center">
       <h1>Proces Kupna Produktu</h1>
     </div>
   </div>
 
-  <div *ngFor="let product of products">
-    <div class="row">
-      <div class="col">
-        Produkt: {{product.shortDescription}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        Ilosc: 1
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        Cena: {{product.price}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        ------
-      </div>
-    </div>
-  </div>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Produkt</th>
+      <th scope="col">Ilosc</th>
+      <th scope="col">Cena</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{product.shortDescription}}</td>
+      <td>1</td>
+      <td>{{product.price}}</td>
+    </tr>
+    </tbody>
+  </table>
 
-  <div class="row">
+  <div class="row ml-2">
     <div class="col">
       <b> Sumaryczna Cena: {{totalSum}} </b>
     </div>
@@ -39,25 +33,62 @@
       Mozliwosci Wysylki:
     </div>
   </div>
-  <div class="row">
-    <mat-radio-group aria-label="Select an option">
-      <div class="col">
-        <mat-radio-button value="POCZTA">Poczta</mat-radio-button>
-      </div>
-      <div class="col">
-        <mat-radio-button value="KURIER">Kurier</mat-radio-button>
-      </div>
-      <div class="col">
-        <mat-radio-button value="ODBIOR">Odbior osobisty</mat-radio-button>
-      </div>
+  <div class="row ml-4">
+    <mat-radio-group class="radio-group" [(ngModel)]="selectedReceiveMethod">
+      <mat-radio-button *ngFor="let receiveMethod of receiveMethods" [value]="receiveMethod">
+        <div class="col mt-2">
+          {{receiveMethod}}
+        </div>
+      </mat-radio-button>
     </mat-radio-group>
   </div>
+  <div class="row mt-3">
+    <div class="col">
+      Platnosc:
+    </div>
+  </div>
+
+  <div class="row mt-1 ml-2" style="min-height: 150px">
+    <div class="col-3">
+      <label for="cardNumber">Numer Karty</label>
+      <input type="text" class="form-control" id="cardNumber" name="cardNumber"
+             required maxlength="6" pattern="^[0-9]*$"
+             [(ngModel)]="payment.cardNumber" #cardNumber="ngModel"
+             [readOnly]="payment.accepted">
+      <div [hidden]="cardNumber.valid || cardNumber.pristine" class="alert alert-danger">
+        Numer karty niepoprawny
+      </div>
+    </div>
+    <div class="col-2">
+      <label for="pin">PIN</label>
+      <input type="password" class="form-control" id="pin" name="pin"
+             required maxlength="4" pattern="^[0-9]*$"
+             [(ngModel)]="payment.pin" #pin="ngModel"
+             [readOnly]="payment.accepted">
+      <div [hidden]="pin.valid || pin.pristine" class="alert alert-danger">
+        PIN niepoprawny
+      </div>
+    </div>
+    <div class="col-2 mt-4">
+      <button (click)="acceptPayment()" mat-raised-button color="accent"
+              [disabled]="!(cardNumber.valid && pin.valid)">Akceptuj
+      </button>
+    </div>
+  </div>
   <div class="row">
+    <div class="col-1 pr-0">STATUS:</div>
+    <div class="col-3 pl-0" [ngStyle]="{'color': (payment.accepted == true) ? 'green' : 'grey'}">
+      <b>{{payment.status}}</b>
+    </div>
+  </div>
+  <div class="row mt-4">
     <div>
       <button (click)="backToProducts()" mat-raised-button>Powrot</button>
     </div>
     <div>
-      <button (click)="confirmOrder()" mat-raised-button color="primary">Zatwierdz Zamowienie</button>
+      <button (click)="confirmOrder()" [disabled]="!payment.accepted" mat-raised-button
+              color="primary">Zatwierdz Zamowienie
+      </button>
     </div>
   </div>
 </div>

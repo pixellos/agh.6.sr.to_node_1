@@ -22,7 +22,9 @@ export class CartComponent implements OnInit {
     {headerName: 'Usun', maxWidth: 150, cellRendererFramework: DeleteButtonCartComponent},
   ];
 
-  cartRowData: Product[] = [];
+  cartData: Product[] = [];
+
+  overlayNoRowsTemplate = '<span class="ag-overlay-loading-center">Koszyk pusty</span>';
 
   cartOptions: GridOptions = {suppressCellSelection: true};
 
@@ -30,7 +32,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cartRowData = this.cartService.products;
+    this.cartData = this.cartService.products;
   }
 
   public onGridReady(params: GridReadyEvent): void {
@@ -44,7 +46,7 @@ export class CartComponent implements OnInit {
 
   buyCart() {
     this.cartService.products = []
-    this.router.navigate(['buy'], { state: { products: this.cartRowData } });
+    this.router.navigate(['buy'], { state: { products: this.cartData } });
   }
 
   backToProducts() {
