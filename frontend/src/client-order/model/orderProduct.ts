@@ -12,12 +12,12 @@
 
 
 export interface OrderProduct { 
-    imageUrl: string;
+    image: string;
     description: string;
     shortDescription: string;
-    price: string;
-    totalPrice: string;
-    quantity: string;
+    price: number;
+    totalPrice: number;
+    quantity: number;
     name: string;
 }
 

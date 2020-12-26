@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { v4 } from 'uuid';
 import { errorResponse, isErrorResponse, okResponse } from '../../commons-microservice/src/CommonHelpers';
 import { Connection } from "./Connection";
-import { defaultOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
+import { defaultOrderDto, ExtendedOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
 
 export namespace Orders {
   export type ViewModel = { name: string; quantity: number; products: OrderProduct[]; user: string };
@@ -107,11 +107,22 @@ export namespace Orders {
     return result;
   }
 
+  function ConvertToViewModel(dto: OrderDto) {
+    const result: ExtendedOrderDto = {
+      ...dto,
+      totalPrice: dto.products?.reduce((acc, x) => acc + x.totalPrice, 0),
+      amountOfProducts:  dto.products?.reduce((acc, x) => acc + x.quantity, 0),
+    }
+    return result;
+  }
+
+
   export async function QueryAllOrders({ }) {
     const connection = await Connection.connect();
     const orders = await Connection.GetAggregatesIds(connection, OrderPrefix);
     const result = await Promise.all(orders.map(o => ({ order: OrderAggregate(o), id: o }))
-      .map(x => FlatMapEvents(x.order, x.id)));
-    return okResponse(result);
+      .map(x => FlatMapEvents(x.order, x.id)))
+      ;
+    return okResponse(result.map(ConvertToViewModel));
   }
 }

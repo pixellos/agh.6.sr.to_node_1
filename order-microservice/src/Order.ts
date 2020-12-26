@@ -29,12 +29,12 @@ export type OrderEvent = mongoose.Document & OrderEventDto;
 
 export type OrderProduct = {
   name: string,
-  quantity: string,
-  totalPrice: string,
-  price: string,
+  quantity: number,
+  totalPrice: number,
+  price: number,
   shortDescription: string,
   description: string,
-  imageUrl: string
+  image: string
 }
 
 export type Order = {
@@ -55,6 +55,11 @@ export type OrderDto = Order & {
   id?: string
   status: 'Started' | 'Sent' | 'Derived' | 'Returned'
 };
+
+export type ExtendedOrderDto = OrderDto & {
+  totalPrice: number,
+  amountOfProducts: number
+}
 
 export const defaultOrderDto: OrderDto = {
   ...defaultOrder,
