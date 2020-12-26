@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from "../model/product";
 import {Router} from "@angular/router";
 import {Order} from "../model/order";
+import {Payment} from "../model/payment";
 
 @Component({
   selector: 'app-buy',
@@ -12,6 +13,7 @@ export class BuyComponent implements OnInit {
 
   products: Product [] = [];
   totalSum: number;
+  payment: Payment = new Payment();
 
   constructor(private router: Router) {
     this.products = this.router.getCurrentNavigation().extras.state.products;
@@ -28,6 +30,11 @@ export class BuyComponent implements OnInit {
 
   backToProducts() {
     this.router.navigateByUrl('/products');
+  }
+
+  acceptPayment() {
+    this.payment.accepted = true;
+    this.payment.status = 'ZAAKCEPTOWANO PLATNOSC'
   }
 
 }

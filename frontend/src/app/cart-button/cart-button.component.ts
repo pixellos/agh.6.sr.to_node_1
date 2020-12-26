@@ -19,12 +19,6 @@ export class CartButtonComponent implements ICellRendererAngularComp {
 
   addToCart() {
     this.cartService.products.push(this.params.data)
-    // let cartProducts: Product[] = [];
-    // if (this.cookies.check('cart')) {
-    //   cartProducts = JSON.parse(this.cookies.get('cart'));
-    // }
-    // cartProducts.push(this.params.data);
-    // this.cookies.set('cart', JSON.stringify(cartProducts));
   };
 
   refresh(): boolean {

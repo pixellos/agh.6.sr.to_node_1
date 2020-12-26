@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { DefaultService as ProductHttpClient } from "src/client-product/api/default.service";
+import {Component, OnInit} from '@angular/core';
+import {DefaultService as ProductHttpClient} from "src/client-product/api/default.service";
 import {PreviewButtonComponent} from "../preview-button/preview-button.component";
 import {BuyButtonComponent} from "../buy-button/buy-button.component";
 import {GridOptions} from "ag-grid-community";
-import {Product} from "../model/product";
 import {Router} from "@angular/router";
 import {CartButtonComponent} from "../cart-button/cart-button.component";
 
@@ -24,8 +23,9 @@ export class ProductComponent implements OnInit {
     {headerName: 'Kup', maxWidth: 150,  cellRendererFramework: BuyButtonComponent},
     {headerName: 'Przegladaj', maxWidth: 150,  cellRendererFramework: PreviewButtonComponent}
   ];
-  productData = []
 
+  productData = []
+  overlayLoadingTemplate = '<span class="ag-overlay-loading-center">Prosze czekac trwa ladowanie danych</span>';
   productOptions: GridOptions = {suppressCellSelection: true};
 
   constructor(private router: Router, private httpClient:ProductHttpClient) { }
