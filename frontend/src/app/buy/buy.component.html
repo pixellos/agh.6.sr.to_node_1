@@ -33,17 +33,13 @@
       Mozliwosci Wysylki:
     </div>
   </div>
-  <div class="row ml-2">
-    <mat-radio-group aria-label="Select an option">
-      <div class="col mt-2">
-        <mat-radio-button value="POCZTA">Poczta</mat-radio-button>
-      </div>
-      <div class="col mt-2">
-        <mat-radio-button value="KURIER">Kurier</mat-radio-button>
-      </div>
-      <div class="col mt-2">
-        <mat-radio-button value="ODBIOR">Odbior osobisty</mat-radio-button>
-      </div>
+  <div class="row ml-4">
+    <mat-radio-group class="radio-group" [(ngModel)]="selectedReceiveMethod">
+      <mat-radio-button *ngFor="let receiveMethod of receiveMethods" [value]="receiveMethod">
+        <div class="col mt-2">
+          {{receiveMethod}}
+        </div>
+      </mat-radio-button>
     </mat-radio-group>
   </div>
   <div class="row mt-3">
@@ -74,13 +70,14 @@
       </div>
     </div>
     <div class="col-2 mt-4">
-      <button (click)="acceptPayment()"  mat-raised-button color="accent"
-              [disabled]="!(cardNumber.valid && pin.valid)">Akceptuj</button>
+      <button (click)="acceptPayment()" mat-raised-button color="accent"
+              [disabled]="!(cardNumber.valid && pin.valid)">Akceptuj
+      </button>
     </div>
   </div>
   <div class="row">
     <div class="col-1 pr-0">STATUS:</div>
-    <div class="col-3 pl-0" [ngStyle]="{'color': (payment.accepted == true) ? 'green' : 'red'}">
+    <div class="col-3 pl-0" [ngStyle]="{'color': (payment.accepted == true) ? 'green' : 'grey'}">
       <b>{{payment.status}}</b>
     </div>
   </div>

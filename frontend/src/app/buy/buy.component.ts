@@ -15,6 +15,13 @@ export class BuyComponent implements OnInit {
   totalSum: number;
   payment: Payment = new Payment();
 
+  selectedReceiveMethod: string = 'Poczta';
+  receiveMethods = [
+    'Poczta',
+    'Kurier',
+    'Odbior osobisty'
+  ];
+
   constructor(private router: Router) {
     this.products = this.router.getCurrentNavigation().extras.state.products;
   }

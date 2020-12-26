@@ -37,7 +37,7 @@ import {ApiModule as OrderApiModule} from 'src/client-order/api.module'
 import {Configuration as OrderConfiguration} from 'src/client-order/configuration'
 import {ApiModule as ProductApiModule} from 'src/client-product/api.module'
 import {Configuration as ProductConfiguration} from 'src/client-product/configuration'
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -87,6 +87,7 @@ import {FormsModule} from "@angular/forms";
     OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3001'})),
     ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3002'})),
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
