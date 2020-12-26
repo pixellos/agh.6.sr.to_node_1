@@ -95,4 +95,11 @@ export class OrderController extends Controller {
     const user = request?.user?.sub ?? 'test';
     return await Orders.QueryAllOrders({});
   }
+
+  @Get("admin/all")
+  // Todo:
+  public async allAdmin(@Request() request: UserRequest): Promise<ErrorResponse<OrderDto[]>> {
+    const user = request?.user?.sub ?? 'test';
+    return await Orders.QueryAllOrders({});
+  }
 }

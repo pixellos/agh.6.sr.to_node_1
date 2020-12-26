@@ -38,7 +38,7 @@
 			},
 			"OrderProduct": {
 				"properties": {
-					"imageUrl": {
+					"image": {
 						"type": "string"
 					},
 					"description": {
@@ -48,20 +48,23 @@
 						"type": "string"
 					},
 					"price": {
-						"type": "string"
+						"type": "number",
+						"format": "double"
 					},
 					"totalPrice": {
-						"type": "string"
+						"type": "number",
+						"format": "double"
 					},
 					"quantity": {
-						"type": "string"
+						"type": "number",
+						"format": "double"
 					},
 					"name": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"imageUrl",
+					"image",
 					"description",
 					"shortDescription",
 					"price",
@@ -659,6 +662,25 @@
 		"/order/all": {
 			"get": {
 				"operationId": "All",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_OrderDto-Array_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/order/admin/all": {
+			"get": {
+				"operationId": "AllAdmin",
 				"responses": {
 					"200": {
 						"description": "Ok",
