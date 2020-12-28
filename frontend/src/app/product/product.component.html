@@ -9,9 +9,11 @@
       <ag-grid-angular
         style="width: 100%; height: 60vh;"
         class="ag-theme-alpine"
-        [rowData]="ProductRowData"
-        [columnDefs]="ProductColumnDefs"
+        [rowData]="productData"
+        [columnDefs]="productColumnDefs"
         [gridOptions]="productOptions"
+        [overlayLoadingTemplate]="overlayLoadingTemplate"
+        [overlayNoRowsTemplate]="overlayLoadingTemplate"
         [enableRangeSelection]="true"
         [pagination]="true"
         [paginationAutoPageSize]="true"

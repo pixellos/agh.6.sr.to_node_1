@@ -24,7 +24,6 @@ import {BuyComponent} from "./buy/buy.component";
 import {MatRadioModule} from "@angular/material/radio";
 import {OrderComponent} from "./order/order.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {CallComponent} from "./welcome/call.component";
 import { CartComponent } from './cart/cart.component';
 import { AboutComponent } from './about/about.component';
 import { CartButtonComponent } from './cart-button/cart-button.component';
@@ -34,8 +33,11 @@ import { ComplaintButtonComponent } from './complaint-button/complaint-button.co
 import { ComplaintComponent } from './complaint/complaint.component';
 import { ComplaintProcessComponent } from './complaint-process/complaint-process.component';
 
-import {ApiModule} from 'src/client-order/api.module'
-import {Configuration} from 'src/client-order/configuration'
+import {ApiModule as OrderApiModule} from 'src/client-order/api.module'
+import {Configuration as OrderConfiguration} from 'src/client-order/configuration'
+import {ApiModule as ProductApiModule} from 'src/client-product/api.module'
+import {Configuration as ProductConfiguration} from 'src/client-product/configuration'
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -51,7 +53,6 @@ import {Configuration} from 'src/client-order/configuration'
     PreviewPopupComponent,
     BuyComponent,
     OrderComponent,
-    CallComponent,
     CartComponent,
     AboutComponent,
     CartButtonComponent,
@@ -83,7 +84,10 @@ import {Configuration} from 'src/client-order/configuration'
     MatRadioModule,
     AgGridModule.withComponents([]),
     HttpClientModule,
-    ApiModule.forRoot(() => new Configuration({basePath: 'http://localhost:3001'})),
+    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3001'})),
+    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3002'})),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
