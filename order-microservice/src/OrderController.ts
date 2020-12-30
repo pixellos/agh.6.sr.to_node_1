@@ -35,12 +35,12 @@ export class OrderController extends Controller {
     @Body()
     vm: Orders.ViewModel,
     @Request() request: UserRequest
-  ): Promise<ErrorResponse<Empty>> {
+  ): Promise<ErrorResponse<number>> {
     // Todo: Pattern mediator.
     const user = request?.user?.sub ?? 'test';
     const r = (await Orders.CreateOrderCommand({ ...vm, type: 'CreateOrderCommandEvent', user: user }));
     if (isErrorResponse(r)) return r;
-    return { error: true, message: 'Unknown error' };
+    return r;
   }
 
   @Post("pay")
