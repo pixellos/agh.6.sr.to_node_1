@@ -97,7 +97,7 @@ export namespace Orders {
     })
     if (isErrorResponse(save))
       return errorResponse({ message: 'Order cannot be saved. Try again.' });
-    return okResponse(save);
+    return save;
   }
 
   export async function FlatMapEvents(m: Model<OrderEvent, {}>, id: string) {
