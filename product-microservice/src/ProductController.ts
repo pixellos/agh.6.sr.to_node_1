@@ -57,7 +57,7 @@ export class ProductController extends Controller {
     return (await Products.BuyProductCommand({ id, quantity, type: 'BuyProductCommand' }));
   }
 
-  @Get("all")
+  @Get("/all")
   @OperationId('listAll')
   public async listAll(): Promise<ErrorResponse<ProductDto[]>> {
     return await Products.QueryAllProducts({});
