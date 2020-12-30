@@ -59,6 +59,20 @@ export class OrderController extends Controller {
     return { error: true, message: 'Unknown error' };
   }
 
+  @Post("address")
+  public async address(
+    @Query('id') id: string,
+    @Body() data: Orders.AddresPaymentWriteModel,
+    @Request() request: UserRequest
+  ): Promise<ErrorResponse<Empty>> {
+    const user = request?.user?.sub ?? 'test';
+    const r = (await Orders.SetAddressPaymentMethodCommand({ ...data, id, type: 'PayForOrderCommand', user: user }));
+    if (r)
+      return r as ErrorResponse<{}>;
+
+    return { error: true, message: 'Unknown error' };
+  }
+
   @Post("refund")
   public async refund(
     @Query('cause') cause: string,

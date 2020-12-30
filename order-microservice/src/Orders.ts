@@ -2,10 +2,19 @@ import { Model } from 'mongoose';
 import { v4 } from 'uuid';
 import { errorResponse, isErrorResponse, okResponse } from '../../commons-microservice/src/CommonHelpers';
 import { Connection } from "./Connection";
-import { defaultOrderDto, ExtendedOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
+import { AddressDto, defaultOrderDto, ExtendedOrderDto, OrderAggregate, OrderDto, OrderEvent, OrderEventUnion, OrderPrefix, OrderProduct, OrderReducer } from "./Order";
 
 export namespace Orders {
+  
+  export type AddresPaymentWriteModel = {
+    street: string;
+    country: string;
+    postalCode: string;
+    paymentMethod: string
+
+  }
   export type ViewModel = { name: string; quantity: number; products: OrderProduct[]; user: string };
+  export type OrderReadModel = ViewModel & AddresPaymentWriteModel;
   export type CreateOrderCommandEvent = ViewModel & { type: 'CreateOrderCommandEvent'; };
 
   export async function GetOrder(id: string) {
@@ -52,8 +61,18 @@ export namespace Orders {
     await Save(order, { what: 'Sent', with: {}, who: props.user })
   }
 
-  export async function PayOrderCommand(props: { id: string, amount: number, method: string, type: 'PayForOrderCommand', user: string }) {
+  export async function SetAddressPaymentMethodCommand(props: AddressDto & { id: string, type: 'PayForOrderCommand', user: string }) {
     const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Issued'] })
+    if (isErrorResponse(o)) {
+      return o;
+    }
+    const { data: item, order } = o;
+    const rest = { ...props, user: undefined, id: undefined, type: undefined };
+    await Save(order, { what: 'AddressSet', with: rest, who: props.user })
+  }
+
+  export async function PayOrderCommand(props: { id: string, amount: number, method: string, type: 'PayForOrderCommand', user: string }) {
+    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['AddressSet'] })
     if (isErrorResponse(o)) {
       return o;
     }
@@ -111,7 +130,7 @@ export namespace Orders {
     const result: ExtendedOrderDto = {
       ...dto,
       totalPrice: dto.products?.reduce((acc, x) => acc + x.totalPrice, 0),
-      amountOfProducts:  dto.products?.reduce((acc, x) => acc + x.quantity, 0),
+      amountOfProducts: dto.products?.reduce((acc, x) => acc + x.quantity, 0),
     }
     return result;
   }
