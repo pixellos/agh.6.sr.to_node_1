@@ -32,7 +32,7 @@ export class ProductController extends Controller {
   @Post("/buy")
   public async buy(
     @Body()
-    basket: [{id: string, quantity: number}]
+    basket: {id: string, quantity: number}[]
   ): Promise<ErrorResponse<string>> {
     // Todo: Pattern mediator.
     console.log("Entered buy");

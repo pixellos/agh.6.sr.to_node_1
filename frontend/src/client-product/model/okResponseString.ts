@@ -11,8 +11,15 @@
  */
 
 
-export interface InlineObject { 
-    quantity: number;
-    id: string;
+export interface OkResponseString { 
+    data: string;
+    error: OkResponseString.ErrorEnum;
 }
+export namespace OkResponseString {
+    export type ErrorEnum = 'false';
+    export const ErrorEnum = {
+        False: 'false' as ErrorEnum
+    };
+}
+
 

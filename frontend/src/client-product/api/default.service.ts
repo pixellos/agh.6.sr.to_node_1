@@ -21,6 +21,8 @@ import { ErrorResponseEmpty } from '../model/models';
 import { ErrorResponseProduct } from '../model/models';
 import { ErrorResponseProductDtoArray } from '../model/models';
 import { ErrorResponseProductEventUnionArray } from '../model/models';
+import { ErrorResponseString } from '../model/models';
+import { InlineObject } from '../model/models';
 import { ProductsViewModel } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -146,26 +148,16 @@ export class DefaultService {
     }
 
     /**
-     * @param id 
-     * @param quantity 
+     * @param inlineObject 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public buy(id: string, quantity: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseEmpty>;
-    public buy(id: string, quantity: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseEmpty>>;
-    public buy(id: string, quantity: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseEmpty>>;
-    public buy(id: string, quantity: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling buy.');
-        }
-        if (quantity === null || quantity === undefined) {
-            throw new Error('Required parameter quantity was null or undefined when calling buy.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (quantity !== undefined && quantity !== null) {
-          queryParameters = this.addToHttpParams(queryParameters,
-            <any>quantity, 'quantity');
+    public buy(inlineObject: Array<InlineObject>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseString>;
+    public buy(inlineObject: Array<InlineObject>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseString>>;
+    public buy(inlineObject: Array<InlineObject>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseString>>;
+    public buy(inlineObject: Array<InlineObject>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (inlineObject === null || inlineObject === undefined) {
+            throw new Error('Required parameter inlineObject was null or undefined when calling buy.');
         }
 
         let headers = this.defaultHeaders;
@@ -183,15 +175,23 @@ export class DefaultService {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType: 'text' | 'json' = 'json';
         if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
 
-        return this.httpClient.post<ErrorResponseEmpty>(`${this.configuration.basePath}/product/${encodeURIComponent(String(id))}/buy`,
-            null,
+        return this.httpClient.post<ErrorResponseString>(`${this.configuration.basePath}/product/buy`,
+            inlineObject,
             {
-                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
