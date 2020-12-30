@@ -70,7 +70,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       audience: 'https://dev-mattp.eu.auth0.com/api/v2/',
       issuer: 'https://dev-mattp.eu.auth0.com/',
       httpInterceptor: {
-        allowedList: [`http://localhost:3001/*`]
+        allowedList: [`http://localhost:3000/*`]
       },
     }),
     BrowserModule,
@@ -84,8 +84,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatRadioModule,
     AgGridModule.withComponents([]),
     HttpClientModule,
-    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3001'})),
-    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3002'})),
+    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3000'})),
+    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3000'})),
     FormsModule,
     ReactiveFormsModule
   ],

@@ -1,0 +1,72 @@
+http:
+  port: 3000
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  product:
+    host: localhost
+    paths: ['/product','/product/*']
+  order:
+    host: localhost    
+    paths: ['/order','/order/*']
+  frontend:
+    host: localhost    
+    paths: '*'
+
+serviceEndpoints:
+  product:
+    #url: 'http://localhost:3002/'
+    url: 'http://host.docker.internal:3002/'
+  order:
+    #url: 'http://localhost:3001/'
+    url: 'http://host.docker.internal:3001/'
+  frontend:
+    #url: 'http://localhost:3003/'
+    url: 'http://host.docker.internal:3003/'
+policies:
+  #- cors
+  #- expression
+  - log
+  - proxy
+  - rate-limit
+pipelines:
+  default:
+    apiEndpoints:
+      - frontend
+    policies:
+      - log: # policy name
+        - action:    # array of condition/actions objects
+            message: frontend ${req.method} ${req.originalUrl} # parameter for log action
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: frontend 
+              changeOrigin: true
+  orderPipeline:
+    apiEndpoints:
+      - order
+    policies:
+      - log: # policy name
+          - action:    # array of condition/actions objects
+              message: order ${req} ${req.method} ${req.originalUrl} # parameter for log action
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: order 
+              changeOrigin: true
+  productPipeline:
+    apiEndpoints:
+      - product
+    policies:
+      - log: # policy name
+          - action:    # array of condition/actions objects
+              message: product ${req.method} ${req.originalUrl} # parameter for log action
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: product 
+              changeOrigin: true
