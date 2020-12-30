@@ -4,7 +4,8 @@ import { config } from 'dotenv'
 import { Connection } from "./Connection";
 config();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3003;
+console.log("Listening at port: ", port);
 
 app.app.listen(port, async () =>
   await Connection.connect()

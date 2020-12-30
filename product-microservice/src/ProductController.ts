@@ -86,8 +86,9 @@ export class ProductController extends Controller {
     // Todo: Pattern mediator.
     return (await Products.BuyProductCommand({ id, quantity, type: 'BuyProductCommand' }));
   }
-*/
-  @Get("all")
+  */
+
+  @Get("/all")
   @OperationId('listAll')
   public async listAll(): Promise<ErrorResponse<ProductDto[]>> {
     return await Products.QueryAllProducts({});
