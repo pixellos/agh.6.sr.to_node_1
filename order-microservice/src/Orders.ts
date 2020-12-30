@@ -40,7 +40,7 @@ export namespace Orders {
     })
     if (createResult === undefined)
       return errorResponse({ message: 'Order cannot be saved. Try again.' });
-    return okResponse(previousRevision + 1);
+    return okResponse(createResult.id);
   }
 
   export async function SendOrderCommand(props: { id: string, type: 'SendOrderCommand', user: string }) {
