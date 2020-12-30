@@ -17,6 +17,7 @@ RUN npm install
 WORKDIR /usr/src/app
 
 COPY ./${MS_NAME}/src/. ./${MS_NAME}/src/
+COPY ./${MS_NAME}/config/. ./${MS_NAME}/config/
 COPY ./${MS_NAME}/*json ./${MS_NAME}/
 
 COPY ./commons-microservice/ ./commons-microservice/
@@ -37,6 +38,7 @@ ENV PORT=3000
 
 WORKDIR /root/
 COPY --from=builder /usr/src/app/${MS_NAME}/dist app/dist
+COPY --from=builder /usr/src/app/${MS_NAME}/config app/dist/config
 COPY --from=builder /usr/src/app/commons-microservice/node_modules app/dist/node_modules
 COPY --from=builder /usr/src/app/${MS_NAME}/node_modules app/dist/node_modules
 COPY --from=builder /usr/src/app/commons-microservice/lib commons-microservice/src
