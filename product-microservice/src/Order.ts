@@ -37,6 +37,7 @@ export function CreateOrder(user: string, products: Product[]){
         quantity: 1,
         name: "Needed?"
     }
+    console.log(JSON.stringify(data));
     return fetch(url, {
         method: "post",
         body: JSON.stringify(data),

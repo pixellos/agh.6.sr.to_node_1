@@ -8,8 +8,9 @@ import {
   Query,
   Path,
   OperationId,
+  Request,
 } from "tsoa";
-import { Empty, errorResponse, ErrorResponse, isErrorResponse, OkResponse, okResponse } from "../../commons-microservice/src/CommonHelpers";
+import { Empty, errorResponse, ErrorResponse, isErrorResponse, OkResponse, okResponse, UserRequest } from "../../commons-microservice/src/CommonHelpers";
 import { Product, ProductDto, ProductEvent } from "./Product";
 import { Products } from "./Products";
 import {CreateOrder} from "./Order";
@@ -31,12 +32,13 @@ export class ProductController extends Controller {
 
   @Post("/buy")
   public async buy(
-    @Body()
-    basket: {id: string, quantity: number}[]
+    @Body() basket: {id: string, quantity: number}[],
+    @Request() request: UserRequest
   ): Promise<ErrorResponse<string>> {
     // Todo: Pattern mediator.
     console.log("Entered buy");
-
+    const user = request?.user?.sub ?? 'test';
+    console.log("User: ", user);
     for (const product of basket) {
       // Subtract requested products from inventory. OK if it goes into negatives.
       await Products.AddProductCommand({ id: product.id, quantity: -product.quantity, type: 'AddProductCommand' })
@@ -53,7 +55,7 @@ export class ProductController extends Controller {
         return productsResolvedMapped;
         
       })
-      .then((e) => CreateOrder("placeholder", e));
+      .then((e) => CreateOrder(user, e));
       return r.then((e) => okResponse(e))
   }
 
