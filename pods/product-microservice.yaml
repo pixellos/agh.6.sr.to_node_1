@@ -22,7 +22,9 @@ spec:
         env:
           - name: PORT
             value: '3002'
-        imagePullPolicy: Never
+          - name: MONGO_DB
+            value: 'mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017'
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service

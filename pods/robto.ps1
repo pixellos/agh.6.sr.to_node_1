@@ -1,4 +1,9 @@
-$services = @("frontend", "order", "product", "app-gateway")
+$services = @(
+    "frontend", 
+    "order",
+    "product",
+    "app-gateway",
+    "mongo")
 kubectl delete service app-gateway-microservice-deployment --namespace=aghlegro
 
 foreach ($svc in $services) {
