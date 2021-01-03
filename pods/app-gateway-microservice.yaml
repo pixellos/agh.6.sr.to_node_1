@@ -18,16 +18,10 @@ spec:
       - name: app-gateway-microservice
         image: docker.local:5000/app-gateway-microservice:latest
         ports:
-        - containerPort: 3003
+        - containerPort: 3000
         env:
           - name: PORT
-            value: '3003'
-          - name: PRODUCT_CUSIP 
-            value: 'product-microservice-service'
-          - name: ORDER_CUSIP 
-            value: 'order-microservice-service'
-          - name: FRONTEND_CUSIP 
-            value: 'frontend-microservice-service'
+            value: '3000'
         imagePullPolicy: Never
 ---
 apiVersion: v1
@@ -39,6 +33,6 @@ spec:
     app: app-gateway-microservice
   ports:
     - protocol: TCP
-      port: 3003
-      targetPort: 3003
-  type: NodePort
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer
