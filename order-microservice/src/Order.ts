@@ -10,11 +10,22 @@ export type IssuedEvent = UserBaseEvent & {
   with: Order
 }
 
+export type AddressDto = {
+  street: string;
+  country: string;
+  postalCode: string;
+  paymentMethod: string;
+}
+
+export type AddressSetEvent = UserBaseEvent & {
+  what: 'AddressSet', with: AddressDto
+}
 export type PaidEvent = UserBaseEvent & { what: 'Paid', with: { amount: number, method: string } }
 export type RequestRefuntEvent = UserBaseEvent & { what: 'RefundRequested', with: { refundCause: string } };
 export type RefundEvent = UserBaseEvent & { what: 'Refunded', with: { cause: string } };
 
 export type OrderEventUnion =
+  | AddressSetEvent 
   | IssuedEvent
   | SentEvent
   | PaidEvent

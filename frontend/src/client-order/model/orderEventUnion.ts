@@ -12,6 +12,7 @@
 import { RequestRefuntEvent } from './requestRefuntEvent';
 import { PaidEvent } from './paidEvent';
 import { IssuedEvent } from './issuedEvent';
+import { AddressSetEvent } from './addressSetEvent';
 import { RequestRefuntEventAllOfWith } from './requestRefuntEventAllOfWith';
 import { SentEvent } from './sentEvent';
 import { RefundEvent } from './refundEvent';

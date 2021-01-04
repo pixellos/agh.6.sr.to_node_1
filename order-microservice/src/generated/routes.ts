@@ -21,6 +21,16 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"who":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AddressDto": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"paymentMethod":{"dataType":"string","required":true},"postalCode":{"dataType":"string","required":true},"country":{"dataType":"string","required":true},"street":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AddressSetEvent": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"ref":"AddressDto","required":true},"what":{"dataType":"enum","enums":["AddressSet"],"required":true}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderProduct": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"image":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"shortDescription":{"dataType":"string","required":true},"price":{"dataType":"double","required":true},"totalPrice":{"dataType":"double","required":true},"quantity":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
@@ -58,7 +68,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderEventUnion": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"ref":"IssuedEvent"},{"ref":"SentEvent"},{"ref":"PaidEvent"},{"ref":"RefundEvent"},{"ref":"RequestRefuntEvent"}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"ref":"AddressSetEvent"},{"ref":"IssuedEvent"},{"ref":"SentEvent"},{"ref":"PaidEvent"},{"ref":"RefundEvent"},{"ref":"RequestRefuntEvent"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OkResponse_OrderEventUnion-Array_": {
@@ -89,6 +99,11 @@ const models: TsoaRoute.Models = {
     "Orders.ViewModel": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"user":{"dataType":"string","required":true},"products":{"dataType":"array","array":{"dataType":"refAlias","ref":"OrderProduct"},"required":true},"quantity":{"dataType":"double","required":true},"name":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Orders.AddresPaymentWriteModel": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"paymentMethod":{"dataType":"string","required":true},"postalCode":{"dataType":"string","required":true},"country":{"dataType":"string","required":true},"street":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderDto": {
@@ -207,6 +222,30 @@ export function RegisterRoutes(app: express.Router) {
 
 
             const promise = controller.pay.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/order/address',
+            function (request: any, response: any, next: any) {
+            const args = {
+                    id: {"in":"query","name":"id","required":true,"dataType":"string"},
+                    data: {"in":"body","name":"data","required":true,"ref":"Orders.AddresPaymentWriteModel"},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new OrderController();
+
+
+            const promise = controller.address.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
