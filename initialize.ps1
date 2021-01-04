@@ -16,6 +16,7 @@ foreach ($svc in $beServices) {
     docker build --build-arg "MS_NAME=$svc-microservice" -t "$svc-microservice:latest" .
 }
 
+# docker build --build-arg "MS_NAME=order-microservice" 
 docker build -f .\frontend\Dockerfile -t frontend-microservice:latest .
 
 #foreach ($svc in $services) {

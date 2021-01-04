@@ -393,6 +393,36 @@
 					}
 				]
 			},
+			"OkResponse_number_": {
+				"properties": {
+					"data": {
+						"type": "number",
+						"format": "double"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
+			"ErrorResponse_number_": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/BadResponse"
+					},
+					{
+						"$ref": "#/components/schemas/OkResponse_number_"
+					}
+				]
+			},
 			"Orders.ViewModel": {
 				"properties": {
 					"user": {
@@ -597,7 +627,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse_Empty_"
+									"$ref": "#/components/schemas/ErrorResponse_number_"
 								}
 							}
 						}
