@@ -1,49 +1,38 @@
+FROM node:14-alpine3.10 as commonbuilder
+WORKDIR /usr/src/app/commons-microservice
+COPY ./commons-microservice .
+
+RUN npm install
+RUN npm run build
+
 FROM node:14-alpine3.10 as builder
-WORKDIR /usr/src/app
-
 ARG MS_NAME
-
-#dependencies - for caching:
-COPY ./${MS_NAME}/package.json ./${MS_NAME}/package.json
-COPY ./commons-microservice/package.json ./commons-microservice/package.json
-
-WORKDIR /usr/src/app/commons-microservice
-RUN npm install
-
 WORKDIR /usr/src/app/${MS_NAME}
+
+COPY ./${MS_NAME} /usr/src/app/${MS_NAME}
+COPY --from=commonbuilder /usr/src/app/commons-microservice /usr/src/app/commons-microservice
+
 RUN npm install
-
-#build:
-WORKDIR /usr/src/app
-
-COPY ./${MS_NAME}/src/. ./${MS_NAME}/src/
-COPY ./${MS_NAME}/config/. ./${MS_NAME}/config/
-COPY ./${MS_NAME}/*json ./${MS_NAME}/
-
-COPY ./commons-microservice/ ./commons-microservice/
-
-WORKDIR /usr/src/app/commons-microservice
 RUN npm run build
 
-WORKDIR /usr/src/app/${MS_NAME}
-RUN npm run build
-
-#run:
-FROM node:14-alpine3.10
+FROM node:14-alpine3.10 as runner
 ARG MS_NAME
 
-#env settings for local run - adjust / remove before deployment:
+ENV PRODUCT_MICROSERVICE_SERVICE_SERVICE_HOST="host.docker.internal"
+ENV ORDER_MICROSERVICE_SERVICE_SERVICE_HOST="host.docker.internal"
+ENV FRONTEND_MICROSERVICE_SERVICE_SERVICE_HOST="host.docker.internal"
+ENV FRONTEND_MICROSERVICE_SERVICE_SERVICE_PORT="3003"
 ENV MONGO_DB="mongodb://host.docker.internal:27017"
 ENV PORT=3000
 
 WORKDIR /root/
+COPY --from=commonbuilder /usr/src/app/commons-microservice/lib /root/commons-microservice/src
+COPY --from=commonbuilder /usr/src/app/commons-microservice/node_modules app/dist/node_modules
+COPY --from=commonbuilder /usr/src/app/commons-microservice/node_modules /root/commons-microservice/node_modules
 COPY --from=builder /usr/src/app/${MS_NAME}/dist app/dist
 COPY --from=builder /usr/src/app/${MS_NAME}/config app/dist/config
-COPY --from=builder /usr/src/app/commons-microservice/node_modules app/dist/node_modules
 COPY --from=builder /usr/src/app/${MS_NAME}/node_modules app/dist/node_modules
-COPY --from=builder /usr/src/app/commons-microservice/lib commons-microservice/src
-COPY --from=builder /usr/src/app/commons-microservice/node_modules commons-microservice/src/node_modules
 WORKDIR /root/app/dist
 
-EXPOSE 3000
+EXPOSE ${PORT}
 CMD node server.js

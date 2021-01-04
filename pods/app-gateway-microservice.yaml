@@ -18,11 +18,11 @@ spec:
       - name: app-gateway-microservice
         image: docker.local:5000/app-gateway-microservice:latest
         ports:
-        - containerPort: 3003
+        - containerPort: 3000
         env:
           - name: PORT
-            value: '3003'
-        imagePullPolicy: Never
+            value: '3000'
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -33,6 +33,6 @@ spec:
     app: app-gateway-microservice
   ports:
     - protocol: TCP
-      port: 3003
-      targetPort: 3003
-  type: NodePort
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer
