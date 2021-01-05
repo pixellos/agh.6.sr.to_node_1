@@ -1,3 +1,6 @@
+export * from './addressDto';
+export * from './addressSetEvent';
+export * from './addressSetEventAllOf';
 export * from './badResponse';
 export * from './errorResponseEmpty';
 export * from './errorResponseNumber';
@@ -15,6 +18,7 @@ export * from './orderDto';
 export * from './orderDtoAllOf';
 export * from './orderEventUnion';
 export * from './orderProduct';
+export * from './ordersAddresPaymentWriteModel';
 export * from './ordersViewModel';
 export * from './paidEvent';
 export * from './paidEventAllOf';

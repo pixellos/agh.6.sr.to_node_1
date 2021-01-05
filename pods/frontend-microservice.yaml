@@ -19,7 +19,7 @@ spec:
         image: docker.local:5000/frontend-microservice:latest
         ports:
         - containerPort: 80
-        imagePullPolicy: Never
+        imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service

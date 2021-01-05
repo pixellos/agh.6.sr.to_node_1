@@ -36,6 +36,55 @@
 				],
 				"type": "object"
 			},
+			"AddressDto": {
+				"properties": {
+					"paymentMethod": {
+						"type": "string"
+					},
+					"postalCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"street": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"paymentMethod",
+					"postalCode",
+					"country",
+					"street"
+				],
+				"type": "object"
+			},
+			"AddressSetEvent": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/UserBaseEvent"
+					},
+					{
+						"properties": {
+							"with": {
+								"$ref": "#/components/schemas/AddressDto"
+							},
+							"what": {
+								"type": "string",
+								"enum": [
+									"AddressSet"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"with",
+							"what"
+						],
+						"type": "object"
+					}
+				]
+			},
 			"OrderProduct": {
 				"properties": {
 					"image": {
@@ -260,6 +309,9 @@
 			"OrderEventUnion": {
 				"anyOf": [
 					{
+						"$ref": "#/components/schemas/AddressSetEvent"
+					},
+					{
 						"$ref": "#/components/schemas/IssuedEvent"
 					},
 					{
@@ -395,6 +447,29 @@
 					"products",
 					"quantity",
 					"name"
+				],
+				"type": "object"
+			},
+			"Orders.AddresPaymentWriteModel": {
+				"properties": {
+					"paymentMethod": {
+						"type": "string"
+					},
+					"postalCode": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"street": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"paymentMethod",
+					"postalCode",
+					"country",
+					"street"
 				],
 				"type": "object"
 			},
@@ -615,6 +690,44 @@
 						}
 					}
 				]
+			}
+		},
+		"/order/address": {
+			"post": {
+				"operationId": "Address",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_Empty_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Orders.AddresPaymentWriteModel"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/order/refund": {
