@@ -21,7 +21,7 @@ type OrderOutbound = {
   }
 const orderApiBase = "http://localhost:3000" 
 
-export function CreateOrder(user: string, products: Product[]){
+export function CreateOrder(user: string, token: string, products: Product[]){
     const url = orderApiBase + "/order/add";
     const data: OrderOutbound = {
         user: user,
@@ -41,7 +41,9 @@ export function CreateOrder(user: string, products: Product[]){
     return fetch(url, {
         method: "post",
         body: JSON.stringify(data),
-        headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'application/json', 'Authorization': token}
     })
-    .then(async res => JSON.parse(await res.json()) as string)
+    .then(async res => {
+      return await res.json()
+    })
 }

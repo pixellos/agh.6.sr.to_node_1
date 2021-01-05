@@ -10,10 +10,12 @@ import {
   OperationId,
   Request,
 } from "tsoa";
+import * as express from "express"
 import { Empty, errorResponse, ErrorResponse, isErrorResponse, OkResponse, okResponse, UserRequest } from "../../commons-microservice/src/CommonHelpers";
 import { Product, ProductDto, ProductEvent } from "./Product";
 import { Products } from "./Products";
 import {CreateOrder} from "./Order";
+import { expressJwtSecret } from "jwks-rsa";
 
 
 @Route("product")
@@ -33,11 +35,13 @@ export class ProductController extends Controller {
   @Post("/buy")
   public async buy(
     @Body() basket: {id: string, quantity: number}[],
-    @Request() request: UserRequest
+    @Request() request: express.Request
   ): Promise<ErrorResponse<string>> {
     // Todo: Pattern mediator.
     console.log("Entered buy");
-    const user = request?.user?.sub ?? 'test';
+    console.log(JSON.stringify(request.headers));
+    let token = request.headers.authorization || ''
+    const user = "test";//request?.user?.sub ?? 'test';
     console.log("User: ", user);
     for (const product of basket) {
       // Subtract requested products from inventory. OK if it goes into negatives.
@@ -55,7 +59,7 @@ export class ProductController extends Controller {
         return productsResolvedMapped;
         
       })
-      .then((e) => CreateOrder(user, e));
+      .then((e) => CreateOrder(user, token, e));
       return r.then((e) => okResponse(e))
   }
 
