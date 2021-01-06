@@ -61,6 +61,16 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"tags":{"dataType":"array","array":{"dataType":"string"},"required":true},"image":{"dataType":"string","required":true},"price":{"dataType":"double","required":true},"quantity":{"dataType":"double","required":true},"description":{"dataType":"string","required":true},"shortDescription":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "OkResponse_string_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"string","required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ErrorResponse_string_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_string_"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OkResponse_Product_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"ref":"Product","required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
@@ -141,6 +151,29 @@ export function RegisterRoutes(app: express.Router) {
             promiseHandler(controller, promise, response, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/product/buy',
+            function (request: any, response: any, next: any) {
+            const args = {
+                    basket: {"in":"body","name":"basket","required":true,"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"quantity":{"dataType":"double","required":true},"id":{"dataType":"string","required":true}}}},
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new ProductController();
+
+
+            const promise = controller.buy.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/product/:id/get',
             function (request: any, response: any, next: any) {
             const args = {
@@ -183,29 +216,6 @@ export function RegisterRoutes(app: express.Router) {
 
 
             const promise = controller.add.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/product/:id/buy',
-            function (request: any, response: any, next: any) {
-            const args = {
-                    id: {"in":"path","name":"id","required":true,"dataType":"string"},
-                    quantity: {"in":"query","name":"quantity","required":true,"dataType":"double"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new ProductController();
-
-
-            const promise = controller.buy.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

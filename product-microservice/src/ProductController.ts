@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 import {
   Controller,
   Get,
@@ -7,10 +8,14 @@ import {
   Query,
   Path,
   OperationId,
+  Request,
 } from "tsoa";
-import { Empty, errorResponse, ErrorResponse, isErrorResponse, okResponse } from "../../commons-microservice/src/CommonHelpers";
+import * as express from "express"
+import { Empty, errorResponse, ErrorResponse, isErrorResponse, OkResponse, okResponse, UserRequest } from "../../commons-microservice/src/CommonHelpers";
 import { Product, ProductDto, ProductEvent } from "./Product";
 import { Products } from "./Products";
+import {CreateOrder} from "./Order";
+import { expressJwtSecret } from "jwks-rsa";
 
 
 @Route("product")
@@ -25,6 +30,37 @@ export class ProductController extends Controller {
     console.log("Entered create");
     const r = (await Products.CreateProductCommand({ ...product, type: 'CreateProductCommand' }));
     return r;
+  }
+
+  @Post("/buy")
+  public async buy(
+    @Body() basket: {id: string, quantity: number}[],
+    @Request() request: express.Request
+  ): Promise<ErrorResponse<string>> {
+    // Todo: Pattern mediator.
+    console.log("Entered buy");
+    console.log(JSON.stringify(request.headers));
+    let token = request.headers.authorization || ''
+    const user = "test";//request?.user?.sub ?? 'test';
+    console.log("User: ", user);
+    for (const product of basket) {
+      // Subtract requested products from inventory. OK if it goes into negatives.
+      await Products.AddProductCommand({ id: product.id, quantity: -product.quantity, type: 'AddProductCommand' })
+    }
+
+    // Create order:
+    const r = Promise
+      .all(basket.map(async (item) => (await Products.GetProduct(item.id))))
+      .then((e) => {
+        let productsResolved = e.map((e) => e as OkResponse< {Product: Model<ProductEvent, {}>, data: ProductDto}>);
+        let productsResolvedMapped = productsResolved.map(e => 
+          e.data.data as Product
+          );
+        return productsResolvedMapped;
+        
+      })
+      .then((e) => CreateOrder(user, token, e));
+      return r.then((e) => okResponse(e))
   }
 
   @Get("{id}/get")
@@ -47,7 +83,7 @@ export class ProductController extends Controller {
     // Todo: Pattern mediator.
     return (await Products.AddProductCommand({ id, quantity, type: 'AddProductCommand' }));
   }
-
+/*&
   @Post("{id}/buy")
   public async buy(
     @Path() id: string,
@@ -56,6 +92,7 @@ export class ProductController extends Controller {
     // Todo: Pattern mediator.
     return (await Products.BuyProductCommand({ id, quantity, type: 'BuyProductCommand' }));
   }
+  */
 
   @Get("/all")
   @OperationId('listAll')

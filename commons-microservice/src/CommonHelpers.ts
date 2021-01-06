@@ -23,5 +23,5 @@ export type BadResponse = {
 export type ErrorResponse<T> = BadResponse | OkResponse<T>
 
 export function isErrorResponse<T>(o: any): o is BadResponse {
-  return (o as ErrorResponse<T> && o && o?.error)?.error ?? true;
+  return (o as ErrorResponse<T> && o && o?.error);//?.error ?? true;
 }

@@ -254,6 +254,35 @@
 				],
 				"type": "object"
 			},
+			"OkResponse_string_": {
+				"properties": {
+					"data": {
+						"type": "string"
+					},
+					"error": {
+						"type": "boolean",
+						"enum": [
+							"false"
+						],
+						"nullable": false
+					}
+				},
+				"required": [
+					"data",
+					"error"
+				],
+				"type": "object"
+			},
+			"ErrorResponse_string_": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/BadResponse"
+					},
+					{
+						"$ref": "#/components/schemas/OkResponse_string_"
+					}
+				]
+			},
 			"OkResponse_Product_": {
 				"properties": {
 					"data": {
@@ -420,6 +449,51 @@
 				}
 			}
 		},
+		"/product/buy": {
+			"post": {
+				"operationId": "Buy",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse_string_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"items": {
+									"properties": {
+										"quantity": {
+											"type": "number",
+											"format": "double"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"quantity",
+										"id"
+									],
+									"type": "object"
+								},
+								"type": "array"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/product/{id}/get": {
 			"get": {
 				"operationId": "GetById",
@@ -451,43 +525,6 @@
 		"/product/{id}/add": {
 			"post": {
 				"operationId": "Add",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse_Empty_"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "quantity",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/product/{id}/buy": {
-			"post": {
-				"operationId": "Buy",
 				"responses": {
 					"200": {
 						"description": "Ok",
