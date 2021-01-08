@@ -1,13 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-microservice-deployment
+  labels:
+    app: mongo-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-microservice
+  template:
+    metadata:
+      labels:
+        app: mongo-microservice
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:4.0.8
+        ports:
+        - containerPort: 27017
+      nodeSelector:
+        kubernetes.io/hostname: mongo-microservice
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo
+  name: mongo-microservice-service
   labels:
-    name: mongo
+    app: mongo-microservice
 spec:
-  ports:
-    - port: 27017
-      targetPort: 27017
-  clusterIP: None
   selector:
-    role: mongo
+    app: mongo-microservice
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+  type: NodePort
+  
+  
