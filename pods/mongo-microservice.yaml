@@ -15,12 +15,10 @@ spec:
         app: mongo-microservice
     spec:
       containers:
-      - name: mongo
+      - name: mongo-microservice
         image: mongo:4.0.8
         ports:
         - containerPort: 27017
-      nodeSelector:
-        kubernetes.io/hostname: mongo-microservice
 ---
 apiVersion: v1
 kind: Service
