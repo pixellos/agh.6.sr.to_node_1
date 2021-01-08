@@ -20,7 +20,9 @@ export class BuyButtonComponent implements ICellRendererAngularComp {
 
   buyProcess() {
     let products: Product [] = [];
-    products.push(this.params.data);
+    const product:Product = this.params.data
+    product.quantity = 1;
+    products.push(product);
     this.router.navigate(['buy'], { state: { products: products } });
   };
 

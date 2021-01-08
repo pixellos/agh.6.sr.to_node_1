@@ -16,7 +16,7 @@
     <tbody>
     <tr *ngFor="let product of products">
       <td>{{product.shortDescription}}</td>
-      <td>1</td>
+      <td>{{product.quantity}}</td>
       <td>{{product.price}}</td>
     </tr>
     </tbody>
@@ -81,12 +81,12 @@
       <b>{{payment.status}}</b>
     </div>
   </div>
-  <div class="row mt-4">
+  <div class="row mt-4 mb-4">
     <div>
       <button (click)="backToProducts()" mat-raised-button>Powrot</button>
     </div>
     <div>
-      <button (click)="confirmOrder()" [disabled]="!payment.accepted" mat-raised-button
+      <button (click)="confirmOrder()" [disabled]="!payment.accepted || confirmed" mat-raised-button
               color="primary">Zatwierdz Zamowienie
       </button>
     </div>

@@ -3,6 +3,8 @@ import {Product} from "../model/product";
 import {Router} from "@angular/router";
 import {Order} from "../model/order";
 import {Payment} from "../model/payment";
+import {DefaultService as ProductHttpClient} from "src/client-product/api/default.service";
+import {QuantityProduct} from "../model/quantity-product";
 
 @Component({
   selector: 'app-buy',
@@ -21,8 +23,9 @@ export class BuyComponent implements OnInit {
     'Kurier',
     'Odbior osobisty'
   ];
+  confirmed: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private httpClient:ProductHttpClient) {
     this.products = this.router.getCurrentNavigation().extras.state.products;
   }
 
@@ -31,8 +34,11 @@ export class BuyComponent implements OnInit {
   }
 
   confirmOrder() {
-    const order:Order = new Order(1, this.products, this.totalSum);
-    this.router.navigate(['orders'], { state: { order: order} });
+    this.confirmed = true;
+    const quantityProducts = this.products.map(p => new QuantityProduct(p.id, p.quantity))
+    this.httpClient.buy(quantityProducts).subscribe(response => {
+      this.router.navigate(['orders']);
+    })
   }
 
   backToProducts() {

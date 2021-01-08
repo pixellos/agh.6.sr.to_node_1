@@ -18,6 +18,10 @@ export class PreviewPopupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  close() {
+    this.dialog.closeAll();
+  };
+
   buyProcess() {
     this.dialog.closeAll();
     this.router.navigate(['buy'], { state: { products: this.products } });
