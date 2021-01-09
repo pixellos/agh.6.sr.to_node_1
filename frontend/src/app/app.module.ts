@@ -86,8 +86,8 @@ import { ContactComponent } from './contact/contact.component';
     MatRadioModule,
     AgGridModule.withComponents([]),
     HttpClientModule,
-    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3001'})),
-    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3002'})),
+    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3000'})),
+    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3000'})),
     FormsModule,
     ReactiveFormsModule
   ],
