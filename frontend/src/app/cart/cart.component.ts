@@ -4,6 +4,7 @@ import {Product} from "../model/product";
 import {Router} from "@angular/router";
 import {DeleteButtonCartComponent} from "../delete-button-cart/delete-button-cart.component";
 import {CartService} from "../cart.service";
+import {PreviewButtonComponent} from "../preview-button/preview-button.component";
 
 @Component({
   selector: 'app-cart',
@@ -15,11 +16,12 @@ export class CartComponent implements OnInit {
   public gridColumnApi: ColumnApi;
 
   cartColumnDefs: any = [
-    {headerName: 'Id', field: 'id', maxWidth: 100, sortable: true, filter: true},
+    {headerName: 'Id', field: 'id', maxWidth: 200, sortable: true, filter: true},
     {headerName: 'Opis', field: 'shortDescription', sortable: true, filter: true},
     {headerName: 'Cena', field: 'price', sortable: true, filter: true},
     {headerName: 'Ilosc', field: 'quantity', sortable: true, filter: true},
-    {headerName: 'Usun', maxWidth: 150, cellRendererFramework: DeleteButtonCartComponent},
+    {headerName: 'Przegladaj', maxWidth: 150, cellRendererFramework: PreviewButtonComponent},
+    {headerName: 'Usun', maxWidth: 150, cellRendererFramework: DeleteButtonCartComponent}
   ];
 
   cartData: Product[] = [];

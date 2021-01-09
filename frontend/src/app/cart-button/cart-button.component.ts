@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {ICellRendererAngularComp} from "ag-grid-angular";
 import {CartService} from "../cart.service";
+import {Product} from "../model/product";
 
 @Component({
   selector: 'app-cart-button',
@@ -18,7 +19,9 @@ export class CartButtonComponent implements ICellRendererAngularComp {
   }
 
   addToCart() {
-    this.cartService.products.push(this.params.data)
+    const product:Product = this.params.data
+    product.quantity = 1;
+    this.cartService.add(product)
   };
 
   refresh(): boolean {

@@ -38,6 +38,7 @@ import {Configuration as OrderConfiguration} from 'src/client-order/configuratio
 import {ApiModule as ProductApiModule} from 'src/client-product/api.module'
 import {Configuration as ProductConfiguration} from 'src/client-product/configuration'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     DeleteButtonCartComponent,
     ComplaintButtonComponent,
     ComplaintComponent,
-    ComplaintProcessComponent
+    ComplaintProcessComponent,
+    ContactComponent
 
   ],
   imports: [
@@ -84,8 +86,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatRadioModule,
     AgGridModule.withComponents([]),
     HttpClientModule,
-    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3000'})),
-    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3000'})),
+    OrderApiModule.forRoot(() => new OrderConfiguration({basePath: 'http://localhost:3001'})),
+    ProductApiModule.forRoot(() => new ProductConfiguration({basePath: 'http://localhost:3002'})),
     FormsModule,
     ReactiveFormsModule
   ],

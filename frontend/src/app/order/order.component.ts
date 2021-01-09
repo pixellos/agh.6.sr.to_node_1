@@ -1,9 +1,9 @@
 import {Component, OnInit} from "@angular/core";
 import "ag-grid-enterprise";
-import {HttpClient} from "@angular/common/http";
 import {PreviewButtonComponent} from "../preview-button/preview-button.component";
 import {ComplaintButtonComponent} from "../complaint-button/complaint-button.component";
 import {GridOptions} from "ag-grid-community";
+import {DefaultService as OrderHttpClient} from "../../client-order";
 
 @Component({
   selector: 'app-order',
@@ -17,32 +17,11 @@ export class OrderComponent implements OnInit {
   public columnDefs;
   public defaultColDef;
   public detailCellRendererParams;
-  public rowData;
+  public orderData;
   public orderOptions: GridOptions;
 
-  constructor(private http: HttpClient) {
-    this.rowData = [
-      {
-        "id": "12345",
-        "totalPrice": 177003,
-        "amountProducts": 3,
-        "products": [
-            {id: 1, shortDescription: "Monitor Samsung Monitor Samsung 21'", price: 500, quantity: 20, description: "TODO"},
-            {id: 2, shortDescription: "Monitor Samsung 23'", price: 700, quantity: 40, description: "TODO"},
-            {id: 3, shortDescription: "Monitor Samsung 26'", price: 900, quantity: 70, description: "TODO"}
-        ]
-      },
-      {
-        "id": "757",
-        "totalPrice": 177003.0,
-        "amountProducts": 3,
-        "products": [
-          {id: 1, shortDescription: "Monitor Samsung 21'", price: 500, quantity: 20, description: "TODO"},
-          {id: 2, shortDescription: "Monitor Samsung 23'", price: 700, quantity: 40, description: "TODO"},
-          {id: 3, shortDescription: "Monitor Samsung 26'", price: 900, quantity: 70, description: "TODO"}
-        ]
-      }];
-
+  constructor(private httpClient: OrderHttpClient) {
+    this.orderData = [];
 
     this.columnDefs = [
       {
@@ -53,7 +32,7 @@ export class OrderComponent implements OnInit {
       { field: 'totalPrice',
         headerName: 'Sumaryczna cena'
       },
-      { field: 'amountProducts',
+      { field: 'amountOfProducts',
         headerName: 'Ilosc Produktow',
       },
     ];
@@ -61,10 +40,6 @@ export class OrderComponent implements OnInit {
     this.detailCellRendererParams = {
       detailGridOptions: {
         columnDefs: [
-          { field: 'id',
-            headerName: 'ID',
-            maxWidth: 100
-          },
           {
             field: 'shortDescription',
             headerName: 'Opis',
@@ -79,6 +54,11 @@ export class OrderComponent implements OnInit {
             field: 'quantity',
             headerName: 'Ilosc',
             maxWidth: 150
+          },
+          {
+            field: 'totalPrice',
+            headerName: 'Suma',
+            maxWidth: 100
           },
           {headerName: 'Reklamacja', maxWidth: 200,  cellRendererFramework: ComplaintButtonComponent},
           {headerName: 'Przegladaj', maxWidth: 200,  cellRendererFramework: PreviewButtonComponent}
@@ -96,14 +76,14 @@ export class OrderComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.httpClient.all().subscribe(response => {
+      this.orderData = response.data
+    })
   }
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-
-
   }
 
 }
