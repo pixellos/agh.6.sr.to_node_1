@@ -6,6 +6,7 @@ export namespace Connection {
   export async function connect() {
     const mongoDb = process.env["MONGO_DB"] as string;
     const m = await mongoose.connect(mongoDb, { useNewUrlParser: true, useUnifiedTopology: true });
+    await m.connection.createCollection('collection');
     return m;
   }
 

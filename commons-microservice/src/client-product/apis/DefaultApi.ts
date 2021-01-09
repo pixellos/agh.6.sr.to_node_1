@@ -27,6 +27,12 @@ import {
     ErrorResponseProductEventUnionArray,
     ErrorResponseProductEventUnionArrayFromJSON,
     ErrorResponseProductEventUnionArrayToJSON,
+    ErrorResponseString,
+    ErrorResponseStringFromJSON,
+    ErrorResponseStringToJSON,
+    InlineObject,
+    InlineObjectFromJSON,
+    InlineObjectToJSON,
     ProductsViewModel,
     ProductsViewModelFromJSON,
     ProductsViewModelToJSON,
@@ -38,8 +44,7 @@ export interface AddRequest {
 }
 
 export interface BuyRequest {
-    id: string;
-    quantity: number;
+    inlineObject: Array<InlineObject>;
 }
 
 export interface CreateRequest {
@@ -98,36 +103,31 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async buyRaw(requestParameters: BuyRequest): Promise<runtime.ApiResponse<ErrorResponseEmpty>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling buy.');
-        }
-
-        if (requestParameters.quantity === null || requestParameters.quantity === undefined) {
-            throw new runtime.RequiredError('quantity','Required parameter requestParameters.quantity was null or undefined when calling buy.');
+    async buyRaw(requestParameters: BuyRequest): Promise<runtime.ApiResponse<ErrorResponseString>> {
+        if (requestParameters.inlineObject === null || requestParameters.inlineObject === undefined) {
+            throw new runtime.RequiredError('inlineObject','Required parameter requestParameters.inlineObject was null or undefined when calling buy.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
 
-        if (requestParameters.quantity !== undefined) {
-            queryParameters['quantity'] = requestParameters.quantity;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
-            path: `/product/{id}/buy`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/product/buy`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: requestParameters.inlineObject.map(InlineObjectToJSON),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ErrorResponseEmptyFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ErrorResponseStringFromJSON(jsonValue));
     }
 
     /**
      */
-    async buy(requestParameters: BuyRequest): Promise<ErrorResponseEmpty> {
+    async buy(requestParameters: BuyRequest): Promise<ErrorResponseString> {
         const response = await this.buyRaw(requestParameters);
         return await response.value();
     }
