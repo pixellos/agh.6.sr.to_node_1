@@ -6,6 +6,7 @@ COPY ./frontend/src/ ./src/
 
 RUN npm install
 RUN npm run build
+ENV APPINSIGHTS_INSTRUMENTATIONKEY="bd32180d-56b4-4473-b277-4c59e80f2d80"
 
 # Stage - Production
 FROM nginx:1.17-alpine
