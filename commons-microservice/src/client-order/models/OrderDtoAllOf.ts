@@ -70,7 +70,8 @@ export enum OrderDtoAllOfStatusEnum {
     Started = 'Started',
     Sent = 'Sent',
     Derived = 'Derived',
-    Returned = 'Returned'
+    Returned = 'Returned',
+    Paid = 'Paid'
 }
 
 

@@ -486,7 +486,8 @@
 									"Started",
 									"Sent",
 									"Derived",
-									"Returned"
+									"Returned",
+									"Paid"
 								]
 							},
 							"id": {
