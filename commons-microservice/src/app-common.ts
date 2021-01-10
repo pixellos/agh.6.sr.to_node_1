@@ -14,7 +14,7 @@ export function SetupBase(app: core.Express, swagger: {}) {
     .setAutoCollectPerformance(true, true)
     .setAutoCollectExceptions(true)
     .setAutoCollectDependencies(true)
-    .setAutoCollectConsole(true)
+    .setAutoCollectConsole(true, true)
     .setUseDiskRetryCaching(true)
     .setSendLiveMetrics(true)
     .setDistributedTracingMode(ai.DistributedTracingModes.AI)
