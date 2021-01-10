@@ -109,7 +109,8 @@ export enum OrderDtoStatusEnum {
     Started = 'Started',
     Sent = 'Sent',
     Derived = 'Derived',
-    Returned = 'Returned'
+    Returned = 'Returned',
+    Paid = 'Paid'
 }
 
 
