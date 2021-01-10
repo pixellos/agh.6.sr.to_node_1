@@ -39,6 +39,7 @@ import {ApiModule as ProductApiModule} from 'src/client-product/api.module'
 import {Configuration as ProductConfiguration} from 'src/client-product/configuration'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ContactComponent } from './contact/contact.component';
+import { AngularPluginService } from "@microsoft/applicationinsights-angularplugin-js";
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { ContactComponent } from './contact/contact.component';
       useClass: AuthHttpInterceptor,
       multi: true,
     },
-    CookieService
+    CookieService,
+    AngularPluginService
   ],
   bootstrap: [AppComponent]
 })
