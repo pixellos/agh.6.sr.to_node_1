@@ -64,7 +64,7 @@ export type OrdersDto = { values: OrderDto[] };
 
 export type OrderDto = Order & {
   id?: string
-  status: 'Started' | 'Sent' | 'Derived' | 'Returned'
+  status: 'Started' | 'Sent' | 'Derived' | 'Returned' | 'Paid'
 };
 
 export type ExtendedOrderDto = OrderDto & {
@@ -89,6 +89,12 @@ export function OrderReducer(p: OrderDto, event: OrderEvent) {
       return result;
     case 'Sent':
       return { ...p, status: 'Sent' } as OrderDto;
+    case 'Paid':
+      return { ...p, status: 'Paid' } as OrderDto
+    case 'Refunded':
+      return { ...p, status: 'Returned' } as OrderDto
+    case 'RefundRequested':
+        return { ...p, status: 'Derived' } as OrderDto
     default:
       return defaultOrderDto;
       break;
