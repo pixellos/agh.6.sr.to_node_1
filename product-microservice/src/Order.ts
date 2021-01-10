@@ -19,7 +19,7 @@ type OrderOutbound = {
   quantity: number,
   name: string
 }
-const orderApiBase = "http://app-gateway-microservice-deployment.aghlegro:3000"
+const orderApiBase = `http://${process.env.ORDER_MICROSERVICE_SERVICE_SERVICE_HOST}:${process.env.ORDER_MICROSERVICE_SERVICE_SERVICE_PORT}`
 
 export async function CreateOrder(user: string, token: string, products: Product[]) {
   const url = orderApiBase + "/order/add";
