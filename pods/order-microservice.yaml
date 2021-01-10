@@ -5,7 +5,7 @@ metadata:
   labels:
     app: order-microservice
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: order-microservice
@@ -23,7 +23,7 @@ spec:
           - name: PORT
             value: '3001'
           - name: MONGO_DB
-            value: 'mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017'
+            value: 'mongodb://mongo-microservice:27017'
         imagePullPolicy: Always
 ---
 apiVersion: v1

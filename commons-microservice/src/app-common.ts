@@ -5,8 +5,21 @@ import * as core from "express-serve-static-core";
 import cors from 'cors'
 import jwt from "express-jwt";
 import { expressJwtSecret } from 'jwks-rsa';
+import * as ai from 'applicationinsights';
 
 export function SetupBase(app: core.Express, swagger: {}) {
+  ai.setup()
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true, true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true, true)
+    .setUseDiskRetryCaching(true)
+    .setSendLiveMetrics(true)
+    .setDistributedTracingMode(ai.DistributedTracingModes.AI)
+    .start();
+  
   app.use(cors())
 
   const secret = expressJwtSecret({
@@ -23,10 +36,10 @@ export function SetupBase(app: core.Express, swagger: {}) {
     algorithms: ['RS256']
   }).unless({ custom: x => x.hostname.indexOf('localhost') !== -1 || x.url.toLowerCase().indexOf("order/add") !== -1, path: ["order/add", "/order/add", "add", "/add"] }));
 
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger, ({  explorer: true })));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger, ({ explorer: true })));
 
-  
-  app.use( (req, res, next) => {
+
+  app.use((req, res, next) => {
     let current_datetime = new Date();
     let formatted_date =
       current_datetime.getFullYear() +

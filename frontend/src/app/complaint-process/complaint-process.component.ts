@@ -9,12 +9,14 @@ import {DefaultService as OrderHttpClient} from "../../client-order";
   styleUrls: ['./complaint-process.component.css']
 })
 export class ComplaintProcessComponent implements OnInit {
+
   orderId: string;
   compilantContent: string
 
   constructor(private router: Router, private httpClient: OrderHttpClient) {
     this.orderId = this.router.getCurrentNavigation().extras.state.orderId;
     console.log(this.orderId)
+
   }
 
   ngOnInit(): void {
@@ -25,6 +27,7 @@ export class ComplaintProcessComponent implements OnInit {
   }
 
   confirmComplaint() {
+
     this.httpClient.refund(this.compilantContent, this.orderId).subscribe(response => {
       this.router.navigate(['orders']);
     });
