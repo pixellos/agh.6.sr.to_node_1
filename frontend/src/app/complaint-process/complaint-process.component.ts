@@ -9,16 +9,15 @@ import {DefaultService as OrderHttpClient} from "../../client-order";
   styleUrls: ['./complaint-process.component.css']
 })
 export class ComplaintProcessComponent implements OnInit {
-  product: Product;
+  orderId: string;
   compilantContent: string
 
   constructor(private router: Router, private httpClient: OrderHttpClient) {
-    this.product = this.router.getCurrentNavigation().extras.state.product;
-    console.log(this.product)
+    this.orderId = this.router.getCurrentNavigation().extras.state.orderId;
+    console.log(this.orderId)
   }
 
   ngOnInit(): void {
-
   }
 
   backToOrders() {
@@ -26,8 +25,10 @@ export class ComplaintProcessComponent implements OnInit {
   }
 
   confirmComplaint() {
-    this.httpClient.refund(this.compilantContent, "null").subscribe(response => {});
-    this.router.navigate(['orders']);
+    this.httpClient.refund(this.compilantContent, this.orderId).subscribe(response => {
+      this.router.navigate(['orders']);
+    });
+
   }
 
 }

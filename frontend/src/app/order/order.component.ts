@@ -29,12 +29,19 @@ export class OrderComponent implements OnInit {
         headerName: 'ID Zamowienia',
         cellRenderer: 'agGroupCellRenderer',
       },
-      { field: 'totalPrice',
+      {
+        field: 'totalPrice',
         headerName: 'Sumaryczna cena'
       },
-      { field: 'amountOfProducts',
+      {
+        field: 'amountOfProducts',
         headerName: 'Ilosc Produktow',
       },
+      {
+        headerName: 'Reklamacja',
+        maxWidth: 200,
+        cellRendererFramework: ComplaintButtonComponent
+      }
     ];
     this.defaultColDef = { flex: 1 };
     this.detailCellRendererParams = {
@@ -58,11 +65,11 @@ export class OrderComponent implements OnInit {
           {
             field: 'totalPrice',
             headerName: 'Suma',
-            maxWidth: 100
           },
-          {headerName: 'Reklamacja', maxWidth: 200,  cellRendererFramework: ComplaintButtonComponent},
-          {headerName: 'Przegladaj', maxWidth: 200,  cellRendererFramework: PreviewButtonComponent}
-
+          {
+            headerName: 'Przegladaj',
+            maxWidth: 200,
+            cellRendererFramework: PreviewButtonComponent}
         ],
         defaultColDef: { flex: 1 },
         suppressCellSelection: true

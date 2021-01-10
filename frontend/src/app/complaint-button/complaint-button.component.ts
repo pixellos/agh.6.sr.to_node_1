@@ -19,8 +19,9 @@ export class ComplaintButtonComponent implements ICellRendererAngularComp {
   }
 
   notifyComplaint() {
-    let product: Product = this.params.data;
-    this.router.navigate(['complaint-process'], { state: { product: product } });
+    console.log(this.params.data)
+    const orderId = this.params.data.id;
+    this.router.navigate(['complaint-process'], { state: { orderId: orderId } });
   }
 
   refresh(): boolean {
