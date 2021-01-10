@@ -7,8 +7,11 @@ export namespace Connection {
     const mongoDb = process.env["MONGO_DB"] as string;
     console.log("Connecting mongoose...");
     const m = await mongoose.connect(mongoDb, { useNewUrlParser: true, useUnifiedTopology: true });
-    await m.connection.createCollection('collection');
-
+    try {
+      await m.connection.createCollection('collection');
+    }
+    catch (e) {
+    }
     console.log("Connected mongoose");
     
     return m;
