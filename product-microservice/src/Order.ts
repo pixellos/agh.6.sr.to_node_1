@@ -1,4 +1,4 @@
-import { Product } from "./Product";
+import { Product, ProductDto } from "./Product";
 import fetch from 'node-fetch';
 
 
@@ -21,7 +21,7 @@ type OrderOutbound = {
 }
 const orderApiBase = `http://${process.env.ORDER_MICROSERVICE_SERVICE_SERVICE_HOST}:${process.env.ORDER_MICROSERVICE_SERVICE_SERVICE_PORT}`
 
-export async function CreateOrder(user: string, token: string, products: Product[]) {
+export async function CreateOrder(user: string, token: string, products: ProductDto[]) {
   const url = orderApiBase + "/order/add";
   const data: OrderOutbound = {
     user: user,
