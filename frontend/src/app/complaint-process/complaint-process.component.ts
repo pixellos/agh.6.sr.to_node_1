@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {Product} from "../model/product";
+import {DefaultService as OrderHttpClient} from "../../client-order";
 
 @Component({
   selector: 'app-complaint-process',
@@ -9,9 +10,11 @@ import {Product} from "../model/product";
 })
 export class ComplaintProcessComponent implements OnInit {
   product: Product;
+  compilantContent: string
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private httpClient: OrderHttpClient) {
     this.product = this.router.getCurrentNavigation().extras.state.product;
+    console.log(this.product)
   }
 
   ngOnInit(): void {
@@ -23,7 +26,8 @@ export class ComplaintProcessComponent implements OnInit {
   }
 
   confirmComplaint() {
-
+    this.httpClient.refund(this.compilantContent, "null").subscribe(response => {});
+    this.router.navigate(['orders']);
   }
 
 }
