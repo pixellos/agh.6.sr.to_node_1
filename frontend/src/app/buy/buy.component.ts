@@ -5,6 +5,7 @@ import {Order} from "../model/order";
 import {Payment} from "../model/payment";
 import {DefaultService as ProductHttpClient} from "src/client-product/api/default.service";
 import {QuantityProduct} from "../model/quantity-product";
+import { BadResponse, OkResponseString } from 'src/client-product';
 
 @Component({
   selector: 'app-buy',
