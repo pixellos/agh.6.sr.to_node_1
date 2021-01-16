@@ -44,10 +44,45 @@
   </div>
   <div class="row mt-3">
     <div class="col">
-      Platnosc:
+      Dane Adresowe:
     </div>
   </div>
 
+  <div class="row mt-1 ml-2" style="min-height: 140px">
+    <div class="col-3">
+      <label for="country">Panstwo</label>
+      <input type="text" class="form-control" id="country" name="country"
+             required pattern="^[a-zA-Z]*$"
+             [(ngModel)]="address.country" #country="ngModel"
+             [readOnly]="payment.accepted">
+      <div [hidden]="country.valid || country.pristine" class="alert alert-danger">
+        Panstwo niepoprawne
+      </div>
+    </div>
+    <div class="col-4">
+      <label for="street">Adres</label>
+      <input type="text" class="form-control" id="street" name="street"
+             [(ngModel)]="address.street" #street="ngModel"
+             [readOnly]="payment.accepted">
+    </div>
+    <div class="col-2">
+      <label for="postalCode">Kod pocztowy</label>
+      <input type="text" class="form-control" id="postalCode" name="postalCode"
+             required maxlength="6" pattern="\d{2}(-\d{3})"
+             [(ngModel)]="address.postalCode" #postalCode="ngModel"
+             [readOnly]="payment.accepted">
+      <div [hidden]="postalCode.valid || postalCode.pristine" class="alert alert-danger">
+        Kod niepoprawny
+      </div>
+    </div>
+  </div>
+
+<!--  <div class="row mt-3">-->
+  <div class="row">
+    <div class="col">
+      Platnosc:
+    </div>
+  </div>
   <div class="row mt-1 ml-2" style="min-height: 150px">
     <div class="col-3">
       <label for="cardNumber">Numer Karty</label>
