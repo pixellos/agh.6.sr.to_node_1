@@ -81,7 +81,7 @@ export namespace Orders {
   }
 
   export async function RefundCommand(props: { id: string, cause: string, type: 'RefundOrderCommand', user: string }) {
-    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid'] })
+    const o = await GetOrderWithValidation({ id: props.id, allowedStates: ['Paid', 'Sent'] })
     if (isErrorResponse(o)) {
       return o;
     }
