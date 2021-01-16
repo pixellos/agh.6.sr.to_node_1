@@ -15,6 +15,8 @@ foreach ($svc in $services) {
     docker stop "$svc-microservice"
 }
 
+docker run -d -p 5000:5000 --name registry registry:2
+
 foreach ($svc in $services) {
     docker container rm "$prefix$svc-microservice"
 }

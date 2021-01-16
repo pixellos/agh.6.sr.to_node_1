@@ -56,7 +56,7 @@ export class ProductController extends Controller {
     
     const entries =  oks.map(x => ({ ...x.data.data, quantity: basket.find(b => b.id == x.data.data.id)?.quantity ?? 0 }) )
     const id = await CreateOrder(user, token, entries);
-    return okResponse(id);
+    return id;
   }
 
   @Get("{id}/get")
