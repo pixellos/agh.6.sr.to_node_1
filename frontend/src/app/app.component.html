@@ -2,39 +2,32 @@
   <app-user-profile></app-user-profile>
 
   <mat-toolbar color="primary">
-    <div fxShow="true" fxHide.gt-sm="true">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="toggleAuthBar()">
+        <mat-icon>person</mat-icon>
       </button>
-    </div>
 
-    <a mat-button class="companyName" routerLink="/">
-      <span><h1>Aghmazon</h1></span>
-    </a>
+      <a mat-button class="companyName" routerLink="/">
+        <span><h1>Aghmazon</h1></span>
+      </a>
 
-    <span class="example-spacer"></span>
-    <div fxShow="true" fxHide.lt-md="true">
-      <a mat-button routerLink="/contact">Kontakt</a>
-      <a mat-button routerLink="/about">O nas</a>
-      <a mat-button routerLink="/products">Produkty</a>
-      <a mat-button routerLink="/cart">Koszyk</a>
-      <a mat-button routerLink="/orders">Zamowienia</a>
-    </div>
-
-  </mat-toolbar>
-  <mat-sidenav-container fxFlexFill class="example-container">
-
-    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
-      <div fxLayout="column">
+      <span class="example-spacer"></span>
+      <div fxShow="true" fxHide.lt-md="true">
+        <a mat-button routerLink="/contact">Kontakt</a>
         <a mat-button routerLink="/about">O nas</a>
         <a mat-button routerLink="/products">Produkty</a>
-        <a mat-button routerLink="/contact">Kontakt</a>
+        <a mat-button routerLink="/cart">Koszyk</a>
+        <a mat-button routerLink="/orders">Zamowienia</a>
       </div>
-    </mat-sidenav>
-    <mat-sidenav-content fxFlexFill>
-      <br/>
-      <br/>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="mat-toolbar-row-small" [hidden]="!openAuthBar">
+      <div [hidden]="authService.authenticated">
+        Uzytkownik niezalogowany
+      </div>
+      <div [hidden]="!authService.authenticated">
+        <button type="button" class="btn btn-outline-dark btn-sm py-0" (click)="logout()">X</button>  LOGIN: {{authService.login}}  |  ROLA: {{authService.role}}
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </div>
 <router-outlet></router-outlet>

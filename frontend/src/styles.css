@@ -39,3 +39,11 @@ accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .
   /* display: grid; */
   margin: 15px 0;
 }
+
+.mat-toolbar-row-small {
+  height: 32px !important;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: gainsboro !important;
+}

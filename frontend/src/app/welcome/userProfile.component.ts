@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
+import {Component, OnInit} from '@angular/core';
+import {AuthService as Oauth} from '@auth0/auth0-angular';
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-user-profile',
   template: `
-    `
+  `
 })
 export class UserProfileComponent implements OnInit {
-  profileJson: string = null;
 
-  constructor(public auth: AuthService) {}
+  constructor(public oauth: Oauth, private authService: AuthService) {
+  }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(
-      (profile) => {
-        (this.profileJson = JSON.stringify(profile, null, 2))
-      }
-    );
+    this.oauth.user$.subscribe(response => {
+      console.log(response)
+      this.authService.authenticate(response.email, 'uzytkownik');
+    });
   }
 }
