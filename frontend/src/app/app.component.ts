@@ -32,8 +32,13 @@ export class AppComponent {
     this.appInsights.loadAppInsights();
   }
 
-  toggleAuthBar() {
-    this.openAuthBar = !this.openAuthBar;
+  onClick() {
+    if(!this.authService.authenticated) {
+      this.authService.doLogin();
+    } 
+    else {
+      this.openAuthBar = !this.openAuthBar;
+    }
   }
 
   logout() {

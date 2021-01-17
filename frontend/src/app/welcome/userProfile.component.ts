@@ -13,9 +13,5 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.oauth.user$.subscribe(response => {
-      console.log(response)
-      this.authService.authenticate(response.email, 'uzytkownik');
-    });
   }
 }

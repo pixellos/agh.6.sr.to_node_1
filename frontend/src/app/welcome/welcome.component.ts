@@ -20,12 +20,5 @@ export class WelcomeComponent implements OnInit {
     this.router.navigateByUrl('/products');
   };
 
-  login(): void {
-    if(this.auth.isAuthenticated$) {
-      this.auth.loginWithPopup({screen_hint: 'login'});
-    } else {
-      this.auth.logout();
-    }
-  }
 
 }

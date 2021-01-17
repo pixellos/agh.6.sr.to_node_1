@@ -10,6 +10,20 @@ export class AuthService {
   role: string = '';
 
   constructor(public oauth: Oauth) {
+    oauth.idTokenClaims$.subscribe(x => {
+      const roles = x['https://any-namespace/roles'] as string[]; 
+      if (roles.indexOf('Administrator') !== -1) {
+        this.role = 'Admin'
+      }
+      else {
+        this.role = "User"
+      }
+    })
+    oauth.isAuthenticated$.subscribe(x => this.authenticated = x);
+    oauth.user$.subscribe(x => {
+      this.login = x.email;
+      console.log(x)
+    })
   }
 
   authenticate(login: string, role: string) {
@@ -18,12 +32,14 @@ export class AuthService {
     this.role = role;
   }
 
+  doLogin() {
+    this.oauth.loginWithPopup();
+  }
+
   logout() {
     this.authenticated = false;
     this.login = '';
     this.role = '';
-    this.oauth.logout()
+    this.oauth.logout({returnTo: window.location.origin})
   }
-
-
 }
