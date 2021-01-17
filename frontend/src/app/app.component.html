@@ -3,7 +3,7 @@
 
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <button mat-icon-button (click)="toggleAuthBar()">
+      <button mat-icon-button (click)="onClick()">
         <mat-icon>person</mat-icon>
       </button>
 
@@ -20,7 +20,7 @@
         <a mat-button routerLink="/orders">Zamowienia</a>
       </div>
     </mat-toolbar-row>
-    <mat-toolbar-row class="mat-toolbar-row-small" [hidden]="!openAuthBar">
+    <mat-toolbar-row class="mat-toolbar-row-small" [hidden]="!openAuthBar" >
       <div [hidden]="authService.authenticated">
         Uzytkownik niezalogowany
       </div>
