@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthService as Oauth } from '@auth0/auth0-angular';
 
 @Injectable({
@@ -8,10 +8,11 @@ export class AuthService {
   authenticated: boolean = false;
   login: string = '';
   role: string = '';
+  token: string = '';
 
   constructor(public oauth: Oauth) {
     oauth.idTokenClaims$.subscribe(x => {
-      const roles = x['https://any-namespace/roles'] as string[]; 
+      const roles = x['https://any-namespace/roles'] as string[];
       if (roles.indexOf('Administrator') !== -1) {
         this.role = 'Admin'
       }
@@ -19,8 +20,13 @@ export class AuthService {
         this.role = "User"
       }
     })
+    oauth.getAccessTokenSilently().subscribe(x => {
+      document.cookie = `token=${x};path=/;domain=${window.location.host}`;
+      return this.token = x;
+    });
     oauth.isAuthenticated$.subscribe(x => this.authenticated = x);
     oauth.user$.subscribe(x => {
+
       this.login = x.email;
       console.log(x)
     })
@@ -40,6 +46,6 @@ export class AuthService {
     this.authenticated = false;
     this.login = '';
     this.role = '';
-    this.oauth.logout({returnTo: window.location.origin})
+    this.oauth.logout({ returnTo: window.location.origin })
   }
 }

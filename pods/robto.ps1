@@ -13,14 +13,16 @@ foreach ($svc in $services) {
     kubectl delete service "$svc-microservice-service" --namespace=aghlegro
 }
 
+foreach ($svc in $services) {
+    kubectl delete service "$svc-microservice-service-ext" --namespace=aghlegro
+}
+
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
 kubectl apply -f .\namespace.yaml
 
 foreach ($svc in $services) {
     kubectl apply -f ".\$svc-microservice.yaml" --namespace=aghlegro
 }
-
-kubectl expose deployment app-gateway-microservice-deployment --namespace=aghlegro
 
 Start-Sleep 1
 kubectl get services app-gateway-microservice-deployment --namespace=aghlegro
