@@ -5,12 +5,16 @@
   <div class="row">
     <div class="d-flex justify-content-center">
       <div class="col-4">
-        <img src="https://techsetter.pl/wp-content/uploads/2019/06/notebooki-infografiki-2560x1440-iiyama-prolite.jpg"
+        <img src="{{data.product.image}}"
              class="img-fluid border border-secondary" alt="Responsive image">
       </div>
     </div>
+  </div>
+  <div class="row">
     <h2>Opis:</h2>
-    <p> {{data.product.description}} </p>
+  </div>
+  <div class="row">
+    {{data.product.description}}
   </div>
   <div class="row">
     <h2>Cena: {{data.product.price}} PLN</h2>

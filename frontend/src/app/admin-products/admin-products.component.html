@@ -1,3 +1,74 @@
-<p>
-  admin-products works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <h1>Zarzadzanie Produktami</h1>
+    </div>
+  </div>
+
+  <div>
+    <button (click)="toggleAddProductTab()" type="button" class="btn btn-outline-info btn-sm">+</button>
+    <div *ngIf="addProductTab">
+      <div class="row mt-2 ml-4" style="min-height: 140px">
+        <div class="col-4">
+          <label for="shortDescription">Krotki opis</label>
+          <input type="text" class="form-control" id="shortDescription" name="shortDescription"
+                 [(ngModel)]="product.shortDescription" #shortDescription="ngModel">
+        </div>
+        <div class="col-2">
+          <label for="price">Cena</label>
+          <input type="text" class="form-control" id="price" name="price"
+                 [(ngModel)]="product.price" #price="ngModel"
+                 required pattern="^[0-9]*$">
+          <div [hidden]="price.valid || price.pristine" class="alert alert-danger">
+            Cena niepoprawna
+          </div>
+        </div>
+        <div class="col-2">
+          <label for="quantity">Ilosc</label>
+          <input type="text" class="form-control" id="quantity" name="quantity"
+                 [(ngModel)]="product.quantity" #quantity="ngModel"
+                 required pattern="^[0-9]*$">
+          <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">
+            Ilosc niepoprawna
+          </div>
+        </div>
+      </div>
+      <div class="row mt-1 ml-4">
+        <div class="col-5">
+          <label for="image">Sciezka Zdjecia</label>
+          <input type="text" class="form-control" id="image" name="image"
+                 [(ngModel)]="product.image" #image="ngModel">
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="description">Pelny opis</label>
+            <textarea [(ngModel)]="product.description" name="description" class="form-control" id="description"
+                      rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row ml-4">
+        <button (click)="add()" mat-raised-button>Dodaj</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col d-flex justify-content-center">
+      <ag-grid-angular
+        style="width: 90%; height: 40vh;"
+        class="ag-theme-alpine"
+        [rowData]="adminProductData"
+        [columnDefs]="adminProductColumnDefs"
+        [gridOptions]="adminProductOptions"
+        [overlayLoadingTemplate]="overlayLoadingTemplate"
+        [overlayNoRowsTemplate]="overlayLoadingTemplate"
+        [enableRangeSelection]="true"
+        [pagination]="true"
+        [paginationAutoPageSize]="true"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
