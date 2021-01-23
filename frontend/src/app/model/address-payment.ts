@@ -1,5 +1,5 @@
 export class AddressPayment {
-  paymentMethod: string;
+  paymentMethod: string = 'card';
   country: string;
   street: string;
   postalCode: string;
