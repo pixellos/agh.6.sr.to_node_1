@@ -19,22 +19,21 @@ export type AddressDto = {
 
 export type PaidDto = {
   amount: number,
-  method: string 
+  method: string
 }
 
 export type AddressSetEvent = UserBaseEvent & {
   what: 'AddressSet', with: AddressDto
 }
-
-
+export type RequestRefundDto = { refundCause: string };
+export type RefundedDto = { cause: string };
 
 export type PaidEvent = UserBaseEvent & { what: 'Paid', with: PaidDto }
-export type RequestRefuntEvent = UserBaseEvent & { what: 'RefundRequested', with: 
-{ refundCause: string } };
-export type RefundEvent = UserBaseEvent & { what: 'Refunded', with: { cause: string } };
+export type RequestRefuntEvent = UserBaseEvent & { what: 'RefundRequested', with: RequestRefundDto };
+export type RefundEvent = UserBaseEvent & { what: 'Refunded', with: RefundedDto };
 
 export type OrderEventUnion =
-  | AddressSetEvent 
+  | AddressSetEvent
   | IssuedEvent
   | SentEvent
   | PaidEvent
@@ -73,7 +72,7 @@ export type OrdersDto = { values: OrderDto[] };
 
 export type OrderDto = Order & {
   id?: string
-  status: 'Issued' | 'AddressSet' | 'Sent' | 'Derived' | 'Returned' | 'Paid'
+  status: 'Issued' | 'AddressSet' | 'Sent' | 'RefundRequested' | 'Refunded' | 'Paid'
 };
 
 export type ExtendedOrderDto = OrderDto & {
@@ -103,12 +102,18 @@ export function OrderReducer(p: OrderDto, event: OrderEvent) {
     case 'Sent':
       return { ...p, status: 'Sent' } as OrderDto;
     case 'Paid':
-      
-      return { ...p, status: 'Paid' } as OrderDto
+      const paid = (['amount', 'method'] as (keyof PaidDto)[])
+        .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? (x as any)?.[key] }), p as Partial<Order>);
+      return { ...p, ...paid, status: 'Paid' } as OrderDto
     case 'Refunded':
-      return { ...p, status: 'Returned' } as OrderDto
+      const refuned = (['cause'] as (keyof RefundedDto)[])
+        .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? (x as any)?.[key] }), p as Partial<Order>);
+      return { ...p, ...refuned, status: 'Refunded' } as OrderDto
     case 'RefundRequested':
-        return { ...p, status: 'Derived' } as OrderDto
+      const reqRefund = (['refundCause'] as (keyof RequestRefundDto)[])
+        .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? (x as any)?.[key] }), p as Partial<Order>);
+      return { ...p, ...reqRefund, status: 'RefundRequested' } as OrderDto
+
     default:
       return defaultOrderDto;
       break;
