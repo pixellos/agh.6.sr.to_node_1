@@ -126,7 +126,7 @@ export function ProductDtoToJSON(value?: ProductDto | null): any {
 * @enum {string}
 */
 export enum ProductDtoStatusEnum {
-    Started = 'Issued',
+    Issued = 'Issued',
     Sent = 'Sent',
     Derived = 'Derived',
     Returned = 'Returned'

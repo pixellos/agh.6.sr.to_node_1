@@ -67,7 +67,7 @@ export function ProductDtoAllOfToJSON(value?: ProductDtoAllOf | null): any {
 * @enum {string}
 */
 export enum ProductDtoAllOfStatusEnum {
-    Started = 'Issued',
+    Issued = 'Issued',
     Sent = 'Sent',
     Derived = 'Derived',
     Returned = 'Returned'
