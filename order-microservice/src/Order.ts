@@ -72,7 +72,7 @@ export type OrdersDto = { values: OrderDto[] };
 
 export type OrderDto = Order & {
   id?: string
-  status: 'Issued' | 'AddressSet' | 'Sent' | 'Derived' | 'Returned' | 'Paid'
+  status: 'Issued' | 'AddressSet' | 'Sent' | 'RefundRequested' | 'Refunded' | 'Paid'
 };
 
 export type ExtendedOrderDto = OrderDto & {
@@ -108,11 +108,12 @@ export function OrderReducer(p: OrderDto, event: OrderEvent) {
     case 'Refunded':
       const refuned = (['cause'] as (keyof RefundedDto)[])
         .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? (x as any)?.[key] }), p as Partial<Order>);
-      return { ...p, ...refuned, status: 'Returned' } as OrderDto
+      return { ...p, ...refuned, status: 'Refunded' } as OrderDto
     case 'RefundRequested':
       const reqRefund = (['refundCause'] as (keyof RequestRefundDto)[])
         .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? (x as any)?.[key] }), p as Partial<Order>);
-      return { ...p, ...reqRefund, status: 'Derived' } as OrderDto
+      return { ...p, ...reqRefund, status: 'RefundRequested' } as OrderDto
+
     default:
       return defaultOrderDto;
       break;
