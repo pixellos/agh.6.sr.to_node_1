@@ -7,6 +7,8 @@ autorzy: Mateusz Popielarz, Michał Flak, Kamil Gliński
 
 [Opis technologin](OPIS_TECHNOLOGI.md)
 
+[Instrukcja Uzytkownika](INSTRUKCJA_UZYTKOWNIKA.md)
+
 ## Opis uruchomienia
 
 Uruchomienie było testowane tylko na windows.
