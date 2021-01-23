@@ -43,12 +43,12 @@ export const defaultProduct: Product = {
 
 export type ProductDto = Product & {
   id?: string
-  status: 'Started' | 'Sent' | 'Derived' | 'Returned'
+  status: 'Issued' | 'Sent' | 'Derived' | 'Returned'
 };
 
 export const defaultProductDto: ProductDto = {
   ...defaultProduct,
-  status: 'Started'
+  status: 'Issued'
 }
 
 export function ProductReducer(p: ProductDto, event: ProductEvent) {
@@ -59,7 +59,7 @@ export function ProductReducer(p: ProductDto, event: ProductEvent) {
         .map(x => x as keyof Product)
         .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? x[key] }), p as Partial<Product>);
       const result = copy as ProductDto;
-      result.status = 'Started';
+      result.status = 'Issued';
       result.id = event.id;
       return result;
     case 'Added':

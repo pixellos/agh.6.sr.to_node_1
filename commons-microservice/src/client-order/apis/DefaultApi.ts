@@ -18,15 +18,15 @@ import {
     ErrorResponseEmpty,
     ErrorResponseEmptyFromJSON,
     ErrorResponseEmptyToJSON,
-    ErrorResponseNumber,
-    ErrorResponseNumberFromJSON,
-    ErrorResponseNumberToJSON,
     ErrorResponseOrderDtoArray,
     ErrorResponseOrderDtoArrayFromJSON,
     ErrorResponseOrderDtoArrayToJSON,
     ErrorResponseOrderEventUnionArray,
     ErrorResponseOrderEventUnionArrayFromJSON,
     ErrorResponseOrderEventUnionArrayToJSON,
+    ErrorResponseString,
+    ErrorResponseStringFromJSON,
+    ErrorResponseStringToJSON,
     InlineObject,
     InlineObjectFromJSON,
     InlineObjectToJSON,
@@ -119,7 +119,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async addRaw(requestParameters: AddRequest): Promise<runtime.ApiResponse<ErrorResponseNumber>> {
+    async addRaw(requestParameters: AddRequest): Promise<runtime.ApiResponse<ErrorResponseString>> {
         if (requestParameters.ordersViewModel === null || requestParameters.ordersViewModel === undefined) {
             throw new runtime.RequiredError('ordersViewModel','Required parameter requestParameters.ordersViewModel was null or undefined when calling add.');
         }
@@ -138,12 +138,12 @@ export class DefaultApi extends runtime.BaseAPI {
             body: OrdersViewModelToJSON(requestParameters.ordersViewModel),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ErrorResponseNumberFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ErrorResponseStringFromJSON(jsonValue));
     }
 
     /**
      */
-    async add(requestParameters: AddRequest): Promise<ErrorResponseNumber> {
+    async add(requestParameters: AddRequest): Promise<ErrorResponseString> {
         const response = await this.addRaw(requestParameters);
         return await response.value();
     }

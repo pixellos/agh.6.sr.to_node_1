@@ -105,6 +105,7 @@ export namespace Orders {
     if (doesExist) {
       return errorResponse({ message: `Order with id ${id} already exists.` });
     }
+
     const save = await Save(aggregate, {
       what: 'Issued',
       with: {
@@ -116,7 +117,7 @@ export namespace Orders {
     })
     if (isErrorResponse(save))
       return errorResponse({ message: 'Order cannot be saved. Try again.' });
-    return save;
+    return okResponse(id);
   }
 
   export async function FlatMapEvents(m: Model<OrderEvent, {}>, id: string) {
