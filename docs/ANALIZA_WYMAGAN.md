@@ -47,4 +47,11 @@ Struktura danych:
 ![](./pictures/StrukturaDanych.svg)
 
 **Planowane Testy:**
-Funkcjonalne, E2E
+Funkcjonalne
+
+**Opis przeprowadzonych Testów:**
+Przeprowadzone zostały testy funkcjonalne dowodzące temu że aplikacja zachowuje się prawidłowo, jak oczekiwano. Operacje wywoływane przez warstwę interfejsu użytkownika zmieniają stan encji na bazie danych, dane przechodzą z jednego walidnego stanu w drugi zgodnie z założeniami. Operacje zmiany stanu są odpowiednio chronione, dostep mają do nich tylko użytkownicy, którzy przeszli prawidłowo proces autentykacji. Zastosowana walidacja pól formularza na warstwie UI, spełnia założenia - zapobiega wprowadzaniu nieprawidłowych danych.
+
+
+
+
