@@ -1,1 +1,1 @@
-<button type="button" class="btn btn-info">Wyslij</button>
+<button type="button" class="btn btn-info" (click)="send()" [disabled]="params.node.data.status != 'Paid'">Wyslij</button>
