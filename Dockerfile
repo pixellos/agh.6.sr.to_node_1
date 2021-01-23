@@ -34,7 +34,7 @@ COPY --from=commonbuilder /usr/src/app/commons-microservice/lib /root/commons-mi
 COPY --from=commonbuilder /usr/src/app/commons-microservice/node_modules /root/app/dist/node_modules
 COPY --from=commonbuilder /usr/src/app/commons-microservice/node_modules /root/commons-microservice/node_modules
 COPY --from=builder /usr/src/app/${MS_NAME}/dist /root/app/dist
-COPY --from=builder /usr/src/app/${MS_NAME}/config /root/app/config
+COPY --from=builder /usr/src/app/${MS_NAME}/config /root/app/dist/config
 COPY --from=builder /usr/src/app/${MS_NAME}/node_modules /root/app/dist/node_modules
 
 EXPOSE ${PORT}

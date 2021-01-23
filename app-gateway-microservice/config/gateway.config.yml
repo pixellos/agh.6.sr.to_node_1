@@ -7,9 +7,15 @@ apiEndpoints:
   product:
     host: localhost
     paths: ['/product','/product/*']
+  product-swagger:
+    host: localhost    
+    paths: ['/swagger/product/*']
   order:
     host: localhost    
     paths: ['/order','/order/*']
+  order-swagger:
+    host: localhost    
+    paths: ['/swagger/order/*']
   frontend:
     host: localhost    
     paths: '*'
@@ -54,6 +60,21 @@ pipelines:
           - action:
               serviceEndpoint: order 
               changeOrigin: true
+  orderSwaggerPipeline:
+    apiEndpoints:
+      - order-swagger
+    policies:
+      - log: # policy name
+          - action:    # array of condition/actions objects
+              message: order-swagger ${req} ${req.method} ${req.originalUrl} # parameter for log action
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: order 
+              changeOrigin: true
+              prependPath: true
+              stripPath: true
   productPipeline:
     apiEndpoints:
       - product
@@ -67,3 +88,20 @@ pipelines:
           - action:
               serviceEndpoint: product 
               changeOrigin: true
+  productSwaggerPipeline:
+    apiEndpoints:
+      - product-swagger
+    policies:
+      - log: # policy name
+          - action:    # array of condition/actions objects
+              message: product-swagger ${req.method} ${req.originalUrl} # parameter for log action
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: product 
+              prependPath: true
+              stripPath: true
+              changeOrigin: true
+
+
