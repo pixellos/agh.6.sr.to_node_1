@@ -40,6 +40,8 @@ import {Configuration as ProductConfiguration} from 'src/client-product/configur
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ContactComponent } from './contact/contact.component';
 import { AngularPluginService } from "@microsoft/applicationinsights-angularplugin-js";
+import { SendButtonComponent } from './send-button/send-button.component';
+import { RefundButtonComponent } from './refund-button/refund-button.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { AngularPluginService } from "@microsoft/applicationinsights-angularplug
     ComplaintButtonComponent,
     ComplaintComponent,
     ComplaintProcessComponent,
-    ContactComponent
+    ContactComponent,
+    SendButtonComponent,
+    RefundButtonComponent
 
   ],
   imports: [
