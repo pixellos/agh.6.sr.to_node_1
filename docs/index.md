@@ -5,26 +5,25 @@ autorzy: Mateusz Popielarz, Michał Flak, Kamil Gliński
 
 [Analiza wymagan](ANALIZA_WYMAGAN.md)
 
+[Opis technologin](OPIS_TECHNOLOGI.md)
 
-## Auth0
+## Opis uruchomienia
 
-Jako, że domyślnie auth0 nie przekazuje ról dodana została `reguła` - jest to fragment kodu w auth0, który pozwala na wykonanie akcji podczas pozyskiwaniu tokenu usera na serwerach auth 0`
+Uruchomienie było testowane tylko na windows.
 
-```javascript
-function setRolesToUser(user, context, callback) {
-  context.idToken['https://any-namespace/roles'] = context.authorization.roles;
-  context.accessToken['https://any-namespace/roles'] = context.authorization.roles;
-  callback(null, user, context);
-}
-```
+1. WSL 2 [Instrukcja](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+2. Docker for windows [Instrukcja](https://docs.docker.com/docker-for-windows/install/)
+3. Kubernetess [Instrukcja](https://docs.docker.com/docker-for-windows/#kubernetes)
+4. Stworzenie obrazów dockerowych (wywołanie Initialize.ps1)
 
-Ta funkcja wystawia jako `https://any-namespace/roles` role dodane w interfejsie Auth0 - są one kopiowane do tokena.
+![](2021-01-23-20-47-17.png)
+##### Przykładowy log z uruchomienia
 
-![](2021-01-17-08-54-43.png)
-#### Panel z rolami
+5. Stworzenie serwisów kubernetesss (wywołanie pods/robto.ps1)
 
+![](2021-01-23-20-54-22.png)
+##### Przykładowy log z uruchamiania
 
-![](2021-01-17-08-55-04.png)
-
-#### Wybór ról do dodania
-
+6. Aplikacja jest dostępna na http://localhost:3000
+   
+   ![](2021-01-23-20-55-02.png)

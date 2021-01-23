@@ -38,7 +38,6 @@ export function SetupBase(app: core.Express, swagger: {}) {
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger, ({ explorer: true })));
 
-
   app.use((req, res, next) => {
     let current_datetime = new Date();
     let formatted_date =

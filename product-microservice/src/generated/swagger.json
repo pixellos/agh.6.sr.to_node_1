@@ -322,7 +322,7 @@
 							"status": {
 								"type": "string",
 								"enum": [
-									"Started",
+									"Issued",
 									"Sent",
 									"Derived",
 									"Returned"
