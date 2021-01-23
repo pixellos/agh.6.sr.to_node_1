@@ -18,9 +18,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { ErrorResponseEmpty } from '../model/models';
-import { ErrorResponseNumber } from '../model/models';
 import { ErrorResponseOrderDtoArray } from '../model/models';
 import { ErrorResponseOrderEventUnionArray } from '../model/models';
+import { ErrorResponseString } from '../model/models';
 import { InlineObject } from '../model/models';
 import { OrdersAddresPaymentWriteModel } from '../model/models';
 import { OrdersViewModel } from '../model/models';
@@ -156,9 +156,9 @@ export class DefaultService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public add(ordersViewModel: OrdersViewModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseNumber>;
-    public add(ordersViewModel: OrdersViewModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseNumber>>;
-    public add(ordersViewModel: OrdersViewModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseNumber>>;
+    public add(ordersViewModel: OrdersViewModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ErrorResponseString>;
+    public add(ordersViewModel: OrdersViewModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ErrorResponseString>>;
+    public add(ordersViewModel: OrdersViewModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ErrorResponseString>>;
     public add(ordersViewModel: OrdersViewModel, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (ordersViewModel === null || ordersViewModel === undefined) {
             throw new Error('Required parameter ordersViewModel was null or undefined when calling add.');
@@ -193,7 +193,7 @@ export class DefaultService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<ErrorResponseNumber>(`${this.configuration.basePath}/order/add`,
+        return this.httpClient.post<ErrorResponseString>(`${this.configuration.basePath}/order/add`,
             ordersViewModel,
             {
                 responseType: <any>responseType,

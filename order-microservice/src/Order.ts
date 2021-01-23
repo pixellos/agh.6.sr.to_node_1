@@ -17,11 +17,20 @@ export type AddressDto = {
   paymentMethod: string;
 }
 
+export type PaidDto = {
+  amount: number,
+  method: string 
+}
+
 export type AddressSetEvent = UserBaseEvent & {
   what: 'AddressSet', with: AddressDto
 }
-export type PaidEvent = UserBaseEvent & { what: 'Paid', with: { amount: number, method: string } }
-export type RequestRefuntEvent = UserBaseEvent & { what: 'RefundRequested', with: { refundCause: string } };
+
+
+
+export type PaidEvent = UserBaseEvent & { what: 'Paid', with: PaidDto }
+export type RequestRefuntEvent = UserBaseEvent & { what: 'RefundRequested', with: 
+{ refundCause: string } };
 export type RefundEvent = UserBaseEvent & { what: 'Refunded', with: { cause: string } };
 
 export type OrderEventUnion =
@@ -51,20 +60,20 @@ export type OrderProduct = {
 export type Order = {
   quantity: number;
   name: string;
-  products: OrderProduct[]
+  products: OrderProduct[];
 }
 
 export const defaultOrder: Order = {
   quantity: 0,
   name: '' as string,
-  products: []
+  products: [],
 }
 
 export type OrdersDto = { values: OrderDto[] };
 
 export type OrderDto = Order & {
   id?: string
-  status: 'Started' | 'Sent' | 'Derived' | 'Returned' | 'Paid'
+  status: 'Issued' | 'AddressSet' | 'Sent' | 'Derived' | 'Returned' | 'Paid'
 };
 
 export type ExtendedOrderDto = OrderDto & {
@@ -74,7 +83,7 @@ export type ExtendedOrderDto = OrderDto & {
 
 export const defaultOrderDto: OrderDto = {
   ...defaultOrder,
-  status: 'Started'
+  status: 'Issued'
 }
 
 export function OrderReducer(p: OrderDto, event: OrderEvent) {
@@ -84,12 +93,17 @@ export function OrderReducer(p: OrderDto, event: OrderEvent) {
         .map(x => x as keyof Order)
         .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? x[key] }), p as Partial<Order>);
       const result = copy as OrderDto;
-      result.status = 'Started';
+      result.status = 'Issued';
       result.id = event.id;
       return result;
+    case 'AddressSet':
+      const address = (['country', 'paymentMethod', 'postalCode', 'street'] as (keyof AddressDto)[])
+        .reduce((x, key) => ({ ...x, [key]: (event.with[key]) ?? (x as any)?.[key] }), p as Partial<Order>);
+      return { ...p, ...address, status: 'AddressSet' } as OrderDto;
     case 'Sent':
       return { ...p, status: 'Sent' } as OrderDto;
     case 'Paid':
+      
       return { ...p, status: 'Paid' } as OrderDto
     case 'Refunded':
       return { ...p, status: 'Returned' } as OrderDto
@@ -114,6 +128,13 @@ const GetOrderAggregate = (aggregationType: string) => mongoose.model<OrderEvent
     name: String,
     products: Array,
     cause: String,
+    street: String,
+    country: String,
+    postalCode: String,
+    paymentMethod: String,
+    method: String,
+    refundCause: String
+
   })
 }, { safe: true, validateBeforeSave: true } as mongoose.SchemaOptions))
 

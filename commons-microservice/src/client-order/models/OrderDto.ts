@@ -106,7 +106,8 @@ export function OrderDtoToJSON(value?: OrderDto | null): any {
 * @enum {string}
 */
 export enum OrderDtoStatusEnum {
-    Started = 'Started',
+    Issued = 'Issued',
+    AddressSet = 'AddressSet',
     Sent = 'Sent',
     Derived = 'Derived',
     Returned = 'Returned',

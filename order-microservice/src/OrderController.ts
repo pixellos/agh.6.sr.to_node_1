@@ -35,7 +35,7 @@ export class OrderController extends Controller {
     @Body()
     vm: Orders.ViewModel,
     @Request() request: UserRequest
-  ): Promise<ErrorResponse<number>> {
+  ): Promise<ErrorResponse<string>> {
     // Todo: Pattern mediator.
     const user = request?.user?.sub ?? 'test';
     const r = (await Orders.CreateOrderCommand({ ...vm, type: 'CreateOrderCommandEvent', user: user }));

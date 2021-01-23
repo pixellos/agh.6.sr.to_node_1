@@ -16,9 +16,9 @@ export interface ProductDtoAllOf {
     id?: string;
 }
 export namespace ProductDtoAllOf {
-    export type StatusEnum = 'Started' | 'Sent' | 'Derived' | 'Returned';
+    export type StatusEnum = 'Issued' | 'Sent' | 'Derived' | 'Returned';
     export const StatusEnum = {
-        Started: 'Started' as StatusEnum,
+        Started: 'Issued' as StatusEnum,
         Sent: 'Sent' as StatusEnum,
         Derived: 'Derived' as StatusEnum,
         Returned: 'Returned' as StatusEnum

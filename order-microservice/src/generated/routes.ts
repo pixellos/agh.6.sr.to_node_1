@@ -51,9 +51,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{},"required":true},"what":{"dataType":"enum","enums":["Sent"],"required":true}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaidDto": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string","required":true},"amount":{"dataType":"double","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "PaidEvent": {
         "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"dataType":"nestedObjectLiteral","nestedProperties":{"method":{"dataType":"string","required":true},"amount":{"dataType":"double","required":true}},"required":true},"what":{"dataType":"enum","enums":["Paid"],"required":true}}}],"validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"UserBaseEvent"},{"dataType":"nestedObjectLiteral","nestedProperties":{"with":{"ref":"PaidDto","required":true},"what":{"dataType":"enum","enums":["Paid"],"required":true}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RefundEvent": {
@@ -96,14 +101,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_Empty_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "OkResponse_number_": {
+    "OkResponse_string_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"double","required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"data":{"dataType":"string","required":true},"error":{"dataType":"enum","enums":[false],"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ErrorResponse_number_": {
+    "ErrorResponse_string_": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_number_"}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"ref":"BadResponse"},{"ref":"OkResponse_string_"}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Orders.ViewModel": {
@@ -118,7 +123,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OrderDto": {
         "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Order"},{"dataType":"nestedObjectLiteral","nestedProperties":{"status":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["Started"]},{"dataType":"enum","enums":["Sent"]},{"dataType":"enum","enums":["Derived"]},{"dataType":"enum","enums":["Returned"]},{"dataType":"enum","enums":["Paid"]}],"required":true},"id":{"dataType":"string"}}}],"validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Order"},{"dataType":"nestedObjectLiteral","nestedProperties":{"status":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["Issued"]},{"dataType":"enum","enums":["AddressSet"]},{"dataType":"enum","enums":["Sent"]},{"dataType":"enum","enums":["Derived"]},{"dataType":"enum","enums":["Returned"]},{"dataType":"enum","enums":["Paid"]}],"required":true},"id":{"dataType":"string"}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "OkResponse_OrderDto-Array_": {

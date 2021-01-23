@@ -16,9 +16,10 @@ export interface OrderDtoAllOf {
     id?: string;
 }
 export namespace OrderDtoAllOf {
-    export type StatusEnum = 'Started' | 'Sent' | 'Derived' | 'Returned' | 'Paid';
+    export type StatusEnum = 'Issued' | 'AddressSet' | 'Sent' | 'Derived' | 'Returned' | 'Paid';
     export const StatusEnum = {
-        Started: 'Started' as StatusEnum,
+        Issued: 'Issued' as StatusEnum,
+        AddressSet: 'AddressSet' as StatusEnum,
         Sent: 'Sent' as StatusEnum,
         Derived: 'Derived' as StatusEnum,
         Returned: 'Returned' as StatusEnum,

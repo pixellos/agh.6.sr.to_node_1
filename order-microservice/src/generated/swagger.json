@@ -393,11 +393,10 @@
 					}
 				]
 			},
-			"OkResponse_number_": {
+			"OkResponse_string_": {
 				"properties": {
 					"data": {
-						"type": "number",
-						"format": "double"
+						"type": "string"
 					},
 					"error": {
 						"type": "boolean",
@@ -413,13 +412,13 @@
 				],
 				"type": "object"
 			},
-			"ErrorResponse_number_": {
+			"ErrorResponse_string_": {
 				"anyOf": [
 					{
 						"$ref": "#/components/schemas/BadResponse"
 					},
 					{
-						"$ref": "#/components/schemas/OkResponse_number_"
+						"$ref": "#/components/schemas/OkResponse_string_"
 					}
 				]
 			},
@@ -483,7 +482,8 @@
 							"status": {
 								"type": "string",
 								"enum": [
-									"Started",
+									"Issued",
+									"AddressSet",
 									"Sent",
 									"Derived",
 									"Returned",
@@ -628,7 +628,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse_number_"
+									"$ref": "#/components/schemas/ErrorResponse_string_"
 								}
 							}
 						}

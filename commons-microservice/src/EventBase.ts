@@ -1,4 +1,4 @@
-export type OrderAction = 'Issued' | 'Sent' | 'Paid' | 'Returned' | 'RefundRequested' | 'Refunded'
+export type OrderAction = 'Issued' | 'AddressSet' | 'Sent' | 'Paid' | 'Returned' | 'RefundRequested' | 'Refunded'
 
 export type EventBase = {
   who: string;
