@@ -1,3 +1,21 @@
+- [Opis technologi](#opis-technologi)
+  - [Autoryzacja użytkownika - Auth0](#autoryzacja-użytkownika---auth0)
+      - [Panel z rolami](#panel-z-rolami)
+      - [Wybór ról do dodania](#wybór-ról-do-dodania)
+  - [Router do requestów - Application Gateway](#router-do-requestów---application-gateway)
+      - [Screen strony głównej projektu](#screen-strony-głównej-projektu)
+      - [Konfiguracja ścieżek (/app-gateway-microservice)](#konfiguracja-ścieżek-app-gateway-microservice)
+      - [Request aplikacji pod adres http://localhost:3000/product został przeproxowany do product-microservice, przez co wybastrakcjonowane zostały zależności i nie musimy konfigurować CORS-a](#request-aplikacji-pod-adres-httplocalhost3000product-został-przeproxowany-do-product-microservice-przez-co-wybastrakcjonowane-zostały-zależności-i-nie-musimy-konfigurować-cors-a)
+  - [Warstwa łącząca mikroserwisy - swagger](#warstwa-łącząca-mikroserwisy---swagger)
+        - [Swagger-ui pozwala na testowanie aplikacji poprzez udostępnienie UI dla metod restowych, które jest generowane na podstawie kodu aplikacji](#swagger-ui-pozwala-na-testowanie-aplikacji-poprzez-udostępnienie-ui-dla-metod-restowych-które-jest-generowane-na-podstawie-kodu-aplikacji)
+        - [Konfiguracja swaggera znajdującego się w `commons-microservice` dołączanego do każdego z naszych mikroserwisów node - pozwala to wszystkim mikroserwisom łatwo udostępnić swagger-ui](#konfiguracja-swaggera-znajdującego-się-w-commons-microservice-dołączanego-do-każdego-z-naszych-mikroserwisów-node---pozwala-to-wszystkim-mikroserwisom-łatwo-udostępnić-swagger-ui)
+  - [Narzędzie do rekompilacji - nodemon](#narzędzie-do-rekompilacji---nodemon)
+      - [Przykładowa konfiguracja nodemon odpowiadająca powyższemu pipeline](#przykładowa-konfiguracja-nodemon-odpowiadająca-powyższemu-pipeline)
+      - [NodeMon automatycznie nasłuchujący na zmianę plików żródłowych i przeładujący aplikację](#nodemon-automatycznie-nasłuchujący-na-zmianę-plików-żródłowych-i-przeładujący-aplikację)
+  - [Docker](#docker)
+      - [Dockerfile dla BE](#dockerfile-dla-be)
+      - [Dockerfile dla Angulara](#dockerfile-dla-angulara)
+
 ## Opis technologi
 
 ### Autoryzacja użytkownika - Auth0
