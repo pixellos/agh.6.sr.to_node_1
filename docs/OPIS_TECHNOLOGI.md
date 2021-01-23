@@ -105,4 +105,90 @@ Jako, że na front-end mamy angulara nie mogliśmy użyć tego samego pliku, wi�
 ##### Dockerfile dla Angulara
 
 
- 
+### Kubernetes
+
+Jest to narzędzie do orkiestrowania kontenerami, wykorzystujemy je do aplikacji topologii naszych serwisów - dzięki kubernetesowi mamy `Infrastructure as a code` - co jest poziomem wyżej nad ideą `environment as a code`. Dzięki temu możemy w kodzie zdefiniować 
+- namespace (jest to prefix, który pomaga nam uporządkować logicznie komponenty)
+- deploymenty (jest to pewien komponent grupujący)
+- serwisy (abstrakcja nad grupą podów)
+- zbiory replik (dostarczają narzędzia do pracy na replikach)
+- pody (pojedyńcze instancje kontenerów)
+
+
+![](2021-01-23-21-05-11.png)
+##### Drzewo katalogu z konfiguracją kubernetsesa
+
+![](2021-01-23-21-06-00.png)
+##### Przykładowy kod deploymentu seriwisu zamówień
+
+### Kubernetesss Dashboard
+
+W naszych skryptach obecny jest także KubernetessDashboard - jest to aplikacja, która pozwala na łatwe zarządzanie klastrem przez gui WWW.
+
+Aby uzyskać do niego dostęp na hoście musimy pobrać token
+
+![](2021-01-23-21-08-15.png)
+##### Pobieranie tokena na hoście
+
+![](2021-01-23-21-08-47.png)
+##### Ekran przedstawiający naszą aplikację, dostępne deploymenty, użyte obrazy i pody
+
+![](2021-01-23-21-10-15.png)
+##### Dzięki przystępnemu UI możemy skalować aplikację w locie
+
+### Mongo
+
+Mongo jest noSql bazą danych. Użyliśmy jej bo jest darmowa, dobrze komponuje się z Kubernetessem i pozwala na horyzontalne skalowanie. Biorąc pod uwagę konstrukcję naszej aplikacji (event sourcing / event log), jest to dla nas idealny wybór.
+
+Mongo jest częścią naszej konfiguracji Deploymentów w kubernetesie, przez co jest tworzone razem z całą aplikacją po uruchomieniu skryptów.
+
+![](2021-01-23-21-14-18.png)
+##### Nasza konfiguracja mongo dla Kubernetessa
+
+Do połączenia z naszą apką używamy mongose, który jest ODM (Object Domain Modeling library) i pozwala na łatwe korzystanie z obiektow JS oraz walidację ich
+
+![](2021-01-23-21-15-59.png)
+##### Strona główna projektu mongoose
+
+![](2021-01-23-21-17-53.png)
+##### Nasza konfiguracja połączenia
+
+![](2021-01-23-21-18-28.png)
+##### Przykładowa konfiguracja walidacji
+
+### Application Insights
+
+Jest to narzędzie stworzone przez microsoft do instrumentacji aplikacji. 
+Używamy go do zbierania logów, monitorowania stanu aplikacji oraz błędów
+
+![](2021-01-23-21-20-26.png)
+##### Mapa aplikacji wygenerowana na podstawie zapytań http
+
+![](2021-01-23-21-21-06.png)
+##### Dashboard App-Insights przedstawiające sumaryzacje błędów, czasu odpowiedzi i żądań do serwisów
+
+![](2021-01-23-21-21-59.png)
+##### Dashboard przedstawiający błędy w aplikacji
+
+![](2021-01-23-21-22-23.png)
+##### Dashboard przedstawiający najmniej wydajne zapytania
+
+![](2021-01-23-21-23-00.png)
+##### Dashboard przedstawiający łańcuchy zależności (nie pojedyńcze zapytania), ktore wykonują się najdłużej
+
+![](2021-01-23-21-24-17.png)
+##### Dashboard przedstawiający logi w aplikacji
+
+Jak widzimy, jest to kompleksowe narzędzie pozwalające na dogłębne monitorowanie aplikacji.
+
+Konfiguracja jest jednak banalna.
+
+W naszym bazowym mikroserwisie mamy kod konfiguracyjny
+
+![](2021-01-23-21-25-14.png)
+##### Kod konfiguracyjny BE
+
+W angularze AI jest zainicjowane jako moduł
+
+![](2021-01-23-21-26-09.png)
+##### Inicjalizacja w angularze
