@@ -1,1 +1,1 @@
-<button mat-raised-button color="accent">Zwrot</button>
+<button mat-raised-button color="accent" (click)="refund()" [disabled]="params.node.data.status != 'Derived'">Zwrot</button>
