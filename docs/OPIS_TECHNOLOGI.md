@@ -50,6 +50,18 @@ Osiągneliśmy dzięki temu możliwość przyszłej rozbudowy, podziału ścież
 ![](2021-01-23-19-50-20.png)
 ##### Request aplikacji pod adres http://localhost:3000/product został przeproxowany do product-microservice, przez co wybastrakcjonowane zostały zależności i nie musimy konfigurować CORS-a
 
+### Warstwa intefejsu użytkownika - Angular
+
+Angular jest wszechstronnym narzędziem do tworzenia i kontrolowania widoków stron aplikacji na warstwie frontend  
+Pozwala miedzy innymi na:
+- komunikacje miedzy komponentami
+- wsparcie dla wykonywania wywołań asynchronicznych
+- wstrzykiwanie zależności reużywalnych serwisów
+- obsługe ciasteczek(cookies)
+- routing
+- stylowanie (kompatybilny z bootstrap)
+
+Świetnie współpracuje z jezykiem skryptowym Typescript, który jest rozszerzeniem jezyka Javascript 
 
 ### Warstwa łącząca mikroserwisy - swagger
 
