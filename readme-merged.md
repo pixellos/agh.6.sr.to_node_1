@@ -1,13 +1,40 @@
+
+
+![2020-12-05-11-18-47](C:\AGH\agh.6.sr.to_node_1\docs\pictures\2020-12-05-11-18-47.png)
+
+### Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie
+
+Systemy Rozproszone 2020/2021
+
+
+
 # SKLEP INTERNETOWY
+
 autorzy: Mateusz Popielarz, Michał Flak, Kamil Gliński
 
-[Koncepcja systemu](docs/KONCEPCJA_SYSTEMU_ANALIZA_WYMAGAN.md)
 
-[Analiza wymagań](docs/ANALIZA_WYMAGAN.md)
 
-[Opis technologii](docs/OPIS_TECHNOLOGI.md)
 
-[Instrukcja użytkownika](docs/INSTRUKCJA_UZYTKOWNIKA.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Wstęp
+
+W tym dokumencie przedstawiamy szczegóły sklepu internetowego, opartego na Event Sourcingu i mikroserwisach.
 
 ## Opis uruchomienia
 
@@ -109,9 +136,9 @@ Rejestr produktów:
 
 ![](docs/pictures/REJESTR_PRODUKTOW.png)
 
-Diagramy klas: 
+Diagram architektury:
 
-TODO_GDY_KOD_BEDZIE_GOTOWY
+![arch](C:\AGH\agh.6.sr.to_node_1\docs\pictures\arch.png)
 
 Diagramy komponentów: 
 
@@ -420,9 +447,12 @@ W sekcji reklamacja mamy możliwość zareklamować zamówienie wpisując przycz
 
 ![](C:\AGH\agh.6.sr.to_node_1\docs\pictures\instrukcja11.png)  
 Zarządzanie Produktami,  
-W tej skekcji, mamy możliwość dodania nowego produktu do systemu
+W tej sekcji, mamy możliwość dodania nowego produktu do systemu
 
 ![](C:\AGH\agh.6.sr.to_node_1\docs\pictures\instrukcja12.png)  
 Zarządzanie Zamówieniami,  
-W tej skekcji, mamy możliwość wysłania lub przyjecia reklamacji konkretnego zamówienia
+W tej sekcji, mamy możliwość wysłania lub przyjecia reklamacji konkretnego zamówienia
 
+## Zakończenie
+
+Tworzenie sklepu dało nam spore doświadczenie na temat pracy zespołowej, zarządzania projektem oraz wiedzy na temat problemów i korzyści ze stosowania architektury mikroserwisowej.
