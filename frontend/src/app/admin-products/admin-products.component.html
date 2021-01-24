@@ -49,7 +49,7 @@
       </div>
 
       <div class="row ml-4">
-        <button (click)="add()" mat-raised-button>Dodaj</button>
+        <button (click)="add()" mat-raised-button [disabled]="! (quantity.valid && price.valid)">Dodaj</button>
       </div>
     </div>
   </div>
