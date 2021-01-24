@@ -18,8 +18,8 @@
         <a mat-button routerLink="/products">Produkty</a>
         <a mat-button routerLink="/cart">Koszyk</a>
         <a mat-button routerLink="/orders">Zamowienia</a>
-        <a mat-button routerLink="/admin-products">Zarzadzanie Produktami</a>
-        <a mat-button routerLink="/admin-orders">Zarzadzanie Zamowieniami</a>
+        <a mat-button routerLink="/admin-products" [hidden]="authService.role != 'Admin'">Zarzadzanie Produktami</a>
+        <a mat-button routerLink="/admin-orders" [hidden]="authService.role != 'Admin'">Zarzadzanie Zamowieniami</a>
       </div>
     </mat-toolbar-row>
     <mat-toolbar-row class="mat-toolbar-row-small" [hidden]="!openAuthBar" >
